@@ -7,7 +7,6 @@ import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/supplier-home
 
 final routes = {
   "/": (context) => SupplierHomePage(),
-
   "/driver-home-page": (context) =>DriverHomePage(),
   "/sign-in": (context) => SignInPage(),
   "/sign-up": (context) => SignUpPage(),

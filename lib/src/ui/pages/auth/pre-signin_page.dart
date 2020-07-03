@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/auth-arguments.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/signin_page.dart';
 
 class PreSignInPage extends StatelessWidget {
   @override
@@ -16,7 +18,7 @@ class PreSignInPage extends StatelessWidget {
             Spacer(flex: 2),
 
             _buildButton(
-              onTap: () => Navigator.of(context).pushNamed('/sign-in'),
+              onTap: () => Navigator.of(context).pushNamed('/sign-in', arguments: AuthArguments(isDriver: true)),
               btnName: "SIGN IN AS DRIVER",
               color: Theme.of(context).accentColor
             ),
@@ -24,7 +26,8 @@ class PreSignInPage extends StatelessWidget {
             SizedBox(height: 20),
 
             _buildButton(
-              onTap: () => Navigator.of(context).pushNamed('/sign-in'),
+              onTap: () => Navigator.of(context).pushNamed('/sign-in', arguments: AuthArguments()),
+
               btnName: "SIGN IN AS SUPPLIER ",
               color: Theme.of(context).primaryColor
             ),

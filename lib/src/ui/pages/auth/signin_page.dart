@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/auth-arguments.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/waiting-dialog.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
 
 import 'package:haweyati_supplier_driver_app/widgits/haweyati_Textfield.dart';
@@ -9,8 +11,9 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  bool autoValidate = false;
   bool loading = false;
+  AuthArguments _arguments;
+  bool autoValidate = false;
   var _formKey = GlobalKey<FormState>();
 
   TextEditingController email = new TextEditingController();
@@ -20,27 +23,29 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    this._arguments = ModalRoute.of(context).settings.arguments as AuthArguments;
+
     return Scaffold(
       appBar: HaweyatiAppBar(),
 
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         elevation: 0,
+        foregroundColor: Colors.white,
+        child: Icon(Icons.arrow_forward),
         onPressed: () {
           if (_formKey.currentState.validate()) {
-
             showDialog(
               context: context,
-              builder: (context) => AlertDialog(
-                content: Row(children: <Widget>[
-                  CircularProgressIndicator(strokeWidth: 2),
-                  Text("Please Wait ...")
-                ]),
-              )
+              builder: (context) => WaitingDialog('Signing In, Please wait ...')
             );
 
             Future.delayed(Duration(seconds: 2), () {
-              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+              if (this._arguments.isDriver) {
+                Navigator.pushNamedAndRemoveUntil(context, '/driver-home-page', (route) => false);
+              } else {
+                Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+              }
             });
           } else {
             setState(() => autoValidate = true);
@@ -53,6 +58,9 @@ class _SignInPageState extends State<SignInPage> {
         child: Align(
           alignment: Alignment(0, -1),
           child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed('/sign-up', arguments: _arguments);
+            },
             child: Text("REGISTER NOW", style: TextStyle(
               color: Theme.of(context).accentColor
             )),
@@ -103,7 +111,17 @@ class _SignInPageState extends State<SignInPage> {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text("Not yet available"),
+                            content: Text("Wait for the API to be built."),
+                          );
+                        }
+                      );
+                    },
                     child: Text("Forget password?",
                       style: TextStyle(
                         fontSize: 16,

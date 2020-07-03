@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
+import '../../../../customNa.dart';
 import '../../../../helpline_page.dart';
 import '../../../../notification.dart';
 import 'driver-viewallselectedorders.dart';
@@ -9,14 +11,46 @@ import 'driver-order.dart';
 
 class DriverSelectedOrders extends StatelessWidget {
   final ScrollController scrollController = ScrollController();
+  final _drawerKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 70),
       child: Scaffold(
+        key: _drawerKey,
         appBar: AppBar(
-          leading: Image.asset("ss"),
+
+          leading: IconButton(
+              icon: Image.asset(
+                "assets/images/home-page-icon.png",
+                width: 20,
+                height: 20,
+              ),
+              onPressed: () {
+                _drawerKey.currentState.openDrawer();
+              }
+          ),
+
+          centerTitle: true,
+          title: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Image.asset(
+              "assets/images/icon.png",
+              width: 40,
+              height: 40,
+            ),
+          ),
+
+
+//          title: Padding(
+//          padding: const EdgeInsets.all(18.0),
+//          child: Image.asset(
+//            "assets/images/icon.png",
+//            width: 40,
+//            height: 40,
+//          ),
+//        ),
           actions: [
             IconButton(
                 icon: Image.asset(
@@ -36,8 +70,68 @@ class DriverSelectedOrders extends StatelessWidget {
                 onPressed: () => Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => NotificationPage()))
             )
-          ]
+          ],
         ),
+
+        drawer: Drawer(
+          child: Container(
+            color: Color(0xff313f53),
+            constraints: BoxConstraints.expand(),
+            child: Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              child: Column(children: <Widget>[
+                GestureDetector(
+                  onTap:(){},
+                  //   (){CustomNavigator.navigateTo(context,ProfilePage());},
+                  child: Container(child: Column(children: <Widget>[
+                    Center(
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.white,
+                        radius: 50,
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    Center(
+                        child: Text(
+                            "Arslan Khan",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold
+                            )
+                        )
+                    ),
+                    Center(
+                      child: FlatButton.icon(
+                          onPressed: null,
+                          icon: Image.asset(
+                            "assets/images/star.png",
+                            width: 20,
+                            height: 20,
+                          ),
+                          label: Text("Rated 5.0", style: TextStyle(color: Colors.white))
+                      ),
+                    ),
+                  ])),
+                ),
+
+                SizedBox(height: 10),
+
+                Expanded(child: SingleChildScrollView(
+                  child: Column(children: <Widget>[
+                    _buildListTile(title: "Home",onTap: (){Navigator.of(context).pop();},icon: Icons.home),
+                    _buildListTile(title: "My Profile",onTap: (){CustomNavigator.navigateTo(context, PersonContact());},icon: Icons.person),
+                    _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamedAndRemoveUntil('/pre-sign-in', (_)=>false);},icon: Icons.exit_to_app),
+                  ]),
+                ))
+              ], crossAxisAlignment: CrossAxisAlignment.start),
+            ),
+          ),
+        ),
+
+
         body: CustomScrollView(
             controller: scrollController,            slivers: <Widget>[
             SliverPadding(
@@ -89,12 +183,12 @@ class DriverSelectedOrders extends StatelessWidget {
 
                               Text("Pick-up Address"),
                               SizedBox(height: 7),
-                              _cupertino("sfsaas as kas cka f askc a "),
+                              _cupertino("sfsaas as kas cka f askc a ",context),
                               SizedBox(height: 20),
 
                               Text("Drop-off Address"),
                               SizedBox(height: 7),
-                              _cupertino("sfsaas as kas cka f askc a "),//                    Row(children: <Widget>[Icon(Icons.location_on,color: Colors.red,) ,SizedBox(width: 10,), Expanded(child: Text("address"))]),
+                              _cupertino("sfsaas as kas cka f askc a ",context),//                    Row(children: <Widget>[Icon(Icons.location_on,color: Colors.red,) ,SizedBox(width: 10,), Expanded(child: Text("address"))]),
                               SizedBox(height: 15),
 
                               _builRow(name1: "Construction Dumpster" ,name2: "12 Yard Dumpster "),
@@ -129,8 +223,11 @@ class DriverSelectedOrders extends StatelessWidget {
   }
 
 
-  Widget _cupertino( String text){
-    return CupertinoTextField(readOnly: true,
+  Widget _cupertino(  String text,BuildContext context){
+    return CupertinoTextField( readOnly: true,                  onTap: () {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>DriverViewAllSelectedOrders()));
+    },
+
       padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
       suffix: Padding(
         padding: const EdgeInsets.all(8),
@@ -144,4 +241,41 @@ class DriverSelectedOrders extends StatelessWidget {
       controller: TextEditingController(text: text),
     );
   }
-}
+
+
+
+  Widget _buildRow({String name1, String name2}) {
+    return Row(
+      children: <Widget>[
+
+        Text("$name1 :",style: TextStyle(fontWeight: FontWeight.w700),),
+        SizedBox(width: 10,),
+        Expanded(child: Text(name2)),
+      ],
+    );
+  }
+
+
+
+  Widget detail({String text1,String text2,BuildContext context}){
+
+    return   Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row( children: <Widget>[
+
+
+        Expanded(flex: 1, child: Text(text1,style: TextStyle(fontSize: 14,color: Colors.white),)),
+        Expanded(flex: 2, child: Text(text2,style: TextStyle(fontSize: 14,color:Theme.of(context).accentColor),)),
+      ] ),
+    );
+  }
+  Widget _buildListTile({IconData icon, String title, Function onTap}) {
+    return ListTile(onTap: onTap
+      ,
+      leading: Icon(icon,color: Colors.white,size: 30,),
+      title: Text(
+        title,
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }}

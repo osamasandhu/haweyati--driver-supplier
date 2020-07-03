@@ -5,10 +5,10 @@ import 'package:haweyati_supplier_driver_app/bottomPAges/chat/bottomHomeDetail/b
 import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
 import 'package:haweyati_supplier_driver_app/customNa.dart';
 import 'package:haweyati_supplier_driver_app/notification.dart';
-import 'file:///C:/Users/Osama/Workspace/haweyati_supplier_driver_app/lib/src/ui/pages/supplier/order.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../helpline_page.dart';
+import 'order.dart';
 
 class AllOrdersPage extends StatelessWidget {
   final _scrollController = ScrollController();
@@ -23,7 +23,10 @@ class AllOrdersPage extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold( drawer: Drawer(
+    return Scaffold(
+
+
+      drawer: Drawer(
       child: Container(
         color: Color(0xff313f53),
         constraints: BoxConstraints.expand(),
@@ -75,7 +78,7 @@ class AllOrdersPage extends StatelessWidget {
                 _buildListTile(title: "Person",onTap: (){CustomNavigator.navigateTo(context, PersonContact());},icon: Icons.person),
 
                 _buildListTile(title: "Materials",onTap: (){CustomNavigator.navigateTo(context, HaweyatiMaterials());},icon: Icons.business),
-                _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamed('/pre-sign-in');},icon: Icons.exit_to_app),
+                _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamedAndRemoveUntil('/pre-sign-in', (_)=>false);},icon: Icons.exit_to_app),
               ]),
             ))
           ], crossAxisAlignment: CrossAxisAlignment.start),
@@ -83,12 +86,15 @@ class AllOrdersPage extends StatelessWidget {
       ),
     ),
       key: _drawerKey,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        child: Icon(Icons.arrow_upward),
-        onPressed: () {
-          _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-        }
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 50),
+        child: FloatingActionButton(
+          backgroundColor: Colors.white,
+          child: Icon(Icons.arrow_upward),
+          onPressed: () {
+            _scrollController.animateTo(0, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+          }
+        ),
       ),
 
       body: CustomScrollView(
@@ -137,100 +143,27 @@ class AllOrdersPage extends StatelessWidget {
 
               background:Padding(
                 padding: const EdgeInsets.only(top: 95),
-                child: Container(decoration: BoxDecoration(
-                  image: DecorationImage(
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
                       image: AssetImage('assets/images/homepageimage.png'),
-                      fit: BoxFit.scaleDown,
-                      alignment: Alignment(1, -0.6)
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment(1, -0.6)
+                    ),
                   ),
-                ),
-
                   height: 100,
                   child: Column(children: <Widget>[
-
-detail(text1: "Rating",text2: "4.5",context: context),
-                    detail(text1: "Orders",text2: "60",context: context),
-                    detail(text1: "Monthly Income",text2: "120000.00",context: context),
-
-                  ]
-                    ,),
+                    detail(text1: "Orders", text2: "60", context: context),
+                    detail(text1: "Rating", text2: "4.5", context: context),
+                    detail(text1: "Monthly Income", text2: "120000.00",context: context),
+                  ]),
                 ),
-              )
-//              Align(
-//                alignment: Alignment(0, 1),
-////                child: Container(
-////                  child: Column(children: <Widget>[
-//                    child: Container(
-//                      width: 100,
-//                      height: 100,
-//                      color: Colors.red,
-////                    ),
-////
-////                  ]),
-//                ),
-//              ),
-              ,collapseMode: CollapseMode.pin,
-//              decoration: BoxDecoration(
-//                image: DecorationImage(
-//                    image: AssetImage('assets/images/homepageimage.png'),
-//                    fit: BoxFit.scaleDown,
-//                    alignment: Alignment(1, -0.6)
-//                ),
-//              ),
-//              padding: const EdgeInsets.all(15),
-//              child: Column(children: <Widget>[
-//                Text(
-//                    'hello'
-//                    ,style: TextStyle(
-//                        fontSize: 17,
-//                        color: Colors.white,
-//                        fontWeight: FontWeight.bold)),
-//
-//                Padding(
-//                  padding: const EdgeInsets.only(top: 8, bottom: 20),
-//                  child:
-//                  Text(
-//                    'explore',
-//                    style: TextStyle(color: Colors.white),
-//                  ),
-//                ),
-//
-//                CupertinoTextField(
-//                  onTap: () {
-//     //               CustomNavigator.navigateTo(context, MyLocationMapPage(editMode: true,));
-//                  },
-//                  padding: EdgeInsets.fromLTRB(5, 13, 5, 13),
-//                  decoration: BoxDecoration(
-//                      color: Colors.white,
-//                      borderRadius: BorderRadius.circular(30)
-//                  ),
-//                  placeholderStyle: TextStyle(
-//                      color: Colors.black
-//                  ),
-////                  placeholder: address ?? '',
-//                  readOnly: true,
-//                  prefix: Padding(
-//                    padding: const EdgeInsets.only(left: 8, right: 8),
-//                    child: Icon(
-//                      Icons.location_on,
-//                      color: Theme.of(context).accentColor,
-//                    ),
-//                  ),
-//                ),
-//              ], crossAxisAlignment: CrossAxisAlignment.start),
+              ),
+              collapseMode: CollapseMode.pin,
             ),
             expandedHeight: 200,
-//            bottom: Flexiable(
-//              preferredSize: Size.fromHeight(200),
-//              child: Container(),
-//            ),
           ),
-//        PreferredSize(
-//          preferredSize: Size.fromHeight(160),
-//          child: Container(
-
-//          ),
-
+          SliverToBoxAdapter(child: SizedBox(height: 10)),
           SliverList(delegate: SliverChildBuilderDelegate(
             (context, i) => GestureDetector(
               onTap: () {
@@ -243,9 +176,6 @@ detail(text1: "Rating",text2: "4.5",context: context),
                   vertical: 10
                 ),
                 child: Container(
-//                  constraints: BoxConstraints.expand(
-//                    height: 250
-//                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: [
@@ -279,7 +209,13 @@ detail(text1: "Rating",text2: "4.5",context: context),
 
                         SizedBox(height: 20),
 
-                        CupertinoTextField(readOnly: true,
+                        CupertinoTextField(
+
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ViewAllOrders()));
+                          },
+
+                          readOnly: true,
                           padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
                           suffix: Padding(
                             padding: const EdgeInsets.all(8),
@@ -305,6 +241,7 @@ detail(text1: "Rating",text2: "4.5",context: context),
             ),
             childCount: 10
           )),
+          SliverToBoxAdapter(child: SizedBox(height: 60)),
         ],
       ),
     );

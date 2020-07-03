@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/Osama/Workspace/haweyati_supplier_driver_app/lib/bottomPAges/chat/chat/chat-page.dart';
 
 class Messages extends StatefulWidget {
   @override
@@ -56,24 +55,25 @@ class _MessagesState extends State<Messages> with SingleTickerProviderStateMixin
 
   Widget messagesPage(){
     return ListView(
-        children: <Widget>[
-          messages("A", "Ali", "Hi, How are you?"),
-          messages( "Z", "Ali", "Doing Work?"),
-          messages( "W", "Ali", "Doing Work?"),
-          messages("U", "Ali", "Hi, How are you?"),
-          messages( "O", "Ali", "Doing Work?"),
-          messages( "K", "Ali", "Doing Work?"),
-          messages("F", "Ali", "Hi, How are you?"),
-          messages( "L", "Ali", "Doing Work?"),
-          messages( "I", "Ali", "Hi, How are you?")
-        ]);
+      children: <Widget>[
+        messages("A", "Ali", "Hi, How are you?"),
+        messages( "Z", "Ali", "Doing Work?"),
+        messages( "W", "Ali", "Doing Work?"),
+        messages("U", "Ali", "Hi, How are you?"),
+        messages( "O", "Ali", "Doing Work?"),
+        messages( "K", "Ali", "Doing Work?"),
+        messages("F", "Ali", "Hi, How are you?"),
+        messages( "L", "Ali", "Doing Work?"),
+        messages( "I", "Ali", "Hi, How are you?")
+      ]
+    );
   }
 
   Widget messages(String leading, String title, String subtitle) {
 
     return ListTile(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ChatViewPage()));
+//        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ChatViewPage()));
       },
       leading: CircleAvatar(
           child: Image.asset(

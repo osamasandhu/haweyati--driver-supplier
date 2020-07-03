@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/auth-arguments.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
 import 'package:haweyati_supplier_driver_app/widgits/haweyati_Textfield.dart';
 
@@ -8,8 +9,9 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  bool autoValidate = false;
   bool loading = false;
+  AuthArguments _arguments;
+  bool autoValidate = false;
   var _formKey = GlobalKey<FormState>();
 
   TextEditingController name = new TextEditingController();
@@ -21,6 +23,8 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    this._arguments = ModalRoute.of(context).settings.arguments as AuthArguments;
+
     return Scaffold(
       appBar: HaweyatiAppBar(context: context,),
       body: Form(
@@ -135,17 +139,18 @@ class _SignUpPageState extends State<SignUpPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         elevation: 0,
+        child: Icon(Icons.arrow_forward),
         onPressed: () {
           if (_formKey.currentState.validate()) {
 
             showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  content: Row(children: <Widget>[
-                    CircularProgressIndicator(strokeWidth: 2),
-                    Text("Please Wait ...")
-                  ]),
-                )
+              context: context,
+              builder: (context) => AlertDialog(
+                content: Row(children: <Widget>[
+                  CircularProgressIndicator(strokeWidth: 2),
+                  Text("Please Wait ...")
+                ]),
+              )
             );
 
             Future.delayed(Duration(seconds: 2), () {
@@ -155,6 +160,7 @@ class _SignUpPageState extends State<SignUpPage> {
             setState(() => autoValidate = true);
           }
         },
+        foregroundColor: Colors.white,
       ),
 
       bottomNavigationBar: Container(
@@ -162,8 +168,11 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Align(
           alignment: Alignment(0, -1),
           child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed('/sign-in', arguments: _arguments);
+            },
             child: Text("LOGIN WITH EMAIL", style: TextStyle(
-                color: Theme.of(context).accentColor
+              color: Theme.of(context).accentColor
             )),
           ),
         ),

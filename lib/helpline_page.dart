@@ -17,6 +17,18 @@ class HelplinePage extends StatefulWidget {
 class _HelplinePageState extends State<HelplinePage> {
 
 
+
+  _launchWhatsapp(String phone) async {
+    if (await canLaunch(phone)) {
+      await launch('whatsapp://send?phone=$phone');
+    } else {
+      await launch('https://api.whatsapp.com/send?phone=$phone‬');
+//      throw 'Could not launch $url';
+    }
+  }
+
+
+
   void launchWhatsApp(
       {@required String phone,
         @required String message,
@@ -121,20 +133,8 @@ class _HelplinePageState extends State<HelplinePage> {
       ),
 
       action: 'Get Help',
-      onAction: _available ?
-        () {
-          _checkAvailability();
-//          if(_available){
-//
-//            launchWhatsApp(phone:" +923472363720", message: "Hello");
-//          }
-
-          if(_available){
-            CustomNavigator.navigateTo(context, ChatViewPage());
-          }
-//          if (_available) launch("tel:+923472363720");
-        }:
-        null,
+      onAction: (){        _launchWhatsapp('+923472363720}');
+      }
     );
   }
 }

@@ -1,13 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/haweyatiMaterials.dart';
-import 'package:haweyati_supplier_driver_app/bottomPAges/chat/bottomHomeDetail/bottomHomeDetail.dart';
 import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
 import 'package:haweyati_supplier_driver_app/customNa.dart';
 import 'package:haweyati_supplier_driver_app/notification.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/driver/driver-order.dart';
-import 'file:///C:/Users/Osama/Workspace/haweyati_supplier_driver_app/lib/src/ui/pages/supplier/order.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../helpline_page.dart';
 
@@ -16,7 +12,9 @@ class DriverAllOrdersPage extends StatelessWidget {
   final _drawerKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(drawer: Drawer(
+    return Scaffold(
+
+      drawer: Drawer(
       child: Container(
         color: Color(0xff313f53),
         constraints: BoxConstraints.expand(),
@@ -67,7 +65,7 @@ class DriverAllOrdersPage extends StatelessWidget {
                 _buildListTile(title: "Home",onTap: (){Navigator.of(context).pop();},icon: Icons.home),
                 _buildListTile(title: "My Profile",onTap: (){CustomNavigator.navigateTo(context, PersonContact());},icon: Icons.person),
 
-                _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamed('/pre-sign-in');},icon: Icons.exit_to_app),
+                _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamedAndRemoveUntil('/pre-sign-in', (_)=>false);},icon: Icons.exit_to_app),
               ]),
             ))
           ], crossAxisAlignment: CrossAxisAlignment.start),
@@ -86,156 +84,144 @@ class DriverAllOrdersPage extends StatelessWidget {
         ),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.only(bottom: 50),
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: <Widget>[
-            SliverAppBar(        actions: <Widget>[
-              IconButton(
-                  icon: Image.asset(
-                    "assets/images/customer-care.png",
-                    width: 20,
-                    height: 20,
-                  ),
-                  onPressed: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => HelplinePage()))
-              ),
-              IconButton(
-                  icon: Image.asset(
-                    "assets/images/notification.png",
-                    width: 20,
-                    height: 20,
-                 ),
-                  onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => NotificationPage()))
-              )
-            ],
-              pinned: true,
-              title: Text("Arslan Khan"),
-              leading: IconButton(
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: <Widget>[
+          SliverAppBar(        actions: <Widget>[
+            IconButton(
                 icon: Image.asset(
-                  "assets/images/home-page-icon.png",
+                  "assets/images/customer-care.png",
                   width: 20,
                   height: 20,
                 ),
-                onPressed: () {
-                  _drawerKey.currentState.openDrawer();
-                }
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                )
-              ),
-
-              flexibleSpace: FlexibleSpaceBar(
-
-                background:Padding(
-                  padding: const EdgeInsets.only(top: 95),
-                  child: Container(decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/homepageimage.png'),
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment(1, -0.6)
-                    ),
-                  ),
-
-                    height: 100,
-                    child: Column(children: <Widget>[
-
-detail(text1: "Rating",text2: "4.5",context: context),
-                      detail(text1: "Orders",text2: "60",context: context),
-                      detail(text1: "Monthly Income",text2: "120000.00",context: context),
-
-                    ]
-                      ,),
-                  ),
-                )
-              ),
-              expandedHeight: 200,
-//            bottom: Flexiable(
-//              preferredSize: Size.fromHeight(200),
-//              child: Container(),
-//            ),
+                onPressed: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => HelplinePage()))
             ),
-//        PreferredSize(
-//          preferredSize: Size.fromHeight(160),
-//          child: Container(
+            IconButton(
+                icon: Image.asset(
+                  "assets/images/notification.png",
+                  width: 20,
+                  height: 20,
+               ),
+                onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => NotificationPage()))
+            )
+          ],
+            pinned: true,
+            title: Text("Arslan Khan"),
+            leading: IconButton(
+              icon: Image.asset(
+                "assets/images/home-page-icon.png",
+                width: 20,
+                height: 20,
+              ),
+              onPressed: () {
+                _drawerKey.currentState.openDrawer();
+              }
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+              )
+            ),
 
-//          ),
+            flexibleSpace: FlexibleSpaceBar(
 
-            SliverList(delegate: SliverChildBuilderDelegate(
-              (context, i) => GestureDetector(
-                onTap: () {
-                  CustomNavigator.navigateTo(context, DriverViewAllOrders());
-                },
-
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10
-                  ),
-                  child: Container(
-//                  constraints: BoxConstraints.expand(
-//                    height: 250
-//                  ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 10,
-                          spreadRadius: 1,
-                          color: Colors.grey.shade200
-                        )
-                      ],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-
-                          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                            Text("M-3917", style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18
-                            )),
-                            SizedBox(width: 10),
-                            Text("15 min ago", style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                              fontSize: 12,
-                              color: Colors.grey
-                            )),
-                          ]),
-
-                          SizedBox(height: 20),
-
-                          Text("Pick-up Address"),
-                          SizedBox(height: 7),
-_cupertino("sfsaas as kas cka f askc a "),
-                          SizedBox(height: 20),
-
-                          Text("Drop-off Address"),
-                          SizedBox(height: 7),
-                          _cupertino("sfsaas as kas cka f askc a "),
-                          SizedBox(height: 15),
-
-                          _buildRow(name1: "Construction Dumpster" ,name2: "12 Yard Dumpster "),
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.start,
-                      ),
-                    )
+              background:Padding(
+                padding: const EdgeInsets.only(top: 95),
+                child: Container(decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/homepageimage.png'),
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment(1, -0.6)
                   ),
                 ),
+
+                  height: 100,
+                  child: Column(children: <Widget>[
+
+detail(text1: "Rating",text2: "4.5",context: context),
+                    detail(text1: "Orders",text2: "60",context: context),
+                    detail(text1: "Monthly Income",text2: "120000.00",context: context),
+
+                  ]
+                    ,),
+                ),
+              )
+            ),
+            expandedHeight: 200,
+          ),
+
+          SliverToBoxAdapter(child: SizedBox(height: 10)),
+
+          SliverList(delegate: SliverChildBuilderDelegate(
+            (context, i) => GestureDetector(
+              onTap: () {
+                CustomNavigator.navigateTo(context, DriverViewAllOrders());
+              },
+
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                        color: Colors.grey.shade200
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+
+                        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                          Text("M-3917", style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18
+                          )),
+                          SizedBox(width: 10),
+                          Text("15 min ago", style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontSize: 12,
+                            color: Colors.grey
+                          )),
+                        ]),
+
+                        SizedBox(height: 20),
+
+                        Text("Pick-up Address"),
+                        SizedBox(height: 7),
+_cupertino(context: context,text: "fnafnafnalfnfa;klnfakslnf"),
+                        SizedBox(height: 20),
+
+                        Text("Drop-off Address"),
+                        SizedBox(height: 7),
+                        _cupertino(context: context,text: "fnafnafnalfnfa;klnfakslnf"),
+                        SizedBox(height: 15),
+
+                        _buildRow(name1: "Construction Dumpster" ,name2: "12 Yard Dumpster "),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.start,
+                    ),
+                  )
+                ),
               ),
-              childCount: 10
-            )),
-          ],
-        ),
+            ),
+            childCount: 10
+          )),
+          SliverToBoxAdapter(child: SizedBox(height: 60)),
+        ],
       ),
     );
   }
@@ -274,8 +260,10 @@ _cupertino("sfsaas as kas cka f askc a "),
       ),
     );
   }
-Widget _cupertino( String text){
-    return CupertinoTextField(readOnly: true,
+Widget _cupertino({BuildContext context, String text}){
+    return CupertinoTextField(onTap: () {
+      CustomNavigator.navigateTo(context, DriverViewAllOrders());
+    }, readOnly: true,
       padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
       suffix: Padding(
         padding: const EdgeInsets.all(8),
