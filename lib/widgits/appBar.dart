@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 class HaweyatiAppBar extends AppBar {
-  bool showFilter;
+//  bool showFilter;
   bool showadd;
+  Function onTap;
 
 
   HaweyatiAppBar(
       {BuildContext context,
       double progress = 0.0,
-this.showFilter =false
-,this.showadd =false
+//this.showFilter =false
+this.showadd =false,this.onTap
       })
       : super(
             brightness: Brightness.dark,
@@ -26,26 +27,13 @@ this.showFilter =false
               ),
             ),
             actions: [
-              showFilter
-                  ? Padding(
-                    padding: const EdgeInsets.all(0),
-                    child: SizedBox(width: 45,
-                      child: IconButton(
-                          icon: Image.asset("assets/images/cart.png"),
-                          onPressed: () {
-                          },
-                        ),
-                    ),
-                  )
-                  : Container()
-            ,  showadd
+              showadd
                   ? Padding(
                 padding: const EdgeInsets.all(0),
                 child: SizedBox(width: 45,
                   child: IconButton(
                     icon: Icon(Icons.add,size: 35,),
-                    onPressed: () {
-                    },
+                    onPressed: onTap,
                   ),
                 ),
               )

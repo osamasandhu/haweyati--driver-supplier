@@ -1,3 +1,4 @@
+import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/finishingMaterial/add-finishingMaterail.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/pre-signin_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/pre-signup_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/signin_page.dart';
@@ -12,4 +13,5 @@ final routes = {
   "/sign-up": (context) => SignUpPage(),
   "/pre-sign-in": (context) => PreSignInPage(),
   "/pre-sign-up": (context) => PreSignUpPage(),
+  "/add-finishing-material": (context) => AddFinishingMaterial(),
 };

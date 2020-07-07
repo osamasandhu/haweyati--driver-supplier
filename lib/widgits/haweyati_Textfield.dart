@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class HaweyatiTextField extends TextFormField {
   HaweyatiTextField({
+    int maxlines,
     IconData icon,
     String label,
     TextInputType keyboardType,

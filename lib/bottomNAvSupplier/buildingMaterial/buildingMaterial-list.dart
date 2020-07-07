@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/buildingMaterial/add-buildingmaterial.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
 import 'package:haweyati_supplier_driver_app/widgits/container-main.dart';
 
@@ -15,7 +16,7 @@ class _BuildingMaterialListState extends State<BuildingMaterialList> {
     return Scaffold(
       appBar: HaweyatiAppBar(
         context: context,
-        showadd: true,
+      onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AddBuildingMaterial()));},  showadd: true,
       ),
       body: ListView(
         padding: EdgeInsets.all(15),

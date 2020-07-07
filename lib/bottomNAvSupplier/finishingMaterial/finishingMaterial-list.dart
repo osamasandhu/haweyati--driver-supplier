@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/finishingMaterial/add-finishingMaterail.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
 import 'package:haweyati_supplier_driver_app/widgits/container-main.dart';
 
@@ -13,7 +14,7 @@ class FinsihingList extends StatefulWidget {
 class _FinsihingListState extends State<FinsihingList> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: HaweyatiAppBar(context: context,),body: ListView(padding: EdgeInsets.all(15),children: <Widget>[
+    return Scaffold( appBar: HaweyatiAppBar(context: context,showadd: true,onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AddFinishingMaterial()));},),body: ListView(padding: EdgeInsets.all(15),children: <Widget>[
       ContainerDetailList(imgpath:  "assets/images/item-1.png",ontap: (){Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => FinishingMaterialSubList()));
       },name: "Wall Finishies",),
