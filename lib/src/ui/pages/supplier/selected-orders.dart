@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/haweyatiMaterials.dart';
 import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/completedOrders.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/viewallselectedorders.dart';
-import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
 
 import '../../../../customNa.dart';
 import '../../../../helpline_page.dart';
@@ -11,7 +11,7 @@ import '../../../../notification.dart';
 
 
 
-class SelectedOrders extends StatelessWidget {
+class SupplierSelectedOrders extends StatelessWidget {
 
   ScrollController scrollController = ScrollController();
   final _drawerKey = GlobalKey<ScaffoldState>();
@@ -115,6 +115,8 @@ appBar:AppBar(leading: IconButton(
                   child: Column(children: <Widget>[
                     _buildListTile(title: "Home",onTap: (){Navigator.of(context).pop();},icon: Icons.home),
                     _buildListTile(title: "My Profile",onTap: (){CustomNavigator.navigateTo(context, PersonContact());},icon: Icons.person),
+                    _buildListTile(title: "Completed Orders",onTap: (){CustomNavigator.navigateTo(context, CompletedOrders());},icon: Icons.format_list_numbered),
+
                     _buildListTile(title: "Materials",onTap: (){CustomNavigator.navigateTo(context, HaweyatiMaterials());},icon: Icons.business),
 
                     _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamedAndRemoveUntil('/pre-sign-in', (_)=>false);},icon: Icons.exit_to_app),
@@ -155,14 +157,15 @@ appBar:AppBar(leading: IconButton(
                         borderRadius: BorderRadius.circular(10),
                       ),
 
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
 
-                            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                              Text("M-3917", style: TextStyle(
+                          Container(padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(                        color: Colors.green,
+                                borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft: Radius.circular(10) )),
+                            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                              Text("M-3917", style: TextStyle(color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18
                               )),
@@ -170,35 +173,29 @@ appBar:AppBar(leading: IconButton(
                               Text("15 min ago", style: TextStyle(
                                   fontStyle: FontStyle.italic,
                                   fontSize: 12,
-                                  color: Colors.grey
+                                  color: Colors.white
                               )),
                             ]),
+                          ),
 
-                            SizedBox(height: 20),
+                          SizedBox(height: 15,),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text("Pick-up Address"),
+                          ),
+                          SizedBox(height: 7),
 
-                            CupertinoTextField(readOnly: true,
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ViewAllSelectedOrders()));
-                              },
-                              padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
-                              suffix: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Icon(Icons.map),
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              style: TextStyle(color: Colors.grey.shade600),
-                              controller: TextEditingController(text: "address a ksnlsanf samf ljjl j ckl askl salkf akl fkla fkl sdasd as das d asd as da sd as das d as dasd as d asd "),
-                            ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child:   _cupertino(context: context,text: "fnafnafnalfnfa;klnfakslnf"),
+                          ),
 
-                            SizedBox(height: 15),
-
-                            _buildRow(name1: "Construction Dumpster" ,name2: "12 Yard Dumpster "),
-                          ],
-                          mainAxisAlignment: MainAxisAlignment.start,
-                        ),
+                          Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: _buildRow(name1: "Construction Dumpster" ,name2: "12 Yard Dumpster "),
+                          ),
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.start,
                       )
                   ),
                 ),
@@ -227,6 +224,23 @@ appBar:AppBar(leading: IconButton(
 
   }
 
+  Widget _cupertino({BuildContext context, String text}){
+    return CupertinoTextField(onTap: () {
+      CustomNavigator.navigateTo(context, ViewAllSelectedOrders());
+    }, readOnly: true,
+      padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
+      suffix: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Icon(Icons.map),
+      ),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      style: TextStyle(color: Colors.grey.shade600),
+      controller: TextEditingController(text: text),
+    );
+  }
   Widget _buildRow({String name1, String name2}) {
     return Row(
       children: <Widget>[
@@ -261,23 +275,7 @@ appBar:AppBar(leading: IconButton(
         style: TextStyle(color: Colors.white),
       ),
     );
-  }
-  Widget _cupertino( String text){
-    return CupertinoTextField(readOnly: true,
-      padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
-      suffix: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Icon(Icons.map),
-      ),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      style: TextStyle(color: Colors.grey.shade600),
-      controller: TextEditingController(text: text),
-    );
-  }
-}
+  }}
 
 
 

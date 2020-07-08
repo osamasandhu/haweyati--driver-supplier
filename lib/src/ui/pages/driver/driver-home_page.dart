@@ -6,11 +6,30 @@ import 'package:haweyati_supplier_driver_app/src/ui/pages/driver/driver-selected
 class DriverHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CupertinoTabScaffold(
-      tabBuilder: (context, i) {
-        return i == 0 ? DriverAllOrdersPage(): DriverSelectedOrders();
+    return
+
+
+
+
+
+
+      CupertinoTabScaffold(
+      tabBuilder:(context, index) {
+        switch (index) {
+          case 0:
+            return DriverAllOrdersPage();
+            break;
+          case 1:
+            return DriverSelectedOrders();
+            break;
+          default:
+            return DriverAllOrdersPage();
+            break;
+        }
       },
       tabBar: CupertinoTabBar(
+        activeColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
@@ -20,7 +39,8 @@ class DriverHomePage extends StatelessWidget {
           BottomNavigationBarItem(
             icon: Icon(Icons.playlist_add_check),
             title: Text("Accepted")
-          )
+          ),
+
         ],
       ),
     );

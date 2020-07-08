@@ -31,6 +31,7 @@ class ScrollablePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //backgroundColor: Colors.white,
       key: key,
       appBar: this.appBar ?? HaweyatiAppBar(),
       drawer: this.drawer,

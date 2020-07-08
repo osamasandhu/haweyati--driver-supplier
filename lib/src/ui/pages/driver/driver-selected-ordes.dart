@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/driver/driver-completedOrders.dart';
 import '../../../../customNa.dart';
 import '../../../../helpline_page.dart';
 import '../../../../notification.dart';
@@ -123,6 +124,9 @@ class DriverSelectedOrders extends StatelessWidget {
                   child: Column(children: <Widget>[
                     _buildListTile(title: "Home",onTap: (){Navigator.of(context).pop();},icon: Icons.home),
                     _buildListTile(title: "My Profile",onTap: (){CustomNavigator.navigateTo(context, PersonContact());},icon: Icons.person),
+                    _buildListTile(title: "Completed Order",onTap: (){CustomNavigator.navigateTo(context, DriverCompletedOrders());},icon: Icons.format_list_numbered),
+
+
                     _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamedAndRemoveUntil('/pre-sign-in', (_)=>false);},icon: Icons.exit_to_app),
                   ]),
                 ))
@@ -137,8 +141,10 @@ class DriverSelectedOrders extends StatelessWidget {
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
             ),
-            SliverList(delegate: SliverChildBuilderDelegate(
-                    (context, i) => GestureDetector(
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                    (context, i) =>
+                        GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>DriverViewAllSelectedOrders()));
                   },
@@ -153,8 +159,8 @@ class DriverSelectedOrders extends StatelessWidget {
 //                    height: 250
 //                  ),
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
+                         // color: Colors.pink,
+                          color: Colors.white, boxShadow: [
                             BoxShadow(
                                 blurRadius: 10,
                                 spreadRadius: 1,
@@ -164,37 +170,56 @@ class DriverSelectedOrders extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
 
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
 
-                              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                                Text("M-3917",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-                                SizedBox(width: 10,),
+                            Container(padding: EdgeInsets.all(15),
+                              decoration: BoxDecoration(                        color: Colors.green[500],
+                                  borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft: Radius.circular(10) )),
+                              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                                Text("M-3917", style: TextStyle(
+                                   color: Colors.white, fontWeight: FontWeight.bold,
+                                    fontSize: 18
+                                )),
+                                SizedBox(width: 10),
+                                Text("15 min ago", style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontSize: 12,
+                                    color: Colors.white
+                                )),
+                              ]),
+                            ),
 
-                                Text("15 min ago ",style: TextStyle(fontStyle: FontStyle.italic,fontSize: 12, color: Colors.grey),),
+                            SizedBox(height: 15,),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Text("Pick-up Address"),
+                            ),
+                            SizedBox(height: 7),
 
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child:   _cupertino(context: context,text: "fnafnafnalfnfa;klnfakslnf"),
+                            ),
+                            SizedBox(height: 20),
 
-                              ],),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: Text("Drop-off Address"),
+                            ),
+                            SizedBox(height: 7),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              child: _cupertino(context: context,text: "fnafnafnalfnfa;klnfakslnf"),
+                            ),
 
-                              SizedBox(height: 20),
-
-                              Text("Pick-up Address"),
-                              SizedBox(height: 7),
-                              _cupertino("sfsaas as kas cka f askc a ",context),
-                              SizedBox(height: 20),
-
-                              Text("Drop-off Address"),
-                              SizedBox(height: 7),
-                              _cupertino("sfsaas as kas cka f askc a ",context),//                    Row(children: <Widget>[Icon(Icons.location_on,color: Colors.red,) ,SizedBox(width: 10,), Expanded(child: Text("address"))]),
-                              SizedBox(height: 15),
-
-                              _builRow(name1: "Construction Dumpster" ,name2: "12 Yard Dumpster "),
-                            ],
-                            mainAxisAlignment: MainAxisAlignment.start,
-                          ),
+                            Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: _buildRow(name1: "Construction Dumpster" ,name2: "12 Yard Dumpster "),
+                            ),
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.start,
                         )
                     ),
                   ),
@@ -223,11 +248,11 @@ class DriverSelectedOrders extends StatelessWidget {
   }
 
 
-  Widget _cupertino(  String text,BuildContext context){
-    return CupertinoTextField( readOnly: true,                  onTap: () {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>DriverViewAllSelectedOrders()));
-    },
 
+  Widget _cupertino({BuildContext context, String text}){
+    return CupertinoTextField(onTap: () {
+      CustomNavigator.navigateTo(context, DriverViewAllSelectedOrders());
+    }, readOnly: true,
       padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
       suffix: Padding(
         padding: const EdgeInsets.all(8),
@@ -241,6 +266,8 @@ class DriverSelectedOrders extends StatelessWidget {
       controller: TextEditingController(text: text),
     );
   }
+
+
 
 
 
