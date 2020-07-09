@@ -61,7 +61,7 @@ class _AddDriverPageState extends State<AddDriverPage> {
           padding: EdgeInsets.fromLTRB(20, 50, 20, 150),
           child: Column(
             children: <Widget>[
-              Text("Signup", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
+              Text("Register Driver", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
               SizedBox(height: 15),
               Text("Please Enter Credentials", style: TextStyle(color: Colors.black54)),
               SizedBox(height: 15),
@@ -257,7 +257,6 @@ class _AddDriverPageState extends State<AddDriverPage> {
         ),
       ),
 
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         elevation: 0,
         child: Icon(Icons.arrow_forward),
@@ -284,20 +283,7 @@ class _AddDriverPageState extends State<AddDriverPage> {
         foregroundColor: Colors.white,
       ),
 
-      bottomNavigationBar: Container(
-        height: 50,
-        child: Align(
-          alignment: Alignment(0, -1),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed('/sign-in', arguments: _arguments);
-            },
-            child: Text("LOGIN WITH EMAIL", style: TextStyle(
-                color: Theme.of(context).accentColor
-            )),
-          ),
-        ),
-      ),
+
     );
   }
 }

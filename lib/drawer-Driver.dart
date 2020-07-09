@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/addDriver.dart';
 import 'package:haweyati_supplier_driver_app/src/const.dart';
@@ -42,13 +43,23 @@ Scaffold(appBar: HaweyatiAppBar(),floatingActionButton: SizedBox( width: 70,heig
   
             //     Image.asset("assets/images/notification_thumb.png",height: 40,width: 40,),
   
-            title: Text("Ali"),
+            title: Row(
+              children: <Widget>[
+                Expanded(child: Text("Ali")),        SizedBox(width: 10,),         Expanded(child: Text("0325-2626325")),
+
+              ],mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            ),
   
             subtitle: Padding(
   
               padding: const EdgeInsets.only(top: 8),
   
-              child: Text(loremIpsum.substring(0,36)),
+              child: Row(
+                children: <Widget>[
+                  Expanded(child: Text("MNP-2364")),        SizedBox(width: 10,),         Expanded(child: Text("Honda")),
+
+                ],mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
   
             ),     ),
   
