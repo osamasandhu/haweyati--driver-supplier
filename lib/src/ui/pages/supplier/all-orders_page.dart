@@ -2,25 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/haweyatiMaterials.dart';
 import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
-import 'package:haweyati_supplier_driver_app/customNa.dart';
-import 'package:haweyati_supplier_driver_app/notification.dart';
+import 'package:haweyati_supplier_driver_app/drawer-Driver.dart';
+import 'package:haweyati_supplier_driver_app/myReports.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/completedOrders.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/multiple-ordes.dart';
+import 'package:haweyati_supplier_driver_app/widgits/customNa.dart';
+import 'package:haweyati_supplier_driver_app/widgits/notification.dart';
 
-import '../../../../helpline_page.dart';
+import '../../../../widgits/helpline_page.dart';
 import 'order.dart';
 
 class AllOrdersPage extends StatelessWidget {
   final _scrollController = ScrollController();
   final _drawerKey = GlobalKey<ScaffoldState>();
-  _launchWhatsapp(String phone) async {
-    if (await canLaunch(phone)) {
-      await launch('whatsapp://send?phone=$phone');
-    } else {
-      await launch('https://api.whatsapp.com/send?phone=$phone‬');
-//      throw 'Could not launch $url';
-    }
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,6 +75,10 @@ class AllOrdersPage extends StatelessWidget {
 
 
                 _buildListTile(title: "Materials",onTap: (){CustomNavigator.navigateTo(context, HaweyatiMaterials());},icon: Icons.business),
+                _buildListTile(title: "My Reports",onTap: (){CustomNavigator.navigateTo(context, MyReportsPage());},icon: Icons.report_problem),
+
+                _buildListTile(title: "Driver",onTap: (){CustomNavigator.navigateTo(context, DrawerDriverPage());},icon: Icons.drive_eta),
+
                 _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamedAndRemoveUntil('/pre-sign-in', (_)=>false);},icon: Icons.exit_to_app),
               ]),
             ))
@@ -170,8 +168,14 @@ class AllOrdersPage extends StatelessWidget {
           SliverList(delegate: SliverChildBuilderDelegate(
             (context, i) => GestureDetector(
               onTap: () {
-                CustomNavigator.navigateTo(context, ViewAllOrders());
-              },
+
+                if(i%2==0) {
+                            CustomNavigator.navigateTo(
+                                context, MutilpeOrders());
+                          }else{
+                  CustomNavigator.navigateTo(
+                      context, ViewAllOrders());
+                        }},
 
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -254,9 +258,8 @@ class AllOrdersPage extends StatelessWidget {
     );
   }
   Widget _cupertino({BuildContext context, String text}){
-    return CupertinoTextField(onTap: () {
-      CustomNavigator.navigateTo(context, ViewAllOrders());
-    }, readOnly: true,
+    return CupertinoTextField(
+      readOnly: true,
       padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
       suffix: Padding(
         padding: const EdgeInsets.all(8),

@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/driver/driver-completedOrders.dart';
-import '../../../../customNa.dart';
-import '../../../../helpline_page.dart';
-import '../../../../notification.dart';
+import 'package:haweyati_supplier_driver_app/widgits/notification.dart';
+import '../../../../widgits/customNa.dart';
+import '../../../../widgits/helpline_page.dart';
 import 'driver-viewallselectedorders.dart';
 
-import 'driver-order.dart';
 
 
 class DriverSelectedOrders extends StatelessWidget {
@@ -236,16 +235,6 @@ class DriverSelectedOrders extends StatelessWidget {
   }
 
 
-  Widget _builRow({String name1, String name2}) {
-    return Row(
-      children: <Widget>[
-
-        Text("$name1 :",style: TextStyle(fontWeight: FontWeight.w700),),
-        SizedBox(width: 10,),
-        Expanded(child: Text(name2)),
-      ],
-    );
-  }
 
 
 

@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/const.dart';
@@ -14,6 +13,7 @@ class AddBuildingMaterial extends StatefulWidget {
 }
 
 class _AddBuildingMaterialState extends State<AddBuildingMaterial> {
+
 
 
 
@@ -93,100 +93,100 @@ class _AddBuildingMaterialState extends State<AddBuildingMaterial> {
 
 
 
-
-  void _showbottomsheet() {
-    showModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (builder) {
-          return Padding(
-            padding:  EdgeInsets.all(15.0),
-            child: Padding(
-              padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height/4.2),
-              child: Column(
-                children: <Widget>[
-                  ButtonTheme(
-                      minWidth: MediaQuery.of(context).size.width,
-                      height: 58.0,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10)),
-                        ),
-                        color: Colors.white,
-                        child: Text(
-                          "New Job",
-                          style: TextStyle(color: Colors.blue, fontSize: 18),
-                        ),
-                        onPressed: () {
-//                          Navigator.push(
-//                              context,
-//                              MaterialPageRoute(
-//                                  builder: (context) => NewJob()));
-                        },
-                      )),
-
-                  SizedBox(
-                    height: 0.8,
-                  ),
-//2nd button
-
-                  ButtonTheme(
-                      minWidth: MediaQuery.of(context).size.width,
-                      height: 58.0,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10)),
-                        ),
-                        color: Colors.white,
-                        child: Text(
-                          "New Invoice",
-                          style: TextStyle(color: Colors.blue, fontSize: 18),
-                        ),
-                        onPressed: () {
-//                          Navigator.push(
-//                              context,
-//                              MaterialPageRoute(
-//                                  builder: (context) => NewInvoice()));
-                        },
-                      )),
-
-                  SizedBox(
-                    height: 0.8,
-                  ),
-//3rd button
-
-                  SizedBox(
-                    height: 15,
-                  ),
-
-                  ButtonTheme(
-                      minWidth: MediaQuery.of(context).size.width,
-                      height: 58.0,
-                      child: RaisedButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        color: Colors.white,
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
-                              fontSize: 18),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ))
-                ],
-              ),
-            ),
-          );
-        });
-  }
+//
+//  void _showbottomsheet() {
+//    showModalBottomSheet(
+//        backgroundColor: Colors.transparent,
+//        context: context,
+//        builder: (builder) {
+//          return Padding(
+//            padding:  EdgeInsets.all(15.0),
+//            child: Padding(
+//              padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height/4.2),
+//              child: Column(
+//                children: <Widget>[
+//                  ButtonTheme(
+//                      minWidth: MediaQuery.of(context).size.width,
+//                      height: 58.0,
+//                      child: RaisedButton(
+//                        shape: RoundedRectangleBorder(
+//                          borderRadius: BorderRadius.only(
+//                              topLeft: Radius.circular(10),
+//                              topRight: Radius.circular(10)),
+//                        ),
+//                        color: Colors.white,
+//                        child: Text(
+//                          "New Job",
+//                          style: TextStyle(color: Colors.blue, fontSize: 18),
+//                        ),
+//                        onPressed: () {
+////                          Navigator.push(
+////                              context,
+////                              MaterialPageRoute(
+////                                  builder: (context) => NewJob()));
+//                        },
+//                      )),
+//
+//                  SizedBox(
+//                    height: 0.8,
+//                  ),
+////2nd button
+//
+//                  ButtonTheme(
+//                      minWidth: MediaQuery.of(context).size.width,
+//                      height: 58.0,
+//                      child: RaisedButton(
+//                        shape: RoundedRectangleBorder(
+//                          borderRadius: BorderRadius.only(
+//                              bottomRight: Radius.circular(10),
+//                              bottomLeft: Radius.circular(10)),
+//                        ),
+//                        color: Colors.white,
+//                        child: Text(
+//                          "New Invoice",
+//                          style: TextStyle(color: Colors.blue, fontSize: 18),
+//                        ),
+//                        onPressed: () {
+////                          Navigator.push(
+////                              context,
+////                              MaterialPageRoute(
+////                                  builder: (context) => NewInvoice()));
+//                        },
+//                      )),
+//
+//                  SizedBox(
+//                    height: 0.8,
+//                  ),
+////3rd button
+//
+//                  SizedBox(
+//                    height: 15,
+//                  ),
+//
+//                  ButtonTheme(
+//                      minWidth: MediaQuery.of(context).size.width,
+//                      height: 58.0,
+//                      child: RaisedButton(
+//                        shape: RoundedRectangleBorder(
+//                            borderRadius: BorderRadius.circular(10)),
+//                        color: Colors.white,
+//                        child: Text(
+//                          "Cancel",
+//                          style: TextStyle(
+//                              fontWeight: FontWeight.bold,
+//                              color: Colors.blue,
+//                              fontSize: 18),
+//                        ),
+//                        onPressed: () {
+//                          Navigator.of(context).pop();
+//                        },
+//                      ))
+//                ],
+//              ),
+//            ),
+//          );
+//        });
+//  }
 
 
 

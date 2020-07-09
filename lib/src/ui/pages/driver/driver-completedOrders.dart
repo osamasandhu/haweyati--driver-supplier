@@ -3,17 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/haweyatiMaterials.dart';
 import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/driver/driver-viewCompletedOrders.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/viewAllPendingOrders.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/viewCompletedOrders.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/viewallselectedorders.dart';
-
-import '../../../../customNa.dart';
-import '../../../../helpline_page.dart';
-import '../../../../notification.dart';
+import 'package:haweyati_supplier_driver_app/widgits/notification.dart';
+import '../../../../widgits/helpline_page.dart';
 class DriverCompletedOrders extends StatelessWidget {
 
   ScrollController scrollController = ScrollController();
-  final _drawerKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -183,16 +177,6 @@ class DriverCompletedOrders extends StatelessWidget {
     );
   }
 
-  Widget _buildListTile({IconData icon, String title, Function onTap}) {
-    return ListTile(onTap: onTap
-      ,
-      leading: Icon(icon, color: Colors.white, size: 30,),
-      title: Text(
-        title,
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-  }
 
 
 

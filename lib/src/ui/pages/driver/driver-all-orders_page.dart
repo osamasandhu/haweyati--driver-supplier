@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
-import 'package:haweyati_supplier_driver_app/customNa.dart';
-import 'package:haweyati_supplier_driver_app/notification.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/driver/driver-completedOrders.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/driver/driver-order.dart';
+import 'package:haweyati_supplier_driver_app/widgits/customNa.dart';
+import 'package:haweyati_supplier_driver_app/widgits/notification.dart';
 
-import '../../../../helpline_page.dart';
+import '../../../../widgits/helpline_page.dart';
 
 class DriverAllOrdersPage extends StatelessWidget {
   final _scrollController = ScrollController();

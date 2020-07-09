@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/auth-arguments.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/signin_page.dart';
 
 class PreSignInPage extends StatelessWidget {
   @override

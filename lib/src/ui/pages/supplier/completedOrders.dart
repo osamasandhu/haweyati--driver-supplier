@@ -1,14 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/haweyatiMaterials.dart';
-import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/viewAllPendingOrders.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/viewCompletedOrders.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/viewallselectedorders.dart';
+import 'package:haweyati_supplier_driver_app/widgits/notification.dart';
 
-import '../../../../customNa.dart';
-import '../../../../helpline_page.dart';
-import '../../../../notification.dart';
+import '../../../../widgits/customNa.dart';
+import '../../../../widgits/helpline_page.dart';
 class CompletedOrders extends StatelessWidget {
 
   ScrollController scrollController = ScrollController();

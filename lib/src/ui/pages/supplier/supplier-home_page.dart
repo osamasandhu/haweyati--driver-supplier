@@ -12,46 +12,10 @@ class SupplierHomePage extends StatefulWidget {
 }
 
 class _SupplierHomePageState extends State<SupplierHomePage> {
-//  int currentTabIndex = 0;
-//
-//  onTapped(int index) {
-//    setState(() {
-//      currentTabIndex = index;
-//    });
-//  }
-//
-//  List<Widget> tabs = [
-//AllOrdersPage(),
-//SelectedOrders(),
-//Center(child: Text("data"))
-//  ];
 
   @override
   Widget build(BuildContext context) {
-    return
-
-
-
-//      Scaffold(
-//        body: tabs[currentTabIndex],
-//        bottomNavigationBar: BottomNavigationBar(
-//          backgroundColor: Theme.of(context).primaryColor,
-//            selectedItemColor: Colors.white,
-//            currentIndex: currentTabIndex,
-//            onTap: onTapped,
-//            items: [
-//              BottomNavigationBarItem(
-//                  icon: Icon(Icons.list), title: Text("All Orders ")),
-//              BottomNavigationBarItem(
-//                  icon: Icon(Icons.search), title: Text("Search")),
-//              BottomNavigationBarItem(
-//                  icon: Icon(Icons.person), title: Text("User Info"))
-//            ]),
-//      );
-//
-
-
-      CupertinoTabScaffold(
+    return      CupertinoTabScaffold(
       tabBuilder:(context, index) {
         switch (index) {
           case 0:

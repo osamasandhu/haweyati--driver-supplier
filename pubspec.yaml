@@ -29,6 +29,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   image_picker: ^0.6.1+4
+  flutter_pdfview: ^1.0.0+10
 
 
 
