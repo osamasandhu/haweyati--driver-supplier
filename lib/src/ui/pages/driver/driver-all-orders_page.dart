@@ -6,6 +6,8 @@ import 'package:haweyati_supplier_driver_app/notification.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/driver/driver-order.dart';
 
 import '../../../../helpline_page.dart';
+import '../../../driver-supplier-map.dart';
+import '../../../map-page.dart';
 
 class DriverAllOrdersPage extends StatelessWidget {
   final _scrollController = ScrollController();
@@ -64,7 +66,11 @@ class DriverAllOrdersPage extends StatelessWidget {
               child: Column(children: <Widget>[
                 _buildListTile(title: "Home",onTap: (){Navigator.of(context).pop();},icon: Icons.home),
                 _buildListTile(title: "My Profile",onTap: (){CustomNavigator.navigateTo(context, PersonContact());},icon: Icons.person),
+                _buildListTile(title: "Map",onTap: (){
 
+                  CustomNavigator.navigateTo(context, MapPage());
+
+                },icon: Icons.location_on),
                 _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamedAndRemoveUntil('/pre-sign-in', (_)=>false);},icon: Icons.exit_to_app),
               ]),
             ))

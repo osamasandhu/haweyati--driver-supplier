@@ -8,6 +8,8 @@ import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
 import '../../../../customNa.dart';
 import '../../../../helpline_page.dart';
 import '../../../../notification.dart';
+import '../../../driver-supplier-map.dart';
+import '../../../map-page.dart';
 
 
 
@@ -114,6 +116,11 @@ appBar:AppBar(leading: IconButton(
                 Expanded(child: SingleChildScrollView(
                   child: Column(children: <Widget>[
                     _buildListTile(title: "Home",onTap: (){Navigator.of(context).pop();},icon: Icons.home),
+                    _buildListTile(title: "Map",onTap: (){
+
+                      CustomNavigator.navigateTo(context, MapPage());
+
+                    },icon: Icons.location_on),
                     _buildListTile(title: "My Profile",onTap: (){CustomNavigator.navigateTo(context, PersonContact());},icon: Icons.person),
                     _buildListTile(title: "Materials",onTap: (){CustomNavigator.navigateTo(context, HaweyatiMaterials());},icon: Icons.business),
 

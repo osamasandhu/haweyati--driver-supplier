@@ -19,21 +19,6 @@
 //    );
 //
 //  }
-//}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -62,7 +47,7 @@ class HaweyatiBusinessApp extends StatelessWidget {
 //          supportedLocales: context.supportedLocales,
 //          localizationsDelegates: context.localizationDelegates,
 
-        initialRoute: "/pre-sign-in",
+        initialRoute: "/map",
         routes: routes,
 //        home: FeaturesPage(),
       )

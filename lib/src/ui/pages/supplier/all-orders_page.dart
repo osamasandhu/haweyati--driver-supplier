@@ -8,6 +8,8 @@ import 'package:haweyati_supplier_driver_app/notification.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../helpline_page.dart';
+import '../../../driver-supplier-map.dart';
+import '../../../map-page.dart';
 import 'order.dart';
 
 class AllOrdersPage extends StatelessWidget {
@@ -76,7 +78,11 @@ class AllOrdersPage extends StatelessWidget {
               child: Column(children: <Widget>[
                 _buildListTile(title: "Home",onTap: (){Navigator.of(context).pop();},icon: Icons.home),
                 _buildListTile(title: "Person",onTap: (){CustomNavigator.navigateTo(context, PersonContact());},icon: Icons.person),
+                _buildListTile(title: "Map",onTap: (){
 
+                  CustomNavigator.navigateTo(context, MapPage());
+
+                  },icon: Icons.location_on),
                 _buildListTile(title: "Materials",onTap: (){CustomNavigator.navigateTo(context, HaweyatiMaterials());},icon: Icons.business),
                 _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamedAndRemoveUntil('/pre-sign-in', (_)=>false);},icon: Icons.exit_to_app),
               ]),
