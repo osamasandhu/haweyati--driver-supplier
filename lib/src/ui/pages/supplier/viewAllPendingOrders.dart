@@ -5,35 +5,26 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../widgits/emptyContainer.dart';
 
-class ViewAllSelectedOrders extends StatefulWidget {
+class ViewAllPendingOrders extends StatefulWidget {
   @override
-  _ViewAllSelectedOrdersState createState() => _ViewAllSelectedOrdersState();
+  _ViewAllPendingOrdersState createState() => _ViewAllPendingOrdersState();
 }
 
-class _ViewAllSelectedOrdersState extends State<ViewAllSelectedOrders> {
+class _ViewAllPendingOrdersState extends State<ViewAllPendingOrders> {
 
-  _launchWhatsapp(String phone) async {
-    if (await canLaunch(phone)) {
-      await launch('whatsapp://send?phone=$phone');
-    } else {
-      await launch('https://api.whatsapp.com/send?phone=$phone‬');
-//      throw 'Could not launch $url';
-    }
-  }
+////  _launchWhatsapp(String phone) async {
+////    if (await canLaunch(phone)) {
+////      await launch('whatsapp://send?phone=$phone');
+////    } else {
+////      await launch('https://api.whatsapp.com/send?phone=$phone‬');
+//////      throw 'Could not launch $url';
+////    }
+//  }
   @override
   Widget build(BuildContext context) {
     return ScrollablePage(
-appBar: AppBar(backgroundColor: Theme.of(context).primaryColor, actions: <Widget>[
-  IconButton(icon: Icon(Icons.call), onPressed: (){
-
-
-    _launchWhatsapp('+923472363720}');
-
-
-  })
-
-],),      title: 'Selected Orders',
-      subtitle: 'asdasdasdasd asd as da sd as da sd asd ',
+      appBar: AppBar(backgroundColor: Theme.of(context).primaryColor,),      title: 'Pending Orders',
+      subtitle: 'Here is the Detail of Your Pending Order',
 
       child: SliverList(delegate: SliverChildListDelegate([
         Padding(
@@ -131,12 +122,12 @@ appBar: AppBar(backgroundColor: Theme.of(context).primaryColor, actions: <Widget
         ),
 
       ])),
-
-      action: "Contact",
-      onAction: (){
-      _launchWhatsapp('+923472363720}');
-    },
-      showButtonBackground: true,
+//
+//      action: "Contact",
+//      onAction: (){
+//        _launchWhatsapp('+923472363720}');
+//      },
+//      showButtonBackground: true,
     );
   }
 

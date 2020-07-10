@@ -1,28 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/haweyatiMaterials.dart';
-import 'package:haweyati_supplier_driver_app/bottomPAges/chat/bottomHomeDetail/bottomHomeDetail.dart';
 import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
-import 'package:haweyati_supplier_driver_app/customNa.dart';
-import 'package:haweyati_supplier_driver_app/notification.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:haweyati_supplier_driver_app/drawer-Driver.dart';
+import 'package:haweyati_supplier_driver_app/myReports.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/completedOrders.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/multiple-ordes.dart';
+import 'package:haweyati_supplier_driver_app/widgits/customNa.dart';
+import 'package:haweyati_supplier_driver_app/widgits/notification.dart';
 
-import '../../../../helpline_page.dart';
-import '../../../driver-supplier-map.dart';
-import '../../../map-page.dart';
+import '../../../../widgits/helpline_page.dart';
 import 'order.dart';
 
 class AllOrdersPage extends StatelessWidget {
   final _scrollController = ScrollController();
   final _drawerKey = GlobalKey<ScaffoldState>();
-  _launchWhatsapp(String phone) async {
-    if (await canLaunch(phone)) {
-      await launch('whatsapp://send?phone=$phone');
-    } else {
-      await launch('https://api.whatsapp.com/send?phone=$phone‬');
-//      throw 'Could not launch $url';
-    }
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,12 +70,15 @@ class AllOrdersPage extends StatelessWidget {
               child: Column(children: <Widget>[
                 _buildListTile(title: "Home",onTap: (){Navigator.of(context).pop();},icon: Icons.home),
                 _buildListTile(title: "Person",onTap: (){CustomNavigator.navigateTo(context, PersonContact());},icon: Icons.person),
-                _buildListTile(title: "Map",onTap: (){
 
-                  CustomNavigator.navigateTo(context, MapPage());
+                _buildListTile(title: "Completed Orders",onTap: (){CustomNavigator.navigateTo(context, CompletedOrders());},icon: Icons.business),
 
-                  },icon: Icons.location_on),
+
                 _buildListTile(title: "Materials",onTap: (){CustomNavigator.navigateTo(context, HaweyatiMaterials());},icon: Icons.business),
+                _buildListTile(title: "My Reports",onTap: (){CustomNavigator.navigateTo(context, MyReportsPage());},icon: Icons.report_problem),
+
+                _buildListTile(title: "Driver",onTap: (){CustomNavigator.navigateTo(context, DrawerDriverPage());},icon: Icons.drive_eta),
+
                 _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamedAndRemoveUntil('/pre-sign-in', (_)=>false);},icon: Icons.exit_to_app),
               ]),
             ))
@@ -159,9 +154,9 @@ class AllOrdersPage extends StatelessWidget {
                   ),
                   height: 100,
                   child: Column(children: <Widget>[
-                    detail(text1: "Orders", text2: "60", context: context),
-                    detail(text1: "Rating", text2: "4.5", context: context),
-                    detail(text1: "Monthly Income", text2: "120000.00",context: context),
+                    detail(icon: Icons.format_list_numbered, text1: "Orders", text2: "60", context: context),
+                    detail(icon: Icons.star_border, text1: "Rating", text2: "4.5", context: context),
+                    detail(icon: Icons.attach_money, text1: "Monthly Income", text2: "120000.00",context: context),
                   ]),
                 ),
               ),
@@ -173,8 +168,14 @@ class AllOrdersPage extends StatelessWidget {
           SliverList(delegate: SliverChildBuilderDelegate(
             (context, i) => GestureDetector(
               onTap: () {
-                CustomNavigator.navigateTo(context, ViewAllOrders());
-              },
+
+                if(i%2==0) {
+                            CustomNavigator.navigateTo(
+                                context, MutilpeOrders());
+                          }else{
+                  CustomNavigator.navigateTo(
+                      context, ViewAllOrders());
+                        }},
 
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -194,53 +195,45 @@ class AllOrdersPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
 
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
 
-                        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                          Text("M-3917", style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18
+                      Container(padding: EdgeInsets.all(15),
+                        decoration: BoxDecoration(                        color: Colors.red[300],
+                            borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft: Radius.circular(10) )),
+                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                          Text("M-3917", style: TextStyle(color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18
                           )),
                           SizedBox(width: 10),
                           Text("15 min ago", style: TextStyle(
-                            fontStyle: FontStyle.italic,
-                            fontSize: 12,
-                            color: Colors.grey
+                              fontStyle: FontStyle.italic,
+                              fontSize: 12,
+                              color: Colors.white
                           )),
                         ]),
+                      ),
 
-                        SizedBox(height: 20),
+                      SizedBox(height: 15,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text("Pick-up Address"),
+                      ),
+                      SizedBox(height: 7),
 
-                        CupertinoTextField(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child:   _cupertino(context: context,text: "fnafnafnalfnfa;klnfakslnf"),
+                      ),
 
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ViewAllOrders()));
-                          },
-
-                          readOnly: true,
-                          padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
-                          suffix: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Icon(Icons.map),
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          style: TextStyle(color: Colors.grey.shade600),
-                          controller: TextEditingController(text: "address a ksnlsanf samf ljjl j ckl askl salkf akl fkla fkl sdasd as das d asd as da sd as das d as dasd as d asd "),
-                        ),
-
-                        SizedBox(height: 15),
-
-                        _buildRow(name1: "Construction Dumpster" ,name2: "12 Yard Dumpster "),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.start,
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: _buildRow(name1: "Construction Dumpster" ,name2: "12 Yard Dumpster "),
+                      ),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.start,
                   )
                 ),
               ),
@@ -264,15 +257,30 @@ class AllOrdersPage extends StatelessWidget {
       ],
     );
   }
-
-  Widget detail({String text1,String text2,BuildContext context}){
+  Widget _cupertino({BuildContext context, String text}){
+    return CupertinoTextField(
+      readOnly: true,
+      padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
+      suffix: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Icon(Icons.map),
+      ),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      style: TextStyle(color: Colors.grey.shade600),
+      controller: TextEditingController(text: text),
+    );
+  }
+  Widget detail({ String text1,String text2,BuildContext context,IconData icon}){
 
     return   Padding(
     padding: const EdgeInsets.all(8.0),
     child: Row( children: <Widget>[
 
-
-    Expanded(flex: 1, child: Text(text1,style: TextStyle(fontSize: 14,color: Colors.white),)),
+Icon(icon,color: Colors.white,),SizedBox(width: 10,),
+    Expanded(flex: 1, child: Text(text1,style: TextStyle(fontSize: 14,color: Colors.white),)),SizedBox(width: 25,),
     Expanded(flex: 2, child: Text(text2,style: TextStyle(fontSize: 14,color:Theme.of(context).accentColor),)),
     ] ),
     );

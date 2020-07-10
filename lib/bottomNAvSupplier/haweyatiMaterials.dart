@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/scaffolding/scaffolding-list.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
 
-import '../customNa.dart';
+import '../widgits/customNa.dart';
 import 'buildingMaterial/buildingMaterial-list.dart';
 import 'dumpster/dumspter-list.dart';
 import 'finishingMaterial/finishingMaterial-list.dart';
@@ -58,20 +58,6 @@ class _HaweyatiMaterialsState extends State<HaweyatiMaterials> {
     ],),),);
   }
 
-
-  Widget _buildListTile(String imgPath, String title,Function onTap) {
-    return ListTile(onTap: onTap,dense: true,
-      leading: Image.asset(
-        imgPath,
-        width: 20,
-        height: 30,
-      ),
-      title: Text(
-        title,
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-  }
 
   Widget _buildContainer(
       {String title, Color color, String imgPath, Function onTap}) {

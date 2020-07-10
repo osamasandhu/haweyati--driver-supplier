@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/auth-arguments.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
+
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:haweyati_supplier_driver_app/widgits/haweyati_Textfield.dart';
 
-class SignUpPage extends StatefulWidget {
+class SupplierSignUpPage extends StatefulWidget {
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _SupplierSignUpPageState createState() => _SupplierSignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
-  bool loading = false;
+class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
+  File _image; bool loading = false;
   AuthArguments _arguments;
   bool autoValidate = false;
   var _formKey = GlobalKey<FormState>();
@@ -18,11 +21,28 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController email = new TextEditingController();
   TextEditingController password = new TextEditingController();
   TextEditingController phone = new TextEditingController();
-  TextEditingController vehicle = new TextEditingController();
+  TextEditingController city = new TextEditingController();
+  TextEditingController address = new TextEditingController();
+  TextEditingController location = new TextEditingController();
 
 
   @override
   Widget build(BuildContext context) {
+
+    Future getCamera() async {
+      var image = await ImagePicker.pickImage(source: ImageSource.camera);
+      setState(() {
+        _image = image;
+      });
+    }
+
+    Future getGallery() async {
+      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        _image = image;
+      });
+    }
+
     this._arguments = ModalRoute.of(context).settings.arguments as AuthArguments;
 
     return Scaffold(
@@ -89,15 +109,85 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(height: 15),
 
               HaweyatiTextField(
-                keyboardType: TextInputType.emailAddress,
-                label: "Vehicle",
-                controller: vehicle,
-                icon: Icons.train,
+                label: "City",
+                controller:city,
+                icon: Icons.location_city,
                 validator: (value) {
-                  return value.isEmpty ? "Please Enter Vehicle" : null;
+                  return value.isEmpty ? "Please Enter City" : null;
                 },
                 context: context,
               ),
+
+              SizedBox(height: 15),
+
+              HaweyatiTextField(
+                label: "Address",
+                controller:address,
+                icon: Icons.add_location,
+                validator: (value) {
+                  return value.isEmpty ? "Please Enter Address" : null;
+                },
+                context: context,
+              ),
+              SizedBox(height: 15),
+
+              HaweyatiTextField(
+                label: "Location",
+                controller:location,
+                icon: Icons.location_on,
+                validator: (value) {
+                  return value.isEmpty ? "Please Enter Location" : null;
+                },
+                context: context,
+              ),
+
+
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    FlatButton(
+                      onPressed: getCamera,
+                      child: Text("Camera"),
+                      shape: StadiumBorder(),
+                      textColor: Colors.white,
+                      color: Theme
+                          .of(context)
+                          .accentColor,
+                    ),
+                    FlatButton(
+                      onPressed: getGallery,
+                      child: Text("Gallery"),
+                      shape: StadiumBorder(),
+                      textColor: Colors.white,
+                      color: Theme
+                          .of(context)
+                          .accentColor,
+                    )
+                  ]
+              ),
+              SizedBox(height: 10),
+              Container(
+                height: 200.0,
+                width: 150,
+                child: _image == null ? Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(width: 2, color: Theme
+                            .of(context)
+                            .accentColor)),
+                    child: Center(child: Text('No image selected.')))
+                    : ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Image.file(
+                      _image, fit: BoxFit.cover,
+                    )
+                ),
+              ),
+
+
+              SizedBox(height: 15),
+
 
 //              SizedBox(height: 20,),
 //              GestureDetector(onTap: (){                  if (_formKey.currentState.validate()) {

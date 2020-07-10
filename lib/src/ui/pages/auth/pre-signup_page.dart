@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/signup_page.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/driver-signup_page.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/supplier-signup_page.dart';
 
 class PreSignUpPage extends StatelessWidget {
   @override
@@ -15,7 +16,7 @@ class PreSignUpPage extends StatelessWidget {
           _buildButton(
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => SignUpPage()));
+                  MaterialPageRoute(builder: (context) => DriverSignUpPage()));
             },
             btnName: "SIGNUP AS DRIVER",
             color: Theme.of(context).accentColor
@@ -26,7 +27,7 @@ class PreSignUpPage extends StatelessWidget {
           _buildButton(
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => SignUpPage()));
+                  MaterialPageRoute(builder: (context) => SupplierSignUpPage()));
             },
             btnName: "SIGNUP AS SUPPLIER ",
             color: Theme.of(context).primaryColor

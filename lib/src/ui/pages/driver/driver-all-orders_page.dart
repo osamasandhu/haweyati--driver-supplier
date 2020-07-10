@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
-import 'package:haweyati_supplier_driver_app/customNa.dart';
-import 'package:haweyati_supplier_driver_app/notification.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/driver/driver-completedOrders.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/driver/driver-order.dart';
+import 'package:haweyati_supplier_driver_app/widgits/customNa.dart';
+import 'package:haweyati_supplier_driver_app/widgits/notification.dart';
 
-import '../../../../helpline_page.dart';
-import '../../../driver-supplier-map.dart';
-import '../../../map-page.dart';
+import '../../../../widgits/helpline_page.dart';
 
 class DriverAllOrdersPage extends StatelessWidget {
   final _scrollController = ScrollController();
@@ -66,11 +65,8 @@ class DriverAllOrdersPage extends StatelessWidget {
               child: Column(children: <Widget>[
                 _buildListTile(title: "Home",onTap: (){Navigator.of(context).pop();},icon: Icons.home),
                 _buildListTile(title: "My Profile",onTap: (){CustomNavigator.navigateTo(context, PersonContact());},icon: Icons.person),
-                _buildListTile(title: "Map",onTap: (){
+                _buildListTile(title: "Completed Order",onTap: (){CustomNavigator.navigateTo(context, DriverCompletedOrders());},icon: Icons.format_list_numbered),
 
-                  CustomNavigator.navigateTo(context, MapPage());
-
-                },icon: Icons.location_on),
                 _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamedAndRemoveUntil('/pre-sign-in', (_)=>false);},icon: Icons.exit_to_app),
               ]),
             ))
@@ -147,9 +143,9 @@ class DriverAllOrdersPage extends StatelessWidget {
                   height: 100,
                   child: Column(children: <Widget>[
 
-detail(text1: "Rating",text2: "4.5",context: context),
-                    detail(text1: "Orders",text2: "60",context: context),
-                    detail(text1: "Monthly Income",text2: "120000.00",context: context),
+                    detail(icon: Icons.format_list_numbered, text1: "Orders", text2: "60", context: context),
+                    detail(icon: Icons.star_border, text1: "Rating", text2: "4.5", context: context),
+                    detail(icon: Icons.attach_money, text1: "Monthly Income", text2: "120000.00",context: context),
 
                   ]
                     ,),
@@ -174,8 +170,7 @@ detail(text1: "Rating",text2: "4.5",context: context),
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
+color: Colors.white,                    boxShadow: [
                       BoxShadow(
                         blurRadius: 10,
                         spreadRadius: 1,
@@ -185,14 +180,16 @@ detail(text1: "Rating",text2: "4.5",context: context),
                     borderRadius: BorderRadius.circular(10),
                   ),
 
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
+                  child:
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
 
-                        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                          Text("M-3917", style: TextStyle(
+                      Container(padding: EdgeInsets.all(15),
+                        decoration: BoxDecoration(                        color: Colors.red[300],
+                      borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft: Radius.circular(10) )),
+                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
+                          Text("M-3917", style: TextStyle(color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 18
                           )),
@@ -200,26 +197,40 @@ detail(text1: "Rating",text2: "4.5",context: context),
                           Text("15 min ago", style: TextStyle(
                             fontStyle: FontStyle.italic,
                             fontSize: 12,
-                            color: Colors.grey
+                            color: Colors.white
                           )),
                         ]),
+                      ),
 
-                        SizedBox(height: 20),
+SizedBox(height: 15,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text("Pick-up Address"),
+                      ),
+                      SizedBox(height: 7),
 
-                        Text("Pick-up Address"),
-                        SizedBox(height: 7),
-_cupertino(context: context,text: "fnafnafnalfnfa;klnfakslnf"),
-                        SizedBox(height: 20),
+                      Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 20),
+  child:   _cupertino(context: context,text: "fnafnafnalfnfa;klnfakslnf"),
+),
+                      SizedBox(height: 20),
 
-                        Text("Drop-off Address"),
-                        SizedBox(height: 7),
-                        _cupertino(context: context,text: "fnafnafnalfnfa;klnfakslnf"),
-                        SizedBox(height: 15),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Text("Drop-off Address"),
+                      ),
+                      SizedBox(height: 7),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: _cupertino(context: context,text: "fnafnafnalfnfa;klnfakslnf"),
+                      ),
 
-                        _buildRow(name1: "Construction Dumpster" ,name2: "12 Yard Dumpster "),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.start,
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: _buildRow(name1: "Construction Dumpster" ,name2: "12 Yard Dumpster "),
+                      ),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.start,
                   )
                 ),
               ),
@@ -244,18 +255,18 @@ _cupertino(context: context,text: "fnafnafnalfnfa;klnfakslnf"),
     );
   }
 
-  Widget detail({String text1,String text2,BuildContext context}){
+  Widget detail({ String text1,String text2,BuildContext context,IconData icon}){
 
     return   Padding(
-    padding: const EdgeInsets.all(8.0),
-    child: Row( children: <Widget>[
+      padding: const EdgeInsets.all(8.0),
+      child: Row( children: <Widget>[
 
-
-    Expanded(flex: 1, child: Text(text1,style: TextStyle(fontSize: 14,color: Colors.white),)),
-    Expanded(flex: 2, child: Text(text2,style: TextStyle(fontSize: 14,color:Theme.of(context).accentColor),)),
-    ] ),
+        Icon(icon,color: Colors.white,),SizedBox(width: 10,),
+        Expanded(flex: 1, child: Text(text1,style: TextStyle(fontSize: 14,color: Colors.white),)),SizedBox(width: 25,),
+        Expanded(flex: 2, child: Text(text2,style: TextStyle(fontSize: 14,color:Theme.of(context).accentColor),)),
+      ] ),
     );
-}
+  }
   Widget _buildListTile({IconData icon, String title, Function onTap}) {
     return ListTile(onTap: onTap
       ,

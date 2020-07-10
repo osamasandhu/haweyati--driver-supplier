@@ -1,38 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/widgits/scrollable_page.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../widgits/emptyContainer.dart';
 
-class ViewAllSelectedOrders extends StatefulWidget {
+class MutilpeOrders extends StatefulWidget {
   @override
-  _ViewAllSelectedOrdersState createState() => _ViewAllSelectedOrdersState();
+  _MutilpeOrdersState createState() => _MutilpeOrdersState();
 }
 
-class _ViewAllSelectedOrdersState extends State<ViewAllSelectedOrders> {
+class _MutilpeOrdersState extends State<MutilpeOrders> {
 
-  _launchWhatsapp(String phone) async {
-    if (await canLaunch(phone)) {
-      await launch('whatsapp://send?phone=$phone');
-    } else {
-      await launch('https://api.whatsapp.com/send?phone=$phone‬');
-//      throw 'Could not launch $url';
-    }
-  }
+  bool value =false;
+  bool value2 =false;
   @override
+
+
   Widget build(BuildContext context) {
     return ScrollablePage(
-appBar: AppBar(backgroundColor: Theme.of(context).primaryColor, actions: <Widget>[
-  IconButton(icon: Icon(Icons.call), onPressed: (){
-
-
-    _launchWhatsapp('+923472363720}');
-
-
-  })
-
-],),      title: 'Selected Orders',
+      title: 'Order Details',
       subtitle: 'asdasdasdasd asd as da sd as da sd asd ',
 
       child: SliverList(delegate: SliverChildListDelegate([
@@ -43,11 +29,21 @@ appBar: AppBar(backgroundColor: Theme.of(context).primaryColor, actions: <Widget
               padding: const EdgeInsets.all(8.0),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _buildtext("Order Date- 23 March 2020, 12:23 Pm"),
+                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      _buildtext("Order Date- 02 July 2020, 08:06 Pm"),
+                      CupertinoSwitch(activeColor: Theme.of(context).accentColor, value: value, onChanged: (val){
+
+                        setState(() {
+                          value=val;
+                        });
+                      })
+                    ],
+                  ),
                   SizedBox(height: 10),
                   _buildtext("Order ID - HW18234",),
                   SizedBox(height: 15),
-                  _buildImageRow(),
+                  _buildImageRow(color: Theme.of(context).accentColor,name: "Item 1"),
                   SizedBox(height: 20),
                   Row(children: <Widget>[
                     _buildtext("Quantity"),
@@ -63,6 +59,48 @@ appBar: AppBar(backgroundColor: Theme.of(context).primaryColor, actions: <Widget
             ),
           ),
         ),
+
+
+
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: EmptyContainer(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      _buildtext("Order Date- 02 July 2020, 08:06 Pm"),
+                      CupertinoSwitch(activeColor: Theme.of(context).accentColor, value: value2, onChanged: (val){
+
+                        setState(() {
+                          value2=val;
+                        });
+                      })
+                    ],
+                  ), SizedBox(height: 10),
+                  _buildtext("Order ID - HW1364",),
+                  SizedBox(height: 15),
+                  _buildImageRow(color: Theme.of(context).primaryColor,name: "Item 2"),
+                  SizedBox(height: 20),
+                  Row(children: <Widget>[
+                    _buildtext("Quantity"),
+                    _buildtext("3 Piece"),
+                  ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
+                  SizedBox(height: 15,),
+                  Row(children: <Widget>[
+                    _buildtext("Total"),
+                    Text("364 SR", style: TextStyle(fontWeight: FontWeight.bold),)
+                  ], mainAxisAlignment: MainAxisAlignment.spaceBetween)
+                ],
+              ),
+            ),
+          ),
+        ),
+
+
 
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -105,7 +143,7 @@ appBar: AppBar(backgroundColor: Theme.of(context).primaryColor, actions: <Widget
                         [
                           Icon(Icons.location_on),
                           Expanded(
-                              child: Text("lsajdoisa iu isc isa ciusa ciu i")
+                              child: Text("data sdsa ddsv  ds dsds ds ds dd d d ds ds ds dsdd d")
                           ),
                         ],
                       ),
@@ -132,25 +170,20 @@ appBar: AppBar(backgroundColor: Theme.of(context).primaryColor, actions: <Widget
 
       ])),
 
-      action: "Contact",
-      onAction: (){
-      _launchWhatsapp('+923472363720}');
-    },
-      showButtonBackground: true,
     );
   }
 
   Widget _buildtext(String text) {
     return Text(text,style: TextStyle(fontSize: 11),);
   }
-  Widget _buildImageRow(){
+  Widget _buildImageRow({String name ,Color color}){
     return Row(
       children: <Widget>[
-        Container(width: 60,height: 60,color: Theme.of(context).accentColor,),
+        Container(width: 60,height: 60,color: color,),
         SizedBox(
           width: 12,
         ),
-        Text("Order",
+        Text(name,
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold),
         )

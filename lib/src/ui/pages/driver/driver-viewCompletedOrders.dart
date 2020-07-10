@@ -1,39 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/widgits/scrollable_page.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../widgits/emptyContainer.dart';
 
-class ViewAllSelectedOrders extends StatefulWidget {
+class DriverViewAllCompletedOrders extends StatefulWidget {
   @override
-  _ViewAllSelectedOrdersState createState() => _ViewAllSelectedOrdersState();
+  _DriverViewAllCompletedOrdersState createState() => _DriverViewAllCompletedOrdersState();
 }
 
-class _ViewAllSelectedOrdersState extends State<ViewAllSelectedOrders> {
+class _DriverViewAllCompletedOrdersState extends State<DriverViewAllCompletedOrders> {
 
-  _launchWhatsapp(String phone) async {
-    if (await canLaunch(phone)) {
-      await launch('whatsapp://send?phone=$phone');
-    } else {
-      await launch('https://api.whatsapp.com/send?phone=$phone‬');
-//      throw 'Could not launch $url';
-    }
-  }
   @override
   Widget build(BuildContext context) {
     return ScrollablePage(
-appBar: AppBar(backgroundColor: Theme.of(context).primaryColor, actions: <Widget>[
-  IconButton(icon: Icon(Icons.call), onPressed: (){
-
-
-    _launchWhatsapp('+923472363720}');
-
-
-  })
-
-],),      title: 'Selected Orders',
-      subtitle: 'asdasdasdasd asd as da sd as da sd asd ',
+      appBar: AppBar(backgroundColor: Theme.of(context).primaryColor,),      title: 'Completed Orders',
+      subtitle: 'Here is the Detail of Your Pending Order',
 
       child: SliverList(delegate: SliverChildListDelegate([
         Padding(
@@ -131,12 +113,12 @@ appBar: AppBar(backgroundColor: Theme.of(context).primaryColor, actions: <Widget
         ),
 
       ])),
-
-      action: "Contact",
-      onAction: (){
-      _launchWhatsapp('+923472363720}');
-    },
-      showButtonBackground: true,
+//
+//      action: "Contact",
+//      onAction: (){
+//        _launchWhatsapp('+923472363720}');
+//      },
+//      showButtonBackground: true,
     );
   }
 

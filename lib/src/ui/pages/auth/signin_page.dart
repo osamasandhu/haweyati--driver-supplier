@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/phoneNumber.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/auth-arguments.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/waiting-dialog.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
+import 'package:haweyati_supplier_driver_app/widgits/customNa.dart';
 
 import 'package:haweyati_supplier_driver_app/widgits/haweyati_Textfield.dart';
 
@@ -87,7 +89,7 @@ class _SignInPageState extends State<SignInPage> {
 
                 HaweyatiTextField(
                   keyboardType: TextInputType.emailAddress,
-                  label: "Email",
+                  label: "Email or Phone Number",
                   controller: email,
                   validator: (value) {
                     return value.isEmpty ? "Please Enter Email" : null;
@@ -111,16 +113,8 @@ class _SignInPageState extends State<SignInPage> {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: InkWell(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text("Not yet available"),
-                            content: Text("Wait for the API to be built."),
-                          );
-                        }
-                      );
+                    onTap: () {CustomNavigator.navigateTo(context,PhoneNumber());
+
                     },
                     child: Text("Forget password?",
                       style: TextStyle(
