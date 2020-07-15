@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'routes.dart';
 
 class HaweyatiBusinessApp extends StatelessWidget {
+  final SharedPreferences prefs;
+  HaweyatiBusinessApp(this.prefs);
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -24,7 +27,8 @@ class HaweyatiBusinessApp extends StatelessWidget {
 //          supportedLocales: context.supportedLocales,
 //          localizationsDelegates: context.localizationDelegates,
 
-        initialRoute: "/pre-sign-in",
+//        initialRoute: "/select-location",
+        initialRoute:  prefs.getString('city') == null ? "/select-location" : "/pre-sign-in"  ,
         routes: routes,
       )
     );

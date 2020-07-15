@@ -211,18 +211,6 @@ appBar:AppBar(leading: IconButton(
   }
 
 
-  Widget _builRow({String name1, String name2}) {
-    return Row(
-      children: <Widget>[
-
-        Text("$name1 :",style: TextStyle(fontWeight: FontWeight.w700),),
-        SizedBox(width: 10,),
-        Expanded(child: Text(name2)),
-      ],
-    );
-
-
-  }
 
   Widget _cupertino({BuildContext context, String text}){
     return CupertinoTextField(onTap: () {

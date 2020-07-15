@@ -8,7 +8,6 @@ import '../../../../widgits/helpline_page.dart';
 class CompletedOrders extends StatelessWidget {
 
   ScrollController scrollController = ScrollController();
-  final _drawerKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -183,19 +182,6 @@ class CompletedOrders extends StatelessWidget {
       ]),
     );
   }
-
-  Widget _buildListTile({IconData icon, String title, Function onTap}) {
-    return ListTile(onTap: onTap
-      ,
-      leading: Icon(icon, color: Colors.white, size: 30,),
-      title: Text(
-        title,
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-  }
-
-
 
 
 }

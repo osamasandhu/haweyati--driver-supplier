@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/supplier-signup_page.dart';
 import 'package:haweyati_supplier_driver_app/verification.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
 import 'package:haweyati_supplier_driver_app/widgits/haweyati_Textfield.dart';
