@@ -1,10 +1,10 @@
 
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/auth-arguments.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
 import 'package:haweyati_supplier_driver_app/widgits/haweyati_Textfield.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddDriverPage extends StatefulWidget {
   @override

@@ -59,7 +59,8 @@ class _SignInPageState extends State<SignInPage> {
         height: 50,
         child: Align(
           alignment: Alignment(0, -1),
-          child: GestureDetector(
+          child:
+          GestureDetector(
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/sign-up', arguments: _arguments);
             },

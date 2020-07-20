@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/dumpster/add-dumpster.dart';
 import 'package:haweyati_supplier_driver_app/model/dumpster-Model.dart';
 import 'package:haweyati_supplier_driver_app/services/dumpster-service.dart';
+import 'package:haweyati_supplier_driver_app/services/haweyati-supplier-driver-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-future-builder.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
 import 'package:haweyati_supplier_driver_app/widgits/container-main.dart';
@@ -45,7 +46,7 @@ class DumpsterList extends StatefulWidget {
                 padding: EdgeInsets.all(15),
                 itemBuilder: (context, index) {
                   var _dumpster = snapshot.data[index];
-                  return  ContainerDetailList(name: _dumpster.size,imgpath: "http://192.168.1.105:4000/uploads/${_dumpster.images[0].name}");
+                  return  ContainerDetailList(name: _dumpster.size,imgpath: "$apiUrl/uploads/${_dumpster.images[0].name}");
                 });
           }),
 

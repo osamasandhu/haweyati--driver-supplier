@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
-final apiUrl = "http://192.168.1.109:4000";
+final apiUrl = "http://192.168.8.101:4000";
 
 abstract class HaweyatiSupplierDriverService<T> {
   Dio dio = Dio();
@@ -54,8 +54,9 @@ abstract class HaweyatiSupplierDriverService<T> {
     return jsonDecode(encodedData).cast<Map<String, dynamic>>();
   }
 
-  static post(String route,FormData data) async {
+  static post(String route, data) async {
     Dio dio = Dio();
+
     try {
       Response res = await dio.post("$apiUrl/$route", data: data);
       return res;

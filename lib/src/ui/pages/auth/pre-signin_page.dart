@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/auth-arguments.dart';
+import 'package:haweyati_supplier_driver_app/widgits/customNa.dart';
+
+import '../../../../emptypage.dart';
 
 class PreSignInPage extends StatelessWidget {
   @override
@@ -35,7 +38,10 @@ class PreSignInPage extends StatelessWidget {
 
             GestureDetector(
               child: Text("REGISTER NOW", style: TextStyle(color: Colors.grey)),
-              onTap: () => Navigator.of(context).pushNamed('/pre-sign-up')
+              onTap: (){CustomNavigator.navigateTo(context, Empty());}
+              //=>  Navigator.of(context).pushNamed('/pre-sign-up')
+
+
             ),
 
             SizedBox(height: 20)

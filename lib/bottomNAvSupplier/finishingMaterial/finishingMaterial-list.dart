@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/model/finishing-material-Model.dart';
 import 'package:haweyati_supplier_driver_app/services/finishing-material-Service.dart';
+import 'package:haweyati_supplier_driver_app/services/haweyati-supplier-driver-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-future-builder.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
 import 'package:haweyati_supplier_driver_app/widgits/container-main.dart';
@@ -54,7 +55,7 @@ class _FinsihingListState extends State<FinsihingList> {
                 return  ContainerDetailList(ontap: (){
                 CustomNavigator.navigateTo(context, FinishingMaterialSubList(
                 finshId:  _finishingMaterial.sId,
-                ));}, name: _finishingMaterial.name,imgpath: "http://192.168.1.105:4000/uploads/${_finishingMaterial.images[0].name}");
+                ));}, name: _finishingMaterial.name,imgpath: "$apiUrl/uploads/${_finishingMaterial.images[0].name}");
               });}
         })
 

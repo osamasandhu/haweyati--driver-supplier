@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/src/driver-supplier-map.dart';
+import 'package:haweyati_supplier_driver_app/src/map-page.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
+import 'package:haweyati_supplier_driver_app/widgits/customNa.dart';
+
 
 class PersonContact extends StatefulWidget {
   @override
@@ -37,6 +41,11 @@ class _PersonContactState extends State<PersonContact> {
             )
 ,
             _buildListTile(iconData: Icons.edit,title: "Me",onTap: (){}),
+            _buildListTile(title: "Map",onTap: (){
+
+              CustomNavigator.navigateTo(context, MapPage());
+
+            },iconData: Icons.location_on),
             _buildListTile(iconData: Icons.theaters,title: "Theme",onTap: (){}),
             ListTile(
               title: Text("Options",

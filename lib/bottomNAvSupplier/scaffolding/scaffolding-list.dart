@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/scaffolding/scaffoldingSublist.dart';
 import 'package:haweyati_supplier_driver_app/model/scaffolding-model.dart';
+import 'package:haweyati_supplier_driver_app/services/haweyati-supplier-driver-service.dart';
 import 'package:haweyati_supplier_driver_app/services/scaffolding-Service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-future-builder.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
@@ -36,7 +37,7 @@ class _ScaffoldingListState extends State<ScaffoldingList> {
               itemBuilder: (context, index) {
                 var _scaffolding = snapshot.data[index];
                 return  ContainerDetailList(name: _scaffolding.type,
-                    imgpath: "http://192.168.1.109:4000/uploads/${_scaffolding.suppliers}");
+                    imgpath: "$apiUrl/uploads/${_scaffolding.suppliers}");
               });})
 
     );

@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:haweyati_supplier_driver_app/model/fcm-Model.dart';
 import 'package:haweyati_supplier_driver_app/model/location-Model.dart';
 import 'package:haweyati_supplier_driver_app/model/order-location_model.dart';
 import 'package:haweyati_supplier_driver_app/model/supplier-Model.dart';
@@ -24,6 +26,10 @@ class SupplierSignUpPage extends StatefulWidget {
 }
 
 class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
+
+
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   File _image;
@@ -39,6 +45,7 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
   bool check1 = false;
   bool check2 = false;
   bool check3 = false;
+  String token;
 
   TextEditingController name = new TextEditingController();
   TextEditingController email = new TextEditingController();
@@ -53,10 +60,50 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
 
   @override
   void initState() {
+
     super.initState();
+    firebaseCloudMessaging_Listeners();
+
     initMap();
     suppliers = SupplierServices().getSupplier();
+
   }
+
+
+  void firebaseCloudMessaging_Listeners() {
+    if (Platform.isIOS) iOS_Permission();
+
+    _firebaseMessaging.getToken().then((abc){
+      print('THis is Your Mobile Token $abc');
+      setState(() {
+        token=abc;
+      });
+    });
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
+  }
+
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true)
+    );
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings)
+    {
+      print("Settings registered: $settings");
+    });
+  }
+
 
   initMap() async {
     prefs = await SharedPreferences.getInstance();
@@ -70,6 +117,12 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
       );
     });
   }
+
+
+
+
+
+
 
   Color selectedColor;
   Future<List<SupplierModel>> suppliers;
@@ -363,7 +416,7 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
                                       leading: CircleAvatar(
                                         backgroundColor: Colors.transparent,
                                         backgroundImage: NetworkImage(
-                                            "http://192.168.1.104:4000/uploads/${_supplier.images[0].name}"),
+                                            "$apiUrl/uploads/${_supplier.images[0].name}"),
                                       ),
                                       title: Text(_supplier.name),
                                       subtitle: Text(_supplier.address ?? 'Address not specified'),
@@ -390,6 +443,8 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
         elevation: 0,
         child: Icon(Icons.arrow_forward),
         onPressed: () async {
+
+print('This is Your Mobile Token $token');
           selectedServices.clear();
           if (check) selectedServices.add('Construction Dumpster');
           if (check1) selectedServices.add('Scaffolding');
@@ -402,6 +457,7 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
             ));
             return  print("You Are Submitting without Branch");
           }
+
           SupplierModel supplier = SupplierModel(
             name: name.text,
             city: userLocation.city,
@@ -416,10 +472,8 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
             shopParentId: shopParentId,
               address: userLocation.address,
 
-//            locationModel: location.text
-
           );
-          print(supplier.shopParentId);
+//          print(supplier.shopParentId);
 
           FormData supplierData = FormData.fromMap(supplier.toJson());
 
@@ -430,8 +484,20 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
                       filename: DateTime.now().toIso8601String())))
               : print('No image');
 
-          HaweyatiSupplierDriverService.post('suppliers', supplierData);
-//
+         var registered = await HaweyatiSupplierDriverService.post('suppliers', supplierData);
+
+//         print(registered.data['_id']);
+          print(registered.data);
+//          print(registered);
+          FcmModel fcm = FcmModel(
+                token: token,
+                person: registered.data['_id']
+              );
+
+              print(fcm.toJson());
+
+          await HaweyatiSupplierDriverService.post('fcm',fcm.toJson());
+          //
 //          if (_formKey.currentState.validate()) {
 //            showDialog(
 //                context: context,

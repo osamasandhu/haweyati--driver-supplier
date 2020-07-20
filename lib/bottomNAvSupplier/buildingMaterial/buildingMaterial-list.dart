@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/buildingMaterial/add-buildingmaterial.dart';
 import 'package:haweyati_supplier_driver_app/model/building-material-Model.dart';
 import 'package:haweyati_supplier_driver_app/services/building-material-service.dart';
+import 'package:haweyati_supplier_driver_app/services/haweyati-supplier-driver-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-future-builder.dart';
 import 'package:haweyati_supplier_driver_app/widgits/appBar.dart';
 import 'package:haweyati_supplier_driver_app/widgits/container-main.dart';
@@ -54,7 +55,7 @@ class _BuildingMaterialListState extends State<BuildingMaterialList> {
                     Productid: _buildingMaterial.sId,
 
                   ));}, name: _buildingMaterial.name,
-                      imgpath: "http://192.168.1.105:4000/uploads/${_buildingMaterial.images[0].name}");
+                      imgpath: "$apiUrl/uploads/${_buildingMaterial.images[0].name}");
                 });       }
           })
 
