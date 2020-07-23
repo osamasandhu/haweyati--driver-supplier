@@ -85,7 +85,7 @@ class Pricing {
 
   Pricing.fromJson(Map<String, dynamic> json) {
     city = json['city'];
-    city = json['price'];
+    price = json['price'].toString();
 
   }
 

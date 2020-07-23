@@ -7,12 +7,12 @@ import 'package:haweyati_supplier_driver_app/widgits/customNa.dart';
 
 import 'package:haweyati_supplier_driver_app/widgits/haweyati_Textfield.dart';
 
-class SignInPage extends StatefulWidget {
+class DriverSignInPage extends StatefulWidget {
   @override
-  _SignInPageState createState() => _SignInPageState();
+  _DriverSignInPageState createState() => _DriverSignInPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _DriverSignInPageState extends State<DriverSignInPage> {
   bool loading = false;
   AuthArguments _arguments;
   bool autoValidate = false;
@@ -38,8 +38,8 @@ class _SignInPageState extends State<SignInPage> {
         onPressed: () {
           if (_formKey.currentState.validate()) {
             showDialog(
-              context: context,
-              builder: (context) => WaitingDialog('Signing In, Please wait ...')
+                context: context,
+                builder: (context) => WaitingDialog('Signing In, Please wait ...')
             );
 
             Future.delayed(Duration(seconds: 2), () {
@@ -62,10 +62,10 @@ class _SignInPageState extends State<SignInPage> {
           child:
           GestureDetector(
             onTap: () {
-              Navigator.of(context).pushReplacementNamed('/sign-up', arguments: _arguments);
+              Navigator.of(context).pushReplacementNamed('/driver-pre-sign-up', arguments: _arguments);
             },
             child: Text("REGISTER NOW", style: TextStyle(
-              color: Theme.of(context).accentColor
+                color: Theme.of(context).accentColor
             )),
           ),
         ),
@@ -114,15 +114,15 @@ class _SignInPageState extends State<SignInPage> {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: InkWell(
-                    onTap: () {CustomNavigator.navigateTo(context,PhoneNumber());
+                      onTap: () {CustomNavigator.navigateTo(context,PhoneNumber());
 
-                    },
-                    child: Text("Forget password?",
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Theme.of(context).accentColor,
+                      },
+                      child: Text("Forget password?",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Theme.of(context).accentColor,
+                          )
                       )
-                    )
                   ),
                 ),
               ],

@@ -20,16 +20,23 @@ class PreSignInPage extends StatelessWidget {
             Spacer(flex: 2),
 
             _buildButton(
-              onTap: () => Navigator.of(context).pushNamed('/sign-in', arguments: AuthArguments(isDriver: true)),
-              btnName: "SIGN IN AS DRIVER",
+              onTap: () =>
+                  {
+                    print("Driver Sign in"),
+                    Navigator.of(context).pushNamed('/driver-sign-in', arguments: AuthArguments(isDriver: true)),}
+              ,btnName: "SIGN IN AS DRIVER",
               color: Theme.of(context).accentColor
             ),
 
             SizedBox(height: 20),
 
             _buildButton(
-              onTap: () => Navigator.of(context).pushNamed('/sign-in', arguments: AuthArguments()),
-
+              onTap: () =>
+              {
+                Navigator.of(context).pushNamed(
+                    '/supplier-sign-in', arguments: AuthArguments()),
+                print("Supplier Sign in"),
+              },
               btnName: "SIGN IN AS SUPPLIER ",
               color: Theme.of(context).primaryColor
             ),
@@ -38,8 +45,9 @@ class PreSignInPage extends StatelessWidget {
 
             GestureDetector(
               child: Text("REGISTER NOW", style: TextStyle(color: Colors.grey)),
-              onTap: (){CustomNavigator.navigateTo(context, Empty());}
-              //=>  Navigator.of(context).pushNamed('/pre-sign-up')
+              onTap: ()
+              //{CustomNavigator.navigateTo(context, Empty());}
+              =>  Navigator.of(context).pushNamed('/pre-sign-up')
 
 
             ),

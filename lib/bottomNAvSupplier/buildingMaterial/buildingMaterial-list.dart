@@ -52,7 +52,7 @@ class _BuildingMaterialListState extends State<BuildingMaterialList> {
                   var _buildingMaterial = snapshot.data[index];
                   return  ContainerDetailList(ontap: (){CustomNavigator.navigateTo(context, BuildingMaterialSubList(
 
-                    Productid: _buildingMaterial.sId,
+                    productId: _buildingMaterial.sId,
 
                   ));}, name: _buildingMaterial.name,
                       imgpath: "$apiUrl/uploads/${_buildingMaterial.images[0].name}");

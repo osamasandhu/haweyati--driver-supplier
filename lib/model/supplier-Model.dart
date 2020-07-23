@@ -2,6 +2,7 @@
 import 'package:haweyati_supplier_driver_app/model/location-Model.dart';
 
 class SupplierModel {
+  String scope;
   List<String> services;
   String sId;
   String address;
@@ -14,12 +15,17 @@ class SupplierModel {
   List<Images> images;
   String password;
   int iV;
+  double latitude;
+  double longitude;
   LocationModel locationModel;
 
 
   SupplierModel(
       {this.services,
         this.address,
+        this.latitude,
+        this.longitude,
+        this.scope,
         this.city,
         this.password,this.locationModel
         ,this.sId,this.shopParentId
@@ -44,9 +50,9 @@ class SupplierModel {
     city = json['city'];
     password = json['password'];
     if (json['images'] != null) {
-      images = new List<Images>();
+      images = List<Images>();
       json['images'].forEach((v) {
-        images.add(new Images.fromJson(v));
+        images.add(Images.fromJson(v));
       });
     }
     iV = json['__v'];
@@ -58,11 +64,14 @@ class SupplierModel {
     data['_id'] = this.sId;
     data['name'] = this.name;
     data['email'] = this.email;
+    data['latitude']=this.latitude.toString();
+    data['longitude']=this.longitude.toString();
+    data['address']=this.address;
     data['contact'] = this.contact;
+    data['scope'] = this.scope;
     data['status'] = this.status;
     data['city'] = this.city;
     data['password']=this.password;
-    data['address']=this.address;
     data['parent'] = this.shopParentId;
     if (this.images != null) {
       data['images'] = this.images.map((v) => v.toJson()).toList();
@@ -70,7 +79,6 @@ class SupplierModel {
     if (this.locationModel != null) {
       data['location'] = this.locationModel.toJson();
     }
-    data['__v'] = this.iV;
     return data;
   }
 }

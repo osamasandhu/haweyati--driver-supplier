@@ -26,8 +26,6 @@ class SupplierSignUpPage extends StatefulWidget {
 }
 
 class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
-
-
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
   var scaffoldKey = GlobalKey<ScaffoldState>();
@@ -51,32 +49,29 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
   TextEditingController email = new TextEditingController();
   TextEditingController password = new TextEditingController();
   TextEditingController phone = new TextEditingController();
- // TextEditingController city = new TextEditingController();
+  // TextEditingController city = new TextEditingController();
   TextEditingController address = new TextEditingController();
- // TextEditingController location = new TextEditingController();
+  // TextEditingController location = new TextEditingController();
   SharedPreferences prefs;
   UserLocation userLocation;
   DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
-
     super.initState();
     firebaseCloudMessaging_Listeners();
 
     initMap();
     suppliers = SupplierServices().getSupplier();
-
   }
-
 
   void firebaseCloudMessaging_Listeners() {
     if (Platform.isIOS) iOS_Permission();
 
-    _firebaseMessaging.getToken().then((abc){
+    _firebaseMessaging.getToken().then((abc) {
       print('THis is Your Mobile Token $abc');
       setState(() {
-        token=abc;
+        token = abc;
       });
     });
 
@@ -95,15 +90,12 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
 
   void iOS_Permission() {
     _firebaseMessaging.requestNotificationPermissions(
-        IosNotificationSettings(sound: true, badge: true, alert: true)
-    );
+        IosNotificationSettings(sound: true, badge: true, alert: true));
     _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings)
-    {
+        .listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
   }
-
 
   initMap() async {
     prefs = await SharedPreferences.getInstance();
@@ -111,18 +103,11 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
       userLocation = UserLocation(
         city: prefs.getString('city'),
         address: prefs.getString('address'),
-        cords: LatLng(
-            prefs.getDouble('latitude'), prefs.getDouble('longitude')
-        ),
+        cords:
+            LatLng(prefs.getDouble('latitude'), prefs.getDouble('longitude')),
       );
     });
   }
-
-
-
-
-
-
 
   Color selectedColor;
   Future<List<SupplierModel>> suppliers;
@@ -311,10 +296,12 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
                         ),
                         FlatButton.icon(
                             onPressed: () async {
-                              UserLocation location = await  Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => MyLocationMapPage(
-                                    editMode: true,
-                                  )));
+                              UserLocation location = await Navigator.of(
+                                      context)
+                                  .push(MaterialPageRoute(
+                                      builder: (context) => MyLocationMapPage(
+                                            editMode: true,
+                                          )));
                               setState(() {
                                 userLocation = location;
                               });
@@ -325,8 +312,8 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
                             ),
                             label: Text(
                               "Edit",
-                              style:
-                              TextStyle(color: Theme.of(context).accentColor),
+                              style: TextStyle(
+                                  color: Theme.of(context).accentColor),
                             ))
                       ],
                     ),
@@ -401,37 +388,38 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
               check5
                   ? Container(
                       height: 300,
-                        child: SimpleFutureBuilder.simpler(
-                            context: context,
-                            future: suppliers,
-                            builder:
-                                (AsyncSnapshot<List<SupplierModel>> snapshot) {
-                              return ListView.builder(
-                                  itemCount: snapshot.data.length,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  padding: EdgeInsets.only(bottom: 30),
-                                  itemBuilder: (context, index) {
-                                    var _supplier = snapshot.data[index];
-                                    return ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundColor: Colors.transparent,
-                                        backgroundImage: NetworkImage(
-                                            "$apiUrl/uploads/${_supplier.images[0].name}"),
-                                      ),
-                                      title: Text(_supplier.name),
-                                      subtitle: Text(_supplier.address ?? 'Address not specified'),
-                                      trailing: Radio(
-                                          value: _supplier.sId,
-                                          groupValue: shopParentId,
-                                          onChanged: (val) {
-                                            setState(() {
-                                              shopParentId = val;
-                                            });
-                                            print(shopParentId);
-                                          }),
-                                    );
-                                  });
-                            }),
+                      child: SimpleFutureBuilder.simpler(
+                          context: context,
+                          future: suppliers,
+                          builder:
+                              (AsyncSnapshot<List<SupplierModel>> snapshot) {
+                            return ListView.builder(
+                                itemCount: snapshot.data.length,
+                                physics: NeverScrollableScrollPhysics(),
+                                padding: EdgeInsets.only(bottom: 30),
+                                itemBuilder: (context, index) {
+                                  var _supplier = snapshot.data[index];
+                                  return ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundColor: Colors.transparent,
+                                      backgroundImage: NetworkImage(
+                                          "$apiUrl/uploads/${_supplier.images[0].name}"),
+                                    ),
+                                    title: Text(_supplier.name),
+                                    subtitle: Text(_supplier.address ??
+                                        'Address not specified'),
+                                    trailing: Radio(
+                                        value: _supplier.sId,
+                                        groupValue: shopParentId,
+                                        onChanged: (val) {
+                                          setState(() {
+                                            shopParentId = val;
+                                          });
+                                          print(shopParentId);
+                                        }),
+                                  );
+                                });
+                          }),
                     )
                   : Container()
             ],
@@ -444,7 +432,7 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
         child: Icon(Icons.arrow_forward),
         onPressed: () async {
 
-print('This is Your Mobile Token $token');
+//          print('This is Your Mobile Token $token');
           selectedServices.clear();
           if (check) selectedServices.add('Construction Dumpster');
           if (check1) selectedServices.add('Scaffolding');
@@ -455,48 +443,45 @@ print('This is Your Mobile Token $token');
             scaffoldKey.currentState.showSnackBar(SnackBar(
               content: Text("Please Select Branch"),
             ));
-            return  print("You Are Submitting without Branch");
+            return print("You Are Submitting without Branch");
           }
 
           SupplierModel supplier = SupplierModel(
             name: name.text,
+            scope: 'supplier',
             city: userLocation.city,
             contact: phone.text,
             password: password.text,
             email: email.text,
-            locationModel: LocationModel(
-              lat: userLocation.cords.latitude,
-              lng: userLocation.cords.longitude
-            ),
+              address: userLocation.address,
+              latitude: userLocation.cords.latitude,
+              longitude: userLocation.cords.longitude,
             services: selectedServices,
             shopParentId: shopParentId,
-              address: userLocation.address,
-
           );
-//          print(supplier.shopParentId);
 
           FormData supplierData = FormData.fromMap(supplier.toJson());
 
           _image != null
               ? supplierData.files.add(MapEntry(
-                  'images',
+                  'image',
                   await MultipartFile.fromFile(_image.path,
                       filename: DateTime.now().toIso8601String())))
               : print('No image');
-
-         var registered = await HaweyatiSupplierDriverService.post('suppliers', supplierData);
+//
+          var registered = await HaweyatiSupplierDriverService.post(
+              'suppliers', supplierData);
+//
+//          print(supplier.toJson());
 
 //         print(registered.data['_id']);
           print(registered.data);
 //          print(registered);
-          FcmModel fcm = FcmModel(
-                token: token,
-                person: registered.data['_id']
-              );
+          FcmModel fcm = FcmModel(token: token, person: registered.data['_id']);
 
-              print(fcm.toJson());
+          print(fcm.toJson());
 
-          await HaweyatiSupplierDriverService.post('fcm',fcm.toJson());
+//          await HaweyatiSupplierDriverService.post('fcm', fcm.toJson());
           //
 //          if (_formKey.currentState.validate()) {
 //            showDialog(

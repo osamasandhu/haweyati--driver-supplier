@@ -43,7 +43,8 @@ dev_dependencies:
     sdk: flutter
   image_picker: ^0.6.1+4
   flutter_pdfview: ^1.0.0+10
-
+  firebase_messaging: 6.0.16
+  firebase_auth: 0.16.1
 
 
 
