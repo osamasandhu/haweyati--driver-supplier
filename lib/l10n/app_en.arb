@@ -1,0 +1,137 @@
+{
+  "@@locale": "en",
+
+  "ourServices": "Our Services",
+  "@ourServices": {},
+  "ourServicesDescription": "Renting different sizes of construction dumpsters and different types of scaffolding. By just easy steps, it will be delivered to your site.",
+  "@ourServicesDescription": {},
+
+  "ourProducts": "Our Products",
+  "@ourProducts": {},
+  "ourProductsDescription": "You can buy any building & finishing materials as per your location & time schedule without contacting with any person.",
+  "@ourProductsDescription": {},
+
+  "ourTrucks": "Our Trucks",
+  "@ourTrucks": {},
+  "ourTrucksDescription": "Need to transfer your materials?Rent the right truck type to suit your materials volume with the right price",
+  "@ourTrucksDescription": {},
+
+  "paymentAndSecurity": "Payment & Security",
+  "@paymentAndSecurity": {},
+  "paymentAndSecurityDescription": "Pay with Mada, Visa/Mater Card and Apple pay for a secure & hands free deals, or choose cash on delivery option.",
+  "@paymentAndSecurityDescription": {},
+
+  "skip": "Skip",
+  "@skip": {},
+
+  "getStarted": "Get Started",
+  "@getStarted": {},
+
+
+  "location": "Location",
+  "@location": {},
+  "locationDescription": "Please select your site location. This location will be used to show the services & delivering your items. You can edit this location at any time.",
+  "@locationDescription": {},
+
+  "setYourLocation": "Set Your Location",
+  "@setYourLocation": {},
+
+
+  "useLocation": "Use Location?",
+  "@useLocation": {},
+  "useLocationMessage1": "This app wants to change your device settings.",
+  "@useLocationMessage1": {},
+  "useLocationMessage2": "Use Wifi and mobile networks for location",
+  "@useLocationMessage2": {},
+
+
+  "learnMore": "Learn More",
+  "@learnMore": {},
+
+
+  "fetchingCurrentCoordinates": "Fetching Current Coordinates",
+  "@fetchingCurrentCoordinates": {},
+  "fetchingLocationData": "Fetching Location Data",
+  "@fetchingLocationData": {},
+  "changingLanguage": "Changing Language",
+  "@changingLanguage": {},
+
+
+  "yes": "YES",
+  "@yes": {},
+  "no": "NO",
+  "@no": {},
+
+
+  "hello": "Hello",
+  "@hello": {},
+
+  "explore": "Explore our products and services",
+  "@explore": {},
+
+  "myOrders": "My Order",
+  "@myOrders": {},
+  "settings": "Settings",
+  "@settings": {},
+  "inviteFriends": "Invite Friends",
+  "@inviteFriends": {},
+  "rewards": "Rewards",
+  "@rewards": {},
+  "termsAndConditions": "Terms & Conditions",
+  "@termsAndConditions": {},
+  "rateApp": "Rate App",
+  "@rateApp": {},
+  "logout": "Sign out",
+  "@logout": {},
+
+
+  "signIn": "Sign in",
+  "@signIn": {},
+  "enterCredentials": "Enter your Credentials",
+  "@enterCredentials": {},
+  "signingIn": "Signing In",
+  "@signingIn": {},
+  "signingOut": "Signing Out",
+  "@signingOut": {},
+
+  "show": "Show",
+  "@show": {},
+  "hide": "Hide",
+  "@hide": {},
+  "yourPhone": "Your Phone",
+  "@yourPhone": {},
+  "yourPassword": "Your Password",
+  "@yourPassword": {},
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {},
+
+
+  "scaffoldings": "Scaffoldings",
+  "@scaffoldings": {},
+  "buildingMaterials": "Building Materials",
+  "@buildingMaterials": {},
+  "finishingMaterials": "Finishing Materials",
+  "@finishingMaterials": {},
+  "constructionDumpsters": "Construction Dumpsters",
+  "@constructionDumpsters": {},
+  "vehicles": "Vehicles",
+  "@vehicles": {},
+
+
+  "price": "{value} SAR",
+  "@price": {
+    "placeholders": {
+      "value": {
+      }
+    }
+  },
+  "nProducts": "{count,plural, =1{1 Product} other{{count} Products}}",
+  "@nProducts": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  }
+}

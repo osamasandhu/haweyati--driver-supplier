@@ -1,20 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/model/orders/dumpster-order_model.dart';
+import 'package:haweyati_supplier_driver_app/model/orders/order_model.dart';
+import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
+import 'package:haweyati_supplier_driver_app/utils/date-formatter.dart';
+import 'package:haweyati_supplier_driver_app/utils/haweyati-data.dart';
 import 'package:haweyati_supplier_driver_app/widgits/scrollable_page.dart';
-
 import '../../../../widgits/emptyContainer.dart';
 
 class DriverViewAllOrders extends StatefulWidget {
+  final Order order;
+  DriverViewAllOrders({this.order});
+
   @override
   _DriverViewAllOrdersState createState() => _DriverViewAllOrdersState();
 }
 
 class _DriverViewAllOrdersState extends State<DriverViewAllOrders> {
+
+  List<int> selectedOrderItems = [];
+  bool _lights = false;
+
+
   @override
   Widget build(BuildContext context) {
     return ScrollablePage(
       title: 'Order Details',
-      subtitle: 'asdasdasdasd asd as da sd as da sd asd ',
+      subtitle: '',
 
       child: SliverList(delegate: SliverChildListDelegate([
         Padding(
@@ -24,42 +37,100 @@ class _DriverViewAllOrdersState extends State<DriverViewAllOrders> {
               padding: const EdgeInsets.all(8.0),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _buildtext("Order Date- 23 March 2020, 12:23 Pm"),
+                  _buildtext("Order Date- ${formattedDate(widget.order.createdAt)},"
+                      " ${TimeOfDay.fromDateTime(widget.order.createdAt).format(context)}"),
                   SizedBox(height: 10),
-                  _buildtext("Order ID - HW18234",),
-                  SizedBox(height: 15),
-                  _buildImageRow(),
-                  SizedBox(height: 20),
-                  Row(children: <Widget>[
-                    _buildtext("Quantity"),
-                    _buildtext("1 Piece"),
-                  ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
-                  SizedBox(height: 15,),
-                  Row(children: <Widget>[
-                    _buildtext("Total"),
-                    Text("203 SR", style: TextStyle(fontWeight: FontWeight.bold),)
-                  ], mainAxisAlignment: MainAxisAlignment.spaceBetween)
+                  _buildtext("Order ID - ${widget.order.orderNo}",),
                 ],
               ),
             ),
           ),
         ),
 
-_shopcustomer(context: context,head: "Shop Information",name: "Ali",address: "sknfoiasn k skjc askjc sjk ",phone: "0347-26136150"),
-        _shopcustomer(context: context,head: "Customer Information",name: "Arslan",address: "sknfoiasn k skjc askjc sjk ",phone: "0346-9568123"),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: Column(children: buildItems(context, widget.order.order.items)),
+        ),
 
 
-
-
-
-
+        // _shopcustomer(context: context,head: "Shop Information",
+        //   name: "Ali",address: "sknfoiasn k skjc askjc sjk ",
+        //    phone: "0347-26136150"),
+        _shopcustomer(context: context,head: "Customer Information",
+            name: widget.order.customer.profile.name,
+            address: widget.order.customer.location?.address ?? '',
+            phone: widget.order.customer.profile.contact),
       ])),
 
       action: "Accept",
       onAction: () {
+        print(selectedOrderItems);
       },
       showButtonBackground: true,
     );
+  }
+
+  List<Widget> buildItems(BuildContext context, List<OrderItem> items) {
+    final List<Widget> list = [];
+
+    for (var i = 0; i < items.length; ++i) {
+      list.add(ClipRRect(
+        child: Stack(children: [
+          items[i].buildWidget(context),
+          items[i].supplierModel?.sId != AppData.supplier.sId?
+          Transform.translate(
+              offset: Offset(-55, -55),
+              child: Transform.rotate(
+                angle: 225.45,
+                child: Container(
+                    width: 100,
+                    height: 100,
+                    color: Theme.of(context).accentColor,
+                    child: Align(
+                      alignment: Alignment(0, .97),
+                      child: Text("Accepted", style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                          fontWeight: FontWeight.bold
+                      ), textAlign: TextAlign.center),
+                    )
+                ),
+              )
+          ): Container(),
+           ListTile(
+             trailing: Padding(
+               padding: const EdgeInsets.only(top:8.0),
+               child: Transform.scale(
+                 scale: 0.7,
+                 child: CupertinoSwitch(
+                   activeColor: Theme.of(context).accentColor,
+                      value: items[i].supplierModel!=null || selectedOrderItems.contains(i),
+                      onChanged: (bool value) async {
+                        setState(() {
+                          if(value){
+                            selectedOrderItems.add(i);
+                          } else {
+                            selectedOrderItems.remove(i);
+                          }
+                        });
+                     openLoadingDialog(context, "Submitting");
+                    await HaweyatiService.patch('orders/add-supplier', {
+                      'item' : i,
+                      'supplier' : AppData.supplier.toJson(),
+                      '_id' : widget.order.id,
+                      'flag' : selectedOrderItems.contains(i)
+                     });
+                    Navigator.pop(context);
+                      },
+                  ),
+               ),
+             ),
+           ),
+        ]),
+      ));
+    }
+
+    return list;
   }
 
   Widget _buildtext(String text) {
@@ -119,13 +190,15 @@ _shopcustomer(context: context,head: "Shop Information",name: "Ali",address: "sk
           borderRadius: BorderRadius.circular(10),),child:child
     );
   }
+
+
 }
+
 
 
 Widget _shopcustomer({BuildContext context, String head, String name, String phone, String address}){
 
-  return
-    Padding(
+  return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: EmptyContainer(child: Padding(
         padding: const EdgeInsets.all(8.0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 
 class ContainerDetailList extends StatefulWidget {
   String imgpath;
@@ -26,8 +27,7 @@ class _ContainerDetailListState extends State<ContainerDetailList> {
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: ListTile(
                   leading:
-                  Image.asset(widget.imgpath)
-                  , title: Text(
+Container(decoration: BoxDecoration(border: Border.all(width: 1,color: Colors.teal)), child: Image.network(HaweyatiService.resolveImage(widget.imgpath),width: 70,fit: BoxFit.fill,))                  , title: Text(
                 widget.name,
                 style: TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 16),

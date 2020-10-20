@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'appBar.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 
 class ScrollablePage extends StatelessWidget {
   final String title;
   final Widget child;
+  final Widget floatingActionButton;
   final AppBar appBar;
   final String action;
   final Drawer drawer;
@@ -20,6 +20,7 @@ class ScrollablePage extends StatelessWidget {
     this.title,
     this.child,
     this.action,
+    this.floatingActionButton,
     this.appBar,
     this.drawer,
     this.subtitle,
@@ -31,17 +32,18 @@ class ScrollablePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.white,
       key: key,
+      backgroundColor: Colors.white,
       appBar: this.appBar ?? HaweyatiAppBar(),
+      floatingActionButton: floatingActionButton,
       drawer: this.drawer,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: showBackgroundImage ? BoxDecoration(
           image: DecorationImage(
             alignment: Alignment(0, 1),
             image: AssetImage("assets/images/pattern.png"),
           )
-        ),
+        ): null,
         child: CustomScrollView(slivers: <Widget>[
           SliverPadding(
             padding: EdgeInsets.only(top: 30, bottom: 10),
@@ -55,10 +57,10 @@ class ScrollablePage extends StatelessWidget {
               )
             )),
           ),
-          SliverToBoxAdapter(child: Text(
+          SliverToBoxAdapter(child: subtitle !=null ?Text(
             subtitle,
             textAlign: TextAlign.center,
-          )),
+          ) : SizedBox()),
 
           SliverPadding(
             padding: const EdgeInsets.only(top: 40),
@@ -68,22 +70,25 @@ class ScrollablePage extends StatelessWidget {
       ),
 
       extendBody: !showButtonBackground,
-      bottomNavigationBar: Container(
-        color: showButtonBackground ? Colors.white : null,
-        child: this.action != null ? Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-          child: ConstrainedBox(
-            constraints: BoxConstraints.expand(height: 45),
-            child: FlatButton(
-              onPressed: onAction,
-              shape: StadiumBorder(),
-              textColor: Colors.white,
-              child: Text(this.action),
-              color: Theme.of(context).accentColor,
+      bottomNavigationBar: action!=null || onAction !=null ? Material(
+        elevation: showButtonBackground ? 20 : 0,
+        child: Container(
+          color: showButtonBackground ? Colors.white : null,
+          child: this.action != null ? Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+            child: ConstrainedBox(
+              constraints: BoxConstraints.expand(height: 45),
+              child: FlatButton(
+                onPressed: onAction,
+                shape: StadiumBorder(),
+                textColor: Colors.white,
+                child: Text(this.action),
+                color: Theme.of(context).accentColor,
+              ),
             ),
-          ),
-        ): null,
-      ),
+          ): null,
+        ),
+      ) : SizedBox(),
     );
   }
 }

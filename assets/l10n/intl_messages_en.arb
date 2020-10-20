@@ -1,0 +1,13 @@
+{
+  "@@last_modified": "2020-07-30T13:00:05.061870",
+  "signInAsDriver": "Sign In as Driver",
+  "@signInAsDriver": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "signInAsSupplier": "Sign In as Supplier",
+  "@signInAsSupplier": {
+    "type": "text",
+    "placeholders": {}
+  }
+}

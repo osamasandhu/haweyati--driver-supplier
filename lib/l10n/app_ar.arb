@@ -1,0 +1,136 @@
+{
+  "@@locale": "ar",
+
+  "ourServices": "خدماتنا",
+  "@ourServices": {},
+  "ourServicesDescription": "تأجير حاويات الدمار بمختلف مقاستها و عدة أنواع من السقالات، بخطوات بسيطة تصل إليك.",
+  "@ourServicesDescription": {},
+
+  "ourProducts": "منتجاتنا",
+  "@ourProducts": {},
+  "ourProductsDescription": "تستطيع شراء مواد البناء والتشطيب حسب موقعك وجدول أعمالك بدون التواصل مع أي.",
+  "@ourProductsDescription": {},
+
+  "ourTrucks": "منتجاتنا",
+  "@ourTrucks": {},
+  "ourTrucksDescription": "هل تحتاج لنقل المواد الخاصة بك؟إستأجر الشاحنة المناسبة لحجم بضاعتك بالسعر المناسب.",
+  "@ourTrucksDescription": {},
+
+  "paymentAndSecurity": "الدفع والأمان",
+  "@paymentAndSecurity": {},
+  "paymentAndSecurityDescription": "إدفع عن طريق التطبيق ببطاقة مدى، فيزا/ماستر كارد وأبل باي لعملية أمنة و بدون ملامسة. ويمكنك أيضا إختيار الدفع عند التوصيل.",
+  "@paymentAndSecurityDescription": {},
+
+  "skip": "تخطي",
+  "@skip": {},
+
+  "getStarted": "البدء",
+  "@getStarted": {},
+
+
+  "location": "الموقع",
+  "@location": {},
+  "locationDescription": "الرجاء تحديد موقع المشروع. هذا الموقع سيستخدم لإظهار الخدمات ولتوصيل بضائعك.يمكنك تغيير الموقع في أي وقت",
+  "@locationDescription": {},
+
+  "setYourLocation": "حدد موقعك",
+  "@setYourLocation": {},
+
+
+  "useLocation": "إستخدام الموقع؟",
+  "@useLocation": {},
+  "useLocationMessage1": "هذا التطبيق يريد تغيير إعدادات هاتفك.الرجاء فتح خدمة تحديد المواقع في جهازك للمتابعة.",
+  "@useLocationMessage1": {},
+  "useLocationMessage2": "استخدم شبكات الواي فاي والجوال لتحديد الموقع",
+  "@useLocationMessage2": {},
+
+
+  "learnMore": "Learn More",
+  "@learnMore": {},
+
+
+  "fetchingCurrentCoordinates": "إحضار الإحداثيات الحالية",
+  "@fetchingCurrentCoordinates": {},
+  "fetchingLocationData": "إحضار بيانات الموقع",
+  "@fetchingLocationData": {},
+  "changingLanguage": "تغيير اللغة",
+  "@changingLanguage": {},
+
+
+  "yes": "نعم",
+  "@yes": {},
+  "no": "ل",
+  "@no": {},
+
+
+  "hello": "مرحبا",
+  "@hello": {},
+
+  "explore": "اكتشف منتجاتنا وخدماتنا",
+  "@explore": {},
+
+  "myOrders": "طلباتي",
+  "@myOrders": {},
+  "settings": "الضبط",
+  "@settings": {},
+  "inviteFriends": "إدعو أصدقائك",
+  "@inviteFriends": {},
+  "rewards": "المكافاّت",
+  "@rewards": {},
+  "termsAndConditions": "الشروط والأحكام",
+  "@termsAndConditions": {},
+  "rateApp": "قيم البرنامج",
+  "@rateApp": {},
+  "signOut": "تسجيل الخروج",
+  "@signOut": {},
+
+
+  "signIn": "تسجيل الدخول",
+  "@signIn": {},
+  "enterCredentials": "أدخل بيانات الاعتماد الخاصة بك",
+  "@enterCredentials": {},
+  "signingIn": "تسجيل الدخول",
+  "@signingIn": {},
+  "signingOut": "تسجيل خروج",
+  "@signingOut": {},
+
+  "show": "تبين",
+  "@show": {},
+  "hide": "إخفاء",
+  "@hide": {},
+  "yourPhone": "هاتفك #",
+  "@yourPhone": {},
+  "yourPassword": "كلمتك السرية",
+  "@yourPassword": {},
+  "forgotPassword": "هل نسيت كلمة المرور؟",
+  "@forgotPassword": {},
+
+
+  "scaffoldings": "سقالات",
+  "@scaffoldings": {},
+  "buildingMaterials": "مواد بناء",
+  "@buildingMaterials": {},
+  "finishingMaterials": "مواد التشطيب",
+  "@finishingMaterials": {},
+  "constructionDumpsters": "حاويات الدمار",
+  "@constructionDumpsters": {},
+  "vehicles": "مركبات",
+  "@vehicles": {},
+
+  "price": "{value} SAR",
+  "@price": {
+    "placeholders": {
+      "value": {
+      }
+    }
+  },
+  "nProducts": "{count,plural, =1{1 المنتج} other{{count} منتجات}}",
+  "@nProducts": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  }
+}

@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/haweyatiMaterials.dart';
-import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/services/available-services_page.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/person.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/completedOrders.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/viewallselectedorders.dart';
-import 'package:haweyati_supplier_driver_app/widgits/notification.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/notifications_page.dart';
 
-import '../../../../widgits/customNa.dart';
-import '../../../../widgits/helpline_page.dart';
+import '../../widgets/custom-navigator.dart';
+import '../helpline_page.dart';
 
 
 
@@ -61,7 +61,7 @@ appBar:AppBar(leading: IconButton(
             height: 20,
           ),
           onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => NotificationPage()))
+              MaterialPageRoute(builder: (context) => NotificationsPage()))
       )
     ]
 ),
@@ -117,9 +117,9 @@ appBar:AppBar(leading: IconButton(
                     _buildListTile(title: "My Profile",onTap: (){CustomNavigator.navigateTo(context, PersonContact());},icon: Icons.person),
                     _buildListTile(title: "Completed Orders",onTap: (){CustomNavigator.navigateTo(context, CompletedOrders());},icon: Icons.format_list_numbered),
 
-                    _buildListTile(title: "Materials",onTap: (){CustomNavigator.navigateTo(context, HaweyatiMaterials());},icon: Icons.business),
+                    _buildListTile(title: "Materials",onTap: (){CustomNavigator.navigateTo(context, SupplierAvailableServicesPage());},icon: Icons.business),
 
-                    _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamedAndRemoveUntil('/pre-sign-in', (_)=>false);},icon: Icons.exit_to_app),
+                    _buildListTile(title: "Logout",onTap: (){Navigator.of(context).pushNamedAndRemoveUntil('/', (_)=>false);},icon: Icons.exit_to_app),
                   ]),
                 ))
               ], crossAxisAlignment: CrossAxisAlignment.start),
@@ -211,18 +211,6 @@ appBar:AppBar(leading: IconButton(
   }
 
 
-  Widget _builRow({String name1, String name2}) {
-    return Row(
-      children: <Widget>[
-
-        Text("$name1 :",style: TextStyle(fontWeight: FontWeight.w700),),
-        SizedBox(width: 10,),
-        Expanded(child: Text(name2)),
-      ],
-    );
-
-
-  }
 
   Widget _cupertino({BuildContext context, String text}){
     return CupertinoTextField(onTap: () {

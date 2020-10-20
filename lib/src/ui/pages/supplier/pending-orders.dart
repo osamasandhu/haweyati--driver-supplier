@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/bottomNAvSupplier/haweyatiMaterials.dart';
-import 'package:haweyati_supplier_driver_app/bottomPAges/chat/person.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/services/available-services_page.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/person.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/viewAllPendingOrders.dart';
-import 'package:haweyati_supplier_driver_app/widgits/notification.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/notifications_page.dart';
 
-import '../../../../widgits/customNa.dart';
-import '../../../../widgits/helpline_page.dart';
+import '../../widgets/custom-navigator.dart';
+import '../helpline_page.dart';
 class PendingOrders extends StatelessWidget {
 
   ScrollController scrollController = ScrollController();
@@ -59,7 +59,7 @@ class PendingOrders extends StatelessWidget {
                   onPressed: () =>
                       Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) => NotificationPage()))
+                              builder: (context) => NotificationsPage()))
               )
             ]
         ),
@@ -122,12 +122,12 @@ class PendingOrders extends StatelessWidget {
                       CustomNavigator.navigateTo(context, PersonContact());
                     }, icon: Icons.person),
                     _buildListTile(title: "Materials", onTap: () {
-                      CustomNavigator.navigateTo(context, HaweyatiMaterials());
+                      CustomNavigator.navigateTo(context, SupplierAvailableServicesPage());
                     }, icon: Icons.business),
 
                     _buildListTile(title: "Logout", onTap: () {
                       Navigator.of(context).pushNamedAndRemoveUntil(
-                          '/pre-sign-in', (_) => false);
+                          '/', (_) => false);
                     }, icon: Icons.exit_to_app),
                   ]),
                 ))

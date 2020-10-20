@@ -1,24 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/viewCompletedOrders.dart';
-import 'package:haweyati_supplier_driver_app/widgits/notification.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/notifications_page.dart';
+import '../../widgets/custom-navigator.dart';
+import '../helpline_page.dart';
 
-import '../../../../widgits/customNa.dart';
-import '../../../../widgits/helpline_page.dart';
 class CompletedOrders extends StatelessWidget {
-
   ScrollController scrollController = ScrollController();
-  final _drawerKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    return
-
-
-      Scaffold(
+    return Scaffold(
         appBar: AppBar(
-
-
             centerTitle: true,
             title: Padding(
               padding: const EdgeInsets.all(18.0),
@@ -49,7 +42,7 @@ class CompletedOrders extends StatelessWidget {
                   onPressed: () =>
                       Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) => NotificationPage()))
+                              builder: (context) => NotificationsPage()))
               )
             ]
         ),
@@ -183,19 +176,6 @@ class CompletedOrders extends StatelessWidget {
       ]),
     );
   }
-
-  Widget _buildListTile({IconData icon, String title, Function onTap}) {
-    return ListTile(onTap: onTap
-      ,
-      leading: Icon(icon, color: Colors.white, size: 30,),
-      title: Text(
-        title,
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-  }
-
-
 
 
 }

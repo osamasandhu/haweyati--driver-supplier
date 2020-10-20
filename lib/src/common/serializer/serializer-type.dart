@@ -1,0 +1,1 @@
+enum SerializerType { json, multipart }

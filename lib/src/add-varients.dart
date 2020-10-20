@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/widgits/add-varient-sheet.dart';
-import 'package:haweyati_supplier_driver_app/widgits/haweyati_Textfield.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/haweyati-text-field.dart';
 
-class Option{
+class Option {
   String name;
   List<String> values;
 

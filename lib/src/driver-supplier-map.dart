@@ -8,19 +8,19 @@ import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
-import '../google-maps-service.dart';
-import '../latlngcov.dart';
+import '../widgits/latlngcov.dart';
 import 'google-map-service.dart';
 
 String apiKey = 'AIzaSyDdNpY6LGWgHqRfTRZsKkVhocYOaER325w';
 
-class MapPage extends StatefulWidget {
-
+class DriverRouteMapPage extends StatefulWidget {
+  final List<LatLng> wayPoints;
+  DriverRouteMapPage({this.wayPoints});
   @override
-  State<MapPage> createState() => MyLocationMapPageState();
+  State<DriverRouteMapPage> createState() => MyLocationMapPageState();
 }
 
-class MyLocationMapPageState extends State<MapPage> {
+class MyLocationMapPageState extends State<DriverRouteMapPage> {
   BitmapDescriptor startPin;
   BitmapDescriptor destPin;
   GoogleMapsServices _googleMapServices = GoogleMapsServices();
@@ -49,11 +49,14 @@ class MyLocationMapPageState extends State<MapPage> {
         CameraUpdate.newCameraPosition(CameraPosition(target: driverLocation, zoom: 15.0)),
       );
     }
+    await createRoute();
   }
 
   void createRoute() async {
-    String route = await _googleMapServices.getRouteCoordinates(driverLocation, driverLocation);
+    print("called route");
+    String route = await _googleMapServices.getRouteCoordinates(driverLocation, widget.wayPoints);
     setState(() {
+      print("ASd");
       _polyLines.clear();
       _polyLines.add(Polyline(
           polylineId: PolylineId('route'),
