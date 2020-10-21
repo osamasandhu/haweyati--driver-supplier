@@ -1,5 +1,4 @@
-String timeAgoSinceDate(String dateString, {bool numericDates = true}) {
-  DateTime date = DateTime.parse(dateString);
+String timeAgoSinceDate(DateTime date, {bool numericDates = true}) {
   final date2 = DateTime.now();
   final difference = date2.difference(date);
 

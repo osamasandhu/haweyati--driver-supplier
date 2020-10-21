@@ -4,7 +4,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart'
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/message-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/raised-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/scroll_view.dart';
-import 'package:haweyati_supplier_driver_app/utils/haweyati-data.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
 import 'package:haweyati_supplier_driver_app/utils/validators.dart';
 import 'package:flutter/material.dart';

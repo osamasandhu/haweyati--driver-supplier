@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/src/l10n/l10n.dart';
+import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
 
 class PreSignInPage extends StatefulWidget {
   @override
@@ -21,13 +21,15 @@ class _PreSignInPageState extends State<PreSignInPage> {
 
           _buildButton(
             color: Theme.of(context).accentColor,
-            name: HaweyatiLocalization.of(context).signInAsDriver,
+            /// TODO: Add SignInAsSupplier
+            name: AppLocalizations.of(context).signIn,
             onTap: () => Navigator.of(context).pushNamed('/driver-sign-in'),
           ),
           SizedBox(height: 20),
           _buildButton(
             color: Theme.of(context).primaryColor,
-            name: HaweyatiLocalization.of(context).signInAsSupplier,
+            /// TODO: Add SignInAsDriver
+            name: AppLocalizations.of(context).signIn,
             onTap: () => Navigator.of(context).pushNamed('/supplier-sign-in'),
           ),
           SizedBox(height: 40),

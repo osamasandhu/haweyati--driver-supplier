@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:haweyati_supplier_driver_app/model/order/order_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/order-service.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/live-scrollable_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/order-tile.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-future-builder.dart';
 
@@ -16,11 +17,29 @@ class _SupplierAllOrdersListingState extends State<SupplierAllOrdersListing> {
   @override
   void initState() {
     super.initState();
-    orders = OrdersService().orders();
+    orders = OrdersService().supplierAllOrders();
+    debug(orders);
+  }
+
+  debug(dynamic value) {
+    value.then((val)=> print(val[0]));
   }
 
   @override
   Widget build(BuildContext context) {
+    return LiveScrollableView<Order>(
+      title: '',
+      subtitle: '',
+      loader: ()=> orders,
+      builder: (context,data){
+        return Padding(
+          padding: const EdgeInsets.all(10),
+          child: OrderTile(
+            order: data,
+          ),
+        );
+      },
+    );
     return SimpleFutureBuilder.simplerSliver(
       context: context,
       future: orders,

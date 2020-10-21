@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/model/common/profile_model.dart';
-import 'package:haweyati_supplier_driver_app/model/driver/driver_model.dart';
-import 'package:haweyati_supplier_driver_app/model/supplier/supplier_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/services/supplier-Services.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
@@ -13,7 +13,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/location-picker-widg
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-future-builder.dart';
 import 'package:haweyati_supplier_driver_app/supplier/auth-pages/waiting-approval_page.dart';
 import 'package:haweyati_supplier_driver_app/utils/fcm-token.dart';
-import 'package:haweyati_supplier_driver_app/utils/haweyati-data.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/utils/haweyati-utils.dart';
 import 'package:haweyati_supplier_driver_app/widgits/locations-map_page.dart';
 import 'package:haweyati_supplier_driver_app/widgits/round-drop-down-button.dart';
@@ -23,7 +23,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-form.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/haweyati-text-field.dart';
 
 class DriverSignUpPage extends StatefulWidget {
-  final PersonModel person;
+  final Profile person;
   final String phoneNumber;
   DriverSignUpPage({this.phoneNumber,this.person});
   @override
@@ -102,10 +102,10 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
               }
 
               var res;
-              DriverModel driver;
+              Driver driver;
               try {
                 res = await HaweyatiService.post('drivers', FormData.fromMap(map));
-                 driver = DriverModel.fromJson(res.data);
+                 driver = Driver.fromJson(res.data);
               } catch (e) {
                 Navigator.pop(context);
                 scaffoldKey.currentState.showSnackBar(SnackBar(

@@ -1,5 +1,5 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:haweyati_supplier_driver_app/model/supplier/supplier_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/pre-sign-in_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/person.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
@@ -11,7 +11,7 @@ import 'package:haweyati_supplier_driver_app/supplier/orders/listings/supplier-a
 import 'package:haweyati_supplier_driver_app/supplier/orders/listings/supplier-pending-orders-listing.dart';
 import 'package:haweyati_supplier_driver_app/supplier/orders/listings/supplier-selected-orders-listing.dart';
 import 'package:haweyati_supplier_driver_app/utils/fcm-token.dart';
-import 'package:haweyati_supplier_driver_app/utils/haweyati-data.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 
 class SupplierHomePage extends StatefulWidget {
   @override
@@ -167,11 +167,11 @@ class _SupplierHomePageState extends State<SupplierHomePage> {
 
           Expanded(child: SingleChildScrollView(child: Column(children: <Widget>[
             DrawerItem(icon: CupertinoIcons.home, text: 'Home', onTap: () => Navigator.of(context).pop()),
-            DrawerItem(icon: CupertinoIcons.person, text: 'Person', onTap: () {
+            DrawerItem(icon: CupertinoIcons.person, text: 'Account', onTap: () {
               CustomNavigator.navigateTo(context, PersonContact());
             }
             ),
-            DrawerItem(icon: Icons.monetization_on, text: 'Completed Orders', onTap: () => Navigator.of(context).pop()),
+            // DrawerItem(icon: Icons.monetization_on, text: 'Completed Orders', onTap: () => Navigator.of(context).pop()),
 
             DrawerItem(
                 text: 'Service Requests',
@@ -181,6 +181,7 @@ class _SupplierHomePageState extends State<SupplierHomePage> {
                   Navigator.of(context).pushNamed('/supplier-services');
                 }
             ),
+            DrawerItem(icon: Icons.star, text: 'Rate App', onTap: () => Navigator.of(context).pop()),
 
             // DrawerItem(icon: CupertinoIcons.news, text: 'Reports', onTap: () => Navigator.of(context).pop()),
             // DrawerItem(icon: CupertinoIcons.car, text: 'Driver', onTap: () => Navigator.of(context).pop()),
@@ -200,17 +201,17 @@ class _SupplierHomePageState extends State<SupplierHomePage> {
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.list),
-                title: Text('All Orders')
+                label: 'All Orders'
             ),
 
             BottomNavigationBarItem(
                 icon: Icon(Icons.playlist_add_check),
-                title: Text('Selected')
+                label: 'Selected'
             ),
 
             BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                title: Text('Pending')
+                icon: Icon(Icons.done_outline_rounded),
+                label: 'Completed'
             )
           ],
           currentIndex: _selectedIndex,

@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:haweyati_supplier_driver_app/model/common/location_model.dart';
-import 'package:haweyati_supplier_driver_app/utils/haweyati-data.dart';
+import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/widgits/locations-map_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart';
 import 'package:haweyati_supplier_driver_app/src/common/map-utils/map-utils.dart';
@@ -11,7 +11,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dar
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocationPickerWidget extends StatefulWidget {
-  final HiveLocation location;
+  final Location location;
   final Function(LocationPickerData) onChanged;
   LocationPickerWidget({this.onChanged,this.location});
 
@@ -21,7 +21,7 @@ class LocationPickerWidget extends StatefulWidget {
 
 class _LocationPickerWidgetState extends State<LocationPickerWidget> {
   LocationPickerData _data;
-  HiveLocation previouslySavedLocation;
+  Location previouslySavedLocation;
   SharedPreferences prefs;
 
   initPicker() async {
@@ -30,7 +30,7 @@ class _LocationPickerWidgetState extends State<LocationPickerWidget> {
     print(AppData.supplier.location.latitude);
     print(AppData.supplier.location.longitude);
 
-    previouslySavedLocation = HiveLocation(
+    previouslySavedLocation = Location(
       address: prefs.getString('address'),
       latitude: prefs.getDouble('latitude'),
       longitude: prefs.getDouble('longitude')

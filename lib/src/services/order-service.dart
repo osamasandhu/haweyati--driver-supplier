@@ -1,6 +1,6 @@
-import 'package:haweyati_supplier_driver_app/model/orders/order_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
-import 'package:haweyati_supplier_driver_app/utils/haweyati-data.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 
 class OrdersService extends HaweyatiService<Order> {
   @override
@@ -10,7 +10,7 @@ class OrdersService extends HaweyatiService<Order> {
   //   return this.getAll('orders');
   // }
 
-  Future<List<Order>> orders() async {
+  Future<List<Order>> supplierAllOrders() async {
     String services = '';
 
     for (var i = 0; i < AppData.supplier.services.length; ++i) {
@@ -20,10 +20,11 @@ class OrdersService extends HaweyatiService<Order> {
         services = services + '&services[]=' + AppData.supplier.services[i];
       }
     }
+    //Todo : Fix city bug it returns null or address instead
     return this.getAll('orders/filter$services&city=Jeddah');
   }
 
-  Future<List<Order>> selectedOrders() async {
+  Future<List<Order>> supplierSelectedOrders() async {
     return this.getAll('orders/supplier/${AppData.supplier.sId}');
   }
 

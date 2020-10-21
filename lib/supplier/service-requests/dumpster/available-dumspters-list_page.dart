@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/model/models/dumpster_model.dart';
-import 'package:haweyati_supplier_driver_app/model/dumpster-model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/services/dumpster/model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/dumpster-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/live-scrollable_body.dart';

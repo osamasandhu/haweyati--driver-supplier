@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:haweyati_supplier_driver_app/model/order-location_model.dart';
-import 'package:haweyati_supplier_driver_app/model/order/location_model.dart';
-import 'package:haweyati_supplier_driver_app/src/const.dart';
+import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/order-location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/edit-button.dart';

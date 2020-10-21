@@ -1,6 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
-import 'package:haweyati_supplier_driver_app/utils/haweyati-data.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 
 class FCMService {
   FirebaseMessaging firebaseMessaging = FirebaseMessaging();

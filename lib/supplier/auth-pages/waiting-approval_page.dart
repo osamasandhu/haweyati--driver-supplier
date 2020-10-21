@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/model/driver/driver_model.dart';
-import 'package:haweyati_supplier_driver_app/model/supplier/supplier_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/drivers_service.dart';
 import 'package:haweyati_supplier_driver_app/src/services/supplier-Services.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/pre-sign-in_page.dart';
@@ -10,7 +10,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-future-builder.dart';
-import 'package:haweyati_supplier_driver_app/utils/haweyati-data.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
 
 import '../supplier-homepage.dart';
@@ -23,7 +23,7 @@ class WaitingApproval extends StatefulWidget {
 class _WaitingApprovalState extends State<WaitingApproval> {
 
   Future<SupplierModel> supplier;
-  Future<DriverModel> driver;
+  Future<Driver> driver;
   var globalKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -37,7 +37,7 @@ class _WaitingApprovalState extends State<WaitingApproval> {
     if(AppData.isDriver){
 
       driver = DriverService().getDriver(AppData.driver.sId);
-      DriverModel driv = await driver;
+      Driver driv = await driver;
       print(driv.serialize());
       print("serialized");
       if(driv.status == 'Active'){
@@ -186,7 +186,7 @@ class _WaitingApprovalState extends State<WaitingApproval> {
             ) : SimpleFutureBuilder.simpler(
               context: context,
               future: driver,
-              builder: (DriverModel driver){
+              builder: (Driver driver){
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,15 +1,15 @@
-import 'package:haweyati_supplier_driver_app/model/common/profile_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 
-class PersonsService extends HaweyatiService<PersonModel> {
+class PersonsService extends HaweyatiService<Profile> {
   @override
-  PersonModel parse(Map<String, dynamic> item) => PersonModel.fromJson(item['profile'] ?? item);
+  Profile parse(Map<String, dynamic> item) => Profile.fromJson(item['profile'] ?? item);
 
-  Future<PersonModel> getSignedInPerson() async {
+  Future<Profile> getSignedInPerson() async {
     return await this.getOne('auth/profile');
   }
 
-  Future<PersonModel> getPersonByContact(String contact) async {
+  Future<Profile> getPersonByContact(String contact) async {
     return await this.getOne('persons/contact/$contact');
   }
 

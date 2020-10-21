@@ -7,7 +7,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/pre-sign-in_page.
 import 'package:haweyati_supplier_driver_app/src/ui/pages/change-password.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/driver/driver-selected-orders_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
-import 'package:haweyati_supplier_driver_app/utils/haweyati-data.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 
 class DriverHomePage extends StatefulWidget {
   @override

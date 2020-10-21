@@ -1,6 +1,6 @@
-import 'package:haweyati_supplier_driver_app/model/common/profile_model.dart';
-import 'package:haweyati_supplier_driver_app/model/driver/driver_model.dart';
-import 'package:haweyati_supplier_driver_app/model/supplier/supplier_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +18,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/haweyati-text-field.
 import 'package:haweyati_supplier_driver_app/supplier/auth-pages/supplier-sign-up_page.dart';
 import 'package:haweyati_supplier_driver_app/supplier/supplier-homepage.dart';
 import 'package:haweyati_supplier_driver_app/utils/fcm-token.dart';
-import 'package:haweyati_supplier_driver_app/utils/haweyati-data.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/utils/haweyati-utils.dart';
 import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
 import 'package:haweyati_supplier_driver_app/utils/validators.dart';
@@ -66,7 +66,7 @@ class SignInPage extends StatelessWidget {
 
             await Utils.setToken(token);
 
-            PersonModel person = await PersonsService().getSignedInPerson();
+            Profile person = await PersonsService().getSignedInPerson();
 
             if(_isSupplier){
               if(!person.scope.contains('supplier') && person.scope.contains('customer')){
@@ -83,7 +83,7 @@ class SignInPage extends StatelessWidget {
                 showSimpleSnackbar(scaffoldKey, "You are registered as a ${person.scope[0]}.Please use customer application",true);
                 return;
               }
-              DriverModel driver;
+              Driver driver;
               try{
                  driver = await DriverService().getDriverByPerson(person.id);
               } catch (e){

@@ -39,12 +39,17 @@ class ScrollableView extends Scaffold {
     Widget bottom,
     List<Widget> children,
     bool showBackground = false,
+    EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 15),
     PreferredSizeWidget appBar = const HaweyatiAppBar(),
   }): super(
       appBar: appBar,
       body: showBackground ? DottedBackgroundView(
+          padding: padding,
           child: CustomScrollView(slivers: children)
-      ): CustomScrollView(slivers: children),
+      ): Padding(
+        padding: padding,
+        child: CustomScrollView(slivers: children),
+      ),
       extendBody: bottom is FlatActionButton,
       bottomNavigationBar: bottom
   );

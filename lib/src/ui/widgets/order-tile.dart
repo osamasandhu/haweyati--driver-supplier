@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/model/order/order_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/order-detail_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/timeAgoSinceDate.dart';
+
+import 'custom-navigator.dart';
 
 class OrderTile extends StatelessWidget {
   final Order order;
@@ -11,6 +14,7 @@ class OrderTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
+        CustomNavigator.navigateTo(context, OrderDetailPage(order));
         // CustomNavigator.navigateTo(context, SupplierOrderDetail(order: order,));
       },
       child: Container(
@@ -43,39 +47,13 @@ class OrderTile extends StatelessWidget {
                 fontWeight: FontWeight.bold
               )),
               SizedBox(width: 10),
-              Text(timeAgoSinceDate(order.createdAt.toIso8601String()), style: TextStyle(
+              Text(timeAgoSinceDate(order.createdAt), style: TextStyle(
                 fontSize: 12,
                 color: Colors.white,
                 fontStyle: FontStyle.italic
               )),
             ]),
           ),
-          // SizedBox(height: 15,),
-//         Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 20),
-//           child: Text("Pick-up Address"),
-//         ),
-//         SizedBox(height: 7),
-//         Padding(
-//             padding: const EdgeInsets.symmetric(horizontal: 20),
-//             child: CupertinoTextField(
-//               onTap: () {
-// //              CustomNavigator.navigateTo(context, DriverViewAllOrders());
-//               },
-//               readOnly: true,
-//               padding: EdgeInsets.fromLTRB(10, 10, 0, 10),
-//               suffix: Padding(
-//                 padding: const EdgeInsets.all(8),
-//                 child: Icon(Icons.map),
-//               ),
-//               decoration: BoxDecoration(
-//                 color: Colors.grey.shade200,
-//                 borderRadius: BorderRadius.circular(8),
-//               ),
-//               style: TextStyle(color: Colors.grey.shade600),
-//               controller: TextEditingController(text: order.dropOff.dropOffAddress),
-//             )
-//         ),
           SizedBox(height: 20),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -96,13 +74,13 @@ class OrderTile extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8)
                 ),
                 style: TextStyle(color: Colors.grey.shade600),
-                // controller: TextEditingController(text: order.dropOff.dropOffAddress ?? ''),
+                controller: TextEditingController(text: order.location.address),
               )
           ),
           Padding(
             padding: const EdgeInsets.all(20),
             child: Wrap(children:  <Widget>[
-              // Text(order.service),
+              Text(Order.typeToString(order.type)),
              // order.subService !=null ? Text("12 Yard Dumpster ") : SizedBox(),
             ]
             )

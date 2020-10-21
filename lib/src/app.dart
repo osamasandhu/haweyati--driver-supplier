@@ -1,10 +1,12 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
+
 import 'routes.dart';
-import 'l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 class HaweyatiBusinessApp extends Theme {
-  HaweyatiBusinessApp(String route): super(
+  HaweyatiBusinessApp(): super(
     data: ThemeData(
       fontFamily: "Lato",
       appBarTheme: AppBarTheme(
@@ -17,24 +19,16 @@ class HaweyatiBusinessApp extends Theme {
       primaryColor: Color(0xff313f53),
       accentColor: Color(0xFFFF974D),
       inputDecorationTheme: InputDecorationTheme(
-          isDense: true,
-          border: OutlineInputBorder()
+        isDense: true,
+        border: OutlineInputBorder()
       ),
     ),
     child: CupertinoApp(
       routes: routes,
       title: 'Haweyati Business',
-      // initialRoute: route,
-      initialRoute: route,
-      localeResolutionCallback: (locale, locales) {
-        return locale;
-      },
 
-      localizationsDelegates: [
-        HaweyatiLocalization.delegate,
-        DefaultMaterialLocalizations.delegate
-      ],
-      supportedLocales: [const Locale('en'), const Locale('ar')],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     )
   );
 }

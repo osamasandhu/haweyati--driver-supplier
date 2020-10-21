@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:haweyati_supplier_driver_app/model/order/order_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/order-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/order-tile.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-future-builder.dart';
@@ -16,7 +16,7 @@ class _SupplierPendingOrdersListingState extends State<SupplierPendingOrdersList
   @override
   void initState() {
     super.initState();
-    orders = OrdersService().orders();
+    orders = OrdersService().supplierAllOrders();
     // orders.then((value) => print(value));
   }
 

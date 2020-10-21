@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/model/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/driver/orders/driver-order-detail.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/timeAgoSinceDate.dart';
 
@@ -13,7 +13,7 @@ class DriverOrderTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        CustomNavigator.navigateTo(context, DriverOrderDetail(order: order,));
+        // CustomNavigator.navigateTo(context, DriverOrderDetail(order: order,));
       },
       child: Container(
         decoration: BoxDecoration(
@@ -45,7 +45,7 @@ class DriverOrderTile extends StatelessWidget {
                   fontWeight: FontWeight.bold
               )),
               SizedBox(width: 10),
-              Text(timeAgoSinceDate(order.createdAt.toIso8601String()), style: TextStyle(
+              Text(timeAgoSinceDate(order.createdAt), style: TextStyle(
                   fontSize: 12,
                   color: Colors.white,
                   fontStyle: FontStyle.italic

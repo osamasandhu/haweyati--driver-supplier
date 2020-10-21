@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/model/common/location_model.dart';
-import 'package:haweyati_supplier_driver_app/model/driver/driver_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
@@ -11,7 +11,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/location-picker-widg
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/profile-image-picker.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-form.dart';
 import 'package:haweyati_supplier_driver_app/supplier/auth-pages/waiting-approval_page.dart';
-import 'package:haweyati_supplier_driver_app/utils/haweyati-data.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
 import 'package:haweyati_supplier_driver_app/utils/validators.dart';
 import 'package:haweyati_supplier_driver_app/widgits/locations-map_page.dart';
@@ -39,7 +39,7 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
   String selectedType = AppData.driver.vehicle.type;
 
   String imagePath;
-  HiveLocation location = AppData.driver.location;
+  Location location = AppData.driver.location;
   var name = TextEditingController.fromValue(TextEditingValue(text: AppData.driver.profile.name));
 //  var email = TextEditingController.fromValue(TextEditingValue(text: HaweyatiData.customer.profile.email));
   final key = GlobalKey<ScaffoldState>();
@@ -127,7 +127,7 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
               Navigator.pop(context);
               print(res.data);
               try{
-                await AppData.signIn(DriverModel.fromJson(res.data));
+                await AppData.signIn(Driver.fromJson(res.data));
                 if(isVehicleInfoChanged){
                   CustomNavigator.pushReplacement(context, WaitingApproval());
                 }else{

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/sign-in_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/driver-sign-up_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/pre-signup_page.dart';
@@ -13,11 +14,27 @@ import 'package:haweyati_supplier_driver_app/supplier/service-requests/finishing
 import 'package:haweyati_supplier_driver_app/supplier/supplier-homepage.dart';
 import 'package:haweyati_supplier_driver_app/widgits/locations-map_page.dart';
 import '../widgits/map.dart';
+import 'data.dart';
 import 'ui/pages/auth/pre-sign-in_page.dart';
 import 'ui/pages/supplier/services/available-services_page.dart';
 
-final routes = {
-  '/': (context) =>  PreSignInPage(),
+final routes = <String, Widget Function(BuildContext)>{
+  '/': (context) {
+    if (AppData.isSignedIn) {
+      if (AppData.isSupplier) {
+        return AppData.supplier.status == 'Active'
+            ? SupplierHomePage() : WaitingApproval();
+      } else if (AppData.isDriver) {
+        return AppData.supplier.status == 'Active'
+            ? DriverHomePage() : WaitingApproval();
+      } else {
+        throw Exception("Could not determine user type");
+      }
+    } else {
+      return PreSignInPage();
+    }
+  },
+
   '/helpline': (context) => HelplinePage(),
   '/notifications': (context) => NotificationsPage(),
   '/location-picker': (context) => LocationPickerPage(),

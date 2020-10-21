@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/model/common/profile_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/persons-service.dart';
 import 'package:haweyati_supplier_driver_app/src/pre-sign-up-phone-verification.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/driver-sign-up_page.dart';
@@ -27,7 +27,7 @@ class PreSignUpPage extends StatelessWidget {
             if(verifiedPhoneNumber!=null){
               openLoadingDialog(context, "Processing");
               try {
-                PersonModel person = await PersonsService().getPersonByContact(
+                Profile person = await PersonsService().getPersonByContact(
                     verifiedPhoneNumber);
                 Navigator.pop(context);
                 if (person != null) {
@@ -65,7 +65,7 @@ class PreSignUpPage extends StatelessWidget {
               if(verifiedPhoneNumber!=null){
                 openLoadingDialog(context, "Processing");
                 try {
-                  PersonModel person = await PersonsService()
+                  Profile person = await PersonsService()
                       .getPersonByContact(verifiedPhoneNumber);
                   Navigator.pop(context);
                   if (person != null) {

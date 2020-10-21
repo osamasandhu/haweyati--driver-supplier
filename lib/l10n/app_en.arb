@@ -133,5 +133,8 @@
         "format": "compact"
       }
     }
-  }
+  },
+
+  "signInAsDriver": "Sign In as Driver",
+  "@signInAsDriver": {}
 }

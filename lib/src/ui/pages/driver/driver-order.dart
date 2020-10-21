@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/model/orders/dumpster-order_model.dart';
-import 'package:haweyati_supplier_driver_app/model/orders/order_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/utils/date-formatter.dart';
-import 'package:haweyati_supplier_driver_app/utils/haweyati-data.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/widgits/scrollable_page.dart';
 import '../../../../widgits/emptyContainer.dart';
 
@@ -40,7 +40,7 @@ class _DriverViewAllOrdersState extends State<DriverViewAllOrders> {
                   _buildtext("Order Date- ${formattedDate(widget.order.createdAt)},"
                       " ${TimeOfDay.fromDateTime(widget.order.createdAt).format(context)}"),
                   SizedBox(height: 10),
-                  _buildtext("Order ID - ${widget.order.orderNo}",),
+                  _buildtext("Order ID - ${widget.order.number}",),
                 ],
               ),
             ),
@@ -49,7 +49,7 @@ class _DriverViewAllOrdersState extends State<DriverViewAllOrders> {
 
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15),
-          child: Column(children: buildItems(context, widget.order.order.items)),
+          child: Column(children: buildItems(context, widget.order.items)),
         ),
 
 
@@ -70,64 +70,64 @@ class _DriverViewAllOrdersState extends State<DriverViewAllOrders> {
     );
   }
 
-  List<Widget> buildItems(BuildContext context, List<OrderItem> items) {
+  List<Widget> buildItems(BuildContext context, List<OrderItemHolder> items) {
     final List<Widget> list = [];
 
     for (var i = 0; i < items.length; ++i) {
       list.add(ClipRRect(
-        child: Stack(children: [
-          items[i].buildWidget(context),
-          items[i].supplierModel?.sId != AppData.supplier.sId?
-          Transform.translate(
-              offset: Offset(-55, -55),
-              child: Transform.rotate(
-                angle: 225.45,
-                child: Container(
-                    width: 100,
-                    height: 100,
-                    color: Theme.of(context).accentColor,
-                    child: Align(
-                      alignment: Alignment(0, .97),
-                      child: Text("Accepted", style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 8,
-                          fontWeight: FontWeight.bold
-                      ), textAlign: TextAlign.center),
-                    )
-                ),
-              )
-          ): Container(),
-           ListTile(
-             trailing: Padding(
-               padding: const EdgeInsets.only(top:8.0),
-               child: Transform.scale(
-                 scale: 0.7,
-                 child: CupertinoSwitch(
-                   activeColor: Theme.of(context).accentColor,
-                      value: items[i].supplierModel!=null || selectedOrderItems.contains(i),
-                      onChanged: (bool value) async {
-                        setState(() {
-                          if(value){
-                            selectedOrderItems.add(i);
-                          } else {
-                            selectedOrderItems.remove(i);
-                          }
-                        });
-                     openLoadingDialog(context, "Submitting");
-                    await HaweyatiService.patch('orders/add-supplier', {
-                      'item' : i,
-                      'supplier' : AppData.supplier.toJson(),
-                      '_id' : widget.order.id,
-                      'flag' : selectedOrderItems.contains(i)
-                     });
-                    Navigator.pop(context);
-                      },
-                  ),
-               ),
-             ),
-           ),
-        ]),
-      ));
+        child: Stack(children: [])));
+      //     items[i].buildWidget(context),
+      //     items[i].supplierModel?.sId != AppData.supplier.sId?
+      //     Transform.translate(
+      //         offset: Offset(-55, -55),
+      //         child: Transform.rotate(
+      //           angle: 225.45,
+      //           child: Container(
+      //               width: 100,
+      //               height: 100,
+      //               color: Theme.of(context).accentColor,
+      //               child: Align(
+      //                 alignment: Alignment(0, .97),
+      //                 child: Text("Accepted", style: TextStyle(
+      //                     color: Colors.white,
+      //                     fontSize: 8,
+      //                     fontWeight: FontWeight.bold
+      //                 ), textAlign: TextAlign.center),
+      //               )
+      //           ),
+      //         )
+      //     ): Container(),
+      //      ListTile(
+      //        trailing: Padding(
+      //          padding: const EdgeInsets.only(top:8.0),
+      //          child: Transform.scale(
+      //            scale: 0.7,
+      //            child: CupertinoSwitch(
+      //              activeColor: Theme.of(context).accentColor,
+      //                 value: items[i].supplierModel!=null || selectedOrderItems.contains(i),
+      //                 onChanged: (bool value) async {
+      //                   setState(() {
+      //                     if(value){
+      //                       selectedOrderItems.add(i);
+      //                     } else {
+      //                       selectedOrderItems.remove(i);
+      //                     }
+      //                   });
+      //                openLoadingDialog(context, "Submitting");
+      //               await HaweyatiService.patch('orders/add-supplier', {
+      //                 'item' : i,
+      //                 'supplier' : AppData.supplier.toJson(),
+      //                 '_id' : widget.order.id,
+      //                 'flag' : selectedOrderItems.contains(i)
+      //                });
+      //               Navigator.pop(context);
+      //                 },
+      //             ),
+      //          ),
+      //        ),
+      //      ),
+      //   ]),
+      // ));
     }
 
     return list;

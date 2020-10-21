@@ -4,7 +4,7 @@ import 'package:haweyati_supplier_driver_app/src/driver-supplier-map.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/change-password.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/supplier/profile/edit-supplier-profile.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
-import 'package:haweyati_supplier_driver_app/utils/haweyati-data.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 
 
@@ -42,7 +42,7 @@ class _PersonContactState extends State<PersonContact> {
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             )
 ,
-            _buildListTile(iconData: Icons.edit,title: "Me",onTap: () async {
+            _buildListTile(iconData: Icons.edit,title: "Edit Profile",onTap: () async {
             await  CustomNavigator.navigateTo(context, EditSupplierProfile());
             setState(() {
 
@@ -51,17 +51,17 @@ class _PersonContactState extends State<PersonContact> {
         _buildListTile(iconData: Icons.lock,title: "Change Password",onTap: () async {
           CustomNavigator.navigateTo(context, ChangePassword());
         }),
-    _buildListTile(title: "Map",onTap: (){
-              CustomNavigator.navigateTo(context, DriverRouteMapPage());
-            },iconData: Icons.location_on),
-            _buildListTile(iconData: Icons.theaters,title: "Theme",onTap: (){}),
-            ListTile(
-              title: Text("Options",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            )
-            ,_buildListTile(iconData: Icons.lock,title: "Privacy Policy",onTap: (){}),
-            _buildListTile(iconData: Icons.aspect_ratio,title: "Rate Us",onTap: (){}),
-            _buildListTile(iconData: Icons.help,title: "Help",onTap: (){}),
+           // _buildListTile(title: "Map",onTap: (){
+           //    CustomNavigator.navigateTo(context, DriverRouteMapPage());
+           //  },iconData: Icons.location_on),
+           //  _buildListTile(iconData: Icons.theaters,title: "Theme",onTap: (){}),
+           //  ListTile(
+           //    title: Text("Options",
+           //        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+           //  )
+           //  ,_buildListTile(iconData: Icons.lock,title: "Privacy Policy",onTap: (){}),
+           //  _buildListTile(iconData: Icons.aspect_ratio,title: "Rate Us",onTap: (){}),
+           //  _buildListTile(iconData: Icons.help,title: "Help",onTap: (){}),
 
           ],
         ),

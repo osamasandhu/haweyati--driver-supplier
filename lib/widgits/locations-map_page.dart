@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:haweyati_supplier_driver_app/model/common/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/common/map-utils/map-utils.dart';
+import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/localization-selector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,7 +22,7 @@ class LocationPickerData {
 }
 
 class LocationPickerPage extends StatefulWidget {
-  final HiveLocation location;
+  final Location location;
   LocationPickerPage({this.location});
 
   @override

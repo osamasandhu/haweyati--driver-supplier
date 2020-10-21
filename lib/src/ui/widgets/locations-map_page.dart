@@ -10,8 +10,8 @@ import 'package:haweyati_supplier_driver_app/src/ui/views/no-scroll_view.dart';
 import 'package:haweyati_supplier_driver_app/utils/const.dart';
 import 'package:haweyati_supplier_driver_app/widgits/localization-selector.dart';
 import 'package:location/location.dart' as loc;
-import 'package:haweyati/src/models/location_model.dart' as l;
-import '../../localized_view.dart';
+import 'package:haweyati_supplier_driver_app/src/models/location_model.dart' as l;
+import '../views/localized_view.dart';
 import 'raised-action-button.dart';
 import 'waiting-dialog.dart';
 
@@ -231,7 +231,7 @@ class _LocationPickerMapPageState extends State<LocationPickerMapPage> {
           child: CircularProgressIndicator(strokeWidth: 1)
         ),
         SizedBox(width: 20),
-        Text(AppLocalizations.of(context).fetchingCurrentCoordinates)
+        Text(/*AppLocalizations.of(context).fetchingCurrentCoordinates*/ '')
       ], mainAxisAlignment: MainAxisAlignment.center));
     }
   }
@@ -239,7 +239,7 @@ class _LocationPickerMapPageState extends State<LocationPickerMapPage> {
   _setLocationOnMap(LatLng location) async {
     if (_controller != null) {
       showDialog(context: context, builder: (context) => WaitingDialog(
-         AppLocalizations.of(context).fetchingLocationData
+         // AppLocalizations.of(context).fetchingLocationData
       ));
     }
 

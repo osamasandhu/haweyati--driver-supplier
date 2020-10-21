@@ -1,4 +1,4 @@
-import 'package:haweyati_supplier_driver_app/model/supplier/supplier_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
 import 'package:hive/hive.dart';
 import 'bm-pricing.dart';
 import 'images_model.dart';

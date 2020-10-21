@@ -1,4 +1,4 @@
-import 'package:haweyati_supplier_driver_app/model/models/dumpster_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/services/dumpster/model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 
 class DumpsterServices extends HaweyatiService<Dumpster> {
