@@ -78,7 +78,7 @@ class _HaweyatiPasswordFieldState extends State<HaweyatiPasswordField> {
     return TextFormField(
       focusNode: _node,
       obscureText: _show,
-      keyboardType: widget.keyboardType,
+      keyboardType: widget.keyboardType ?? TextInputType.text,
       textInputAction: TextInputAction.next,
       scrollPadding: EdgeInsets.all(180),
       decoration: InputDecoration(

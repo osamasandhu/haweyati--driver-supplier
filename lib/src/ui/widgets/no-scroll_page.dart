@@ -4,6 +4,7 @@ class NoScrollPage extends StatelessWidget {
   final Widget icon;
   final Widget body;
   final Widget appBar;
+  final Widget floatingActionButton;
   final String action;
   final bool extendBody;
   final Function onAction;
@@ -12,6 +13,7 @@ class NoScrollPage extends StatelessWidget {
     this.icon,
     this.body,
     this.appBar,
+    this.floatingActionButton,
     this.action,
     this.onAction,
     this.extendBody = false
@@ -20,6 +22,7 @@ class NoScrollPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: floatingActionButton,
       body: body,
       appBar: appBar,
       extendBody: extendBody,

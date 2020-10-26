@@ -239,6 +239,9 @@ abstract class AppLocalizations {
 
   // No description provided in @signInAsDriver
   String get signInAsDriver;
+
+  // No description provided in @signInAsSupplier
+  String get signInAsSupplier;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

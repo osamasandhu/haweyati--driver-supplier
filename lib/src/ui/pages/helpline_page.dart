@@ -1,11 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/src/const.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/dotted-background_view.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/no-scroll_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/flat-action-button.dart';
+import 'package:haweyati_supplier_driver_app/utils/const.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../widgits/no-scroll_page.dart';
 
 class HelplinePage extends StatefulWidget {
   @override
@@ -13,36 +13,22 @@ class HelplinePage extends StatefulWidget {
 }
 
 class _HelplinePageState extends State<HelplinePage> {
-
-
-
-  _launchWhatsapp(String phone) async {
-    if (await canLaunch(phone)) {
-      await launch('whatsapp://send?phone=$phone');
+  void launchWhatsApp(String phone, String message) async {
+    var _url;
+    if (Platform.isIOS) {
+      _url = 'whatsapp://wa.me/$phone/?text=${Uri.parse(message)}';
     } else {
-      await launch('https://api.whatsapp.com/send?phone=$phone‬');
-//      throw 'Could not launch $url';
-    }
-  }
-
-
-
-  void launchWhatsApp(
-      {@required String phone,
-        @required String message,
-      }) async {
-    String url() {
-      if (Platform.isIOS) {
-        return "whatsapp://wa.me/$phone/?text=${Uri.parse(message)}";
-      } else {
-        return "whatsapp://send?   phone=$phone&text=${Uri.parse(message)}";
-      }
+      _url = 'whatsapp://send?phone=$phone&text=${Uri.parse(message)}';
     }
 
-    if (await canLaunch(url())) {
-      await launch(url());
+    if (await canLaunch(_url)) {
+      await launch(_url);
     } else {
-      throw 'Could not launch ${url()}';
+      showDialog(context: context, builder: (context) {
+        return AlertDialog(
+            content: Text('Whatsapp was not found')
+        );
+      });
     }
   }
 
@@ -51,7 +37,6 @@ class _HelplinePageState extends State<HelplinePage> {
   @override
   void initState() {
     super.initState();
-
     _checkAvailability();
   }
 
@@ -64,75 +49,84 @@ class _HelplinePageState extends State<HelplinePage> {
 
   @override
   Widget build(BuildContext context) {
-    return NoScrollPage(
-      // appBar: HaweyatiAppBar(),
-
-      icon: Image.asset('assets/images/icons/call-dial.png', width: 20),
-
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: Column(children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Text("Need Help?", style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,color: Color(0xff313f53)
-//                color: Theme.of(context).primaryColor
-                )),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Text(loremIpsum.substring(0,66), style: TextStyle(
-                  fontSize: 14,color: Color(0xff313f53)
-//                  color: Theme.of(context).primaryColor
-                ), textAlign: TextAlign.center),
-              ),
-            ], mainAxisAlignment: MainAxisAlignment.end)
-          ),
-          Expanded(flex: 1, child: Container()),
-          Expanded(
-            flex: 6,
-            child: Column(children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(bottom: 30),
-                child: Icon(Icons.access_time, size: 50,color: Color(0xff313f53)),
-              ),
-              Text("9:00 AM - 12:00 PM", style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color(0xff313f53)
-              )),
-              Padding(
-                padding: const EdgeInsets.only(top: 12),
-                child: Row(children: <Widget>[
+    return NoScrollView(
+        appBar: HaweyatiAppBar(hideHome: true),
+        body: DottedBackgroundView(
+          padding: const EdgeInsets.all(20),
+          child: Column(children: <Widget>[
+            Expanded(
+                flex: 3,
+                child: Column(children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(right: 5),
-                    child: Container(
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: _available? Colors.green: Colors.red,
-                        shape: BoxShape.circle
-                      ),
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Text("Need Help?", style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,color: Color(0xff313f53)
+                    )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15),
+                    child: Text(loremIpsum.substring(0, 66),
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF313F53)
+                        ),
+                        textAlign: TextAlign.center
                     ),
                   ),
-                  Text("${_available? "": "Not"} Available for Call", style: TextStyle(
-                    fontSize: 18,
-                    color: _available? Colors.green: Colors.red
+                ], mainAxisAlignment: MainAxisAlignment.end)
+            ),
+            Expanded(flex: 1, child: Container()),
+            Expanded(
+                flex: 6,
+                child: Column(children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 30),
+                    child: Icon(Icons.access_time, size: 50,color: Color(0xff313f53)),
+                  ),
+                  Text('9:00 AM - 12:00 PM', style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff313f53)
                   )),
-                ], mainAxisAlignment: MainAxisAlignment.center),
-              )
-            ])
-          ),
-        ], mainAxisAlignment: MainAxisAlignment.center),
-      ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: Row(children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(right: 5),
+                        child: Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                              color: _available? Colors.green: Colors.red,
+                              shape: BoxShape.circle
+                          ),
+                        ),
+                      ),
+                      Text("${_available? "": "Not"} Available for Call", style: TextStyle(
+                          fontSize: 18,
+                          color: _available? Colors.green: Colors.red
+                      )),
+                    ], mainAxisAlignment: MainAxisAlignment.center),
+                  )
+                ])
+            ),
+          ], mainAxisAlignment: MainAxisAlignment.center),
+        ),
 
-      action: 'Get Help',
-      onAction: (){        _launchWhatsapp('+923472363720');
-      }
+        bottom: FlatActionButton(
+            label: 'Get Help',
+            icon: Image.asset(CallDialIcon,
+              width: 20,
+              height: 20,
+            ),
+            onPressed: _available ? () {
+              _checkAvailability();
+              if (_available) {
+                launchWhatsApp('', '');
+              }
+            } : null
+        )
     );
   }
 }

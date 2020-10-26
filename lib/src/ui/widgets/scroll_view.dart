@@ -14,8 +14,10 @@ class ScrollableView extends Scaffold {
     bool showBackground = false,
     CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
     PreferredSizeWidget appBar = const HaweyatiAppBar(),
-    EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 15)
+    EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 15),
+    FloatingActionButton fab
   }): super(
+    floatingActionButton: fab,
       key: key,
       appBar: appBar,
       extendBody: extendBody,
@@ -41,8 +43,10 @@ class ScrollableView extends Scaffold {
     bool showBackground = false,
     EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 15),
     PreferredSizeWidget appBar = const HaweyatiAppBar(),
+    FloatingActionButton fab
   }): super(
       appBar: appBar,
+      floatingActionButton: fab,
       body: showBackground ? DottedBackgroundView(
           padding: padding,
           child: CustomScrollView(slivers: children)

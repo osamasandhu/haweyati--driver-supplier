@@ -8,21 +8,17 @@ import 'package:haweyati_supplier_driver_app/src/services/persons-service.dart';
 import 'package:haweyati_supplier_driver_app/src/pre-sign-up-phone-verification.dart';
 import 'package:haweyati_supplier_driver_app/src/services/drivers_service.dart';
 import 'package:haweyati_supplier_driver_app/src/services/supplier-Services.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/driver-sign-up_page.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/driver/driver-home_page.dart';
+import 'package:haweyati_supplier_driver_app/src/supplier/auth-pages/waiting-approval_page.dart';
+import 'package:haweyati_supplier_driver_app/src/supplier/supplier-homepage.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-form.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/haweyati-text-field.dart';
-import 'package:haweyati_supplier_driver_app/supplier/auth-pages/supplier-sign-up_page.dart';
-import 'package:haweyati_supplier_driver_app/supplier/supplier-homepage.dart';
-import 'package:haweyati_supplier_driver_app/utils/fcm-token.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/utils/haweyati-utils.dart';
 import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
 import 'package:haweyati_supplier_driver_app/utils/validators.dart';
-
 import '../reset-password_page.dart';
 
 class SignInPage extends StatelessWidget {
@@ -69,18 +65,23 @@ class SignInPage extends StatelessWidget {
             Profile person = await PersonsService().getSignedInPerson();
 
             if(_isSupplier){
-              if(!person.scope.contains('supplier') && person.scope.contains('customer')){
+              if(!person.scope.contains('supplier')){
                 Navigator.pop(context);
-                showSimpleSnackbar(scaffoldKey, "You are registered as a ${person.scope[0]}.Please use customer application",true);
+                showSimpleSnackbar(scaffoldKey, "You are not registered as a Supplier. Please sign up as a Supplier.",true);
                 return;
               }
               SupplierModel supplier = await SupplierServices().supplierProfile(person.id);
               await AppData.signIn(supplier);
-              CustomNavigator.pushReplacement(context, SupplierHomePage());
+              if(supplier.status=='Active'){
+                CustomNavigator.pushReplacement(context, SupplierHomePage());
+              }else{
+                CustomNavigator.pushReplacement(context, WaitingApproval());
+              }
+
             } else {
-              if(!person.scope.contains('driver') && person.scope.contains('customer')){
+              if(!person.scope.contains('driver')){
                 Navigator.pop(context);
-                showSimpleSnackbar(scaffoldKey, "You are registered as a ${person.scope[0]}.Please use customer application",true);
+                showSimpleSnackbar(scaffoldKey, "You are not registered as a Driver. Please sign up as a Supplier.",true);
                 return;
               }
               Driver driver;
@@ -88,11 +89,15 @@ class SignInPage extends StatelessWidget {
                  driver = await DriverService().getDriverByPerson(person.id);
               } catch (e){
                 Navigator.pop(context);
-                showSimpleSnackbar(scaffoldKey, "We're experiencing some difficulties. Please try again later.",true);
+                showSimpleSnackbar(scaffoldKey, "We are experiencing some difficulties. Please try again later.",true);
                 return;
               }
               await AppData.signIn(driver);
-              CustomNavigator.pushReplacement(context, DriverHomePage());
+              if(driver.status=='Active'){
+                CustomNavigator.pushReplacement(context, SupplierHomePage());
+              }else{
+                CustomNavigator.pushReplacement(context, WaitingApproval());
+              }
             }
 
           },
@@ -113,7 +118,8 @@ class SignInPage extends StatelessWidget {
                 controller: _username,
                 label: "Phone Number",
                 keyboardType: TextInputType.phone,
-                validator: (value) => phoneValidator(value),
+                //todo: uncomment validator
+                // validator: (value) => phoneValidator(value),
               ),
               SizedBox(height: 20),
               HaweyatiPasswordField(
@@ -150,10 +156,7 @@ class SignInPage extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 20),
                     child: InkWell(
                       onTap: () {
-                        if(_isSupplier)
-                          CustomNavigator.navigateTo(context, SupplierSignUpPage());
-                        else
-                          CustomNavigator.navigateTo(context, DriverSignUpPage());
+                        Navigator.of(context).pushNamed('/pre-sign-up');
                       },
                       child: Text('REGISTER NOW', style: TextStyle(
                         color: Theme.of(context).accentColor

@@ -28,7 +28,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
     return Scaffold(
       key: key,
-      appBar: HaweyatiAppBar(),
+      appBar: HaweyatiAppBar(actions: [],),
       body: SingleChildScrollView(
         child: Form(key: _formKey,autovalidate: autoValidate, child: SingleChildScrollView(padding: EdgeInsets.fromLTRB(20, 40, 20, 0), child: Column(
             children: <Widget>[

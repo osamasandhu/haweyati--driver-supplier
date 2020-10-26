@@ -167,4 +167,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInAsDriver => 'Sign In as Driver';
+
+  @override
+  String get signInAsSupplier => 'Sign In as Supplier';
 }

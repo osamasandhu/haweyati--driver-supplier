@@ -134,6 +134,9 @@
     }
   },
 
-  "signInAsDriver": "Sign In as Driver",
-  "@signInAsDriver": {}
+  "signInAsDriver": "تسجيل الدخول كسائق",
+  "@signInAsDriver": {},
+
+  "signInAsSupplier": "تسجيل الدخول كمورد",
+  "@signInAsSupplier": {}
 }

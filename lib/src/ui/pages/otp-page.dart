@@ -1,62 +1,76 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/dotted-background_view.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/no-scroll_view.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/header-view.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/waiting-dialog.dart';
+import 'package:haweyati_supplier_driver_app/utils/const.dart';
+import 'package:haweyati_supplier_driver_app/utils/validators.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OtpPage extends StatefulWidget {
   final String phoneNumber;
   OtpPage({this.phoneNumber});
+
   @override
   OtpPageState createState() => OtpPageState();
 }
 
+class _OtpField extends Container {
+  _OtpField({
+    String text,
+  }): super(
+      width: 30, height: 45,
+      decoration: BoxDecoration(
+          color: Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(4)
+      ),
+      child: Center(
+        child: Text(text, style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.grey.shade600
+        )),
+      )
+  );
+}
+
 class OtpPageState extends State<OtpPage> {
   int resendToken;
-  static String smsCode;
-  static String verificationId;
-  FirebaseAuth auth = FirebaseAuth.instance;
-  var key = GlobalKey<ScaffoldState>();
-  TextEditingController controller1 = TextEditingController();
-  TextEditingController controller2 = TextEditingController();
-  TextEditingController controller3 = TextEditingController();
-  TextEditingController controller4 = TextEditingController();
-  TextEditingController controller5 = TextEditingController();
-  TextEditingController controller6 = TextEditingController();
-  TextEditingController currController = TextEditingController();
 
-  Timer timer;
-  int time = 50;
+  final _node = FocusNode();
+  final _controller = TextEditingController();
+  final _codes = List.filled(6, '', growable: false);
+
+  static String verificationId;
+  final _auth = FirebaseAuth.instance;
+  var _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void dispose() {
     super.dispose();
-    controller1.dispose();
-    controller2.dispose();
-    controller3.dispose();
-    controller4.dispose();
-    controller5.dispose();
-    controller6.dispose();
-    timer.cancel();
-    timer = null;
-
+    _controller.dispose();
   }
 
-
-  Future verifyNumber(String inputNo,BuildContext context,resendToken) async{
-    await auth.verifyPhoneNumber(
+  Future verifyNumber(String inputNo, BuildContext context, resendToken) async{
+    await _auth.verifyPhoneNumber(
         phoneNumber: inputNo,
-        forceResendingToken: resendToken ,
+        forceResendingToken: resendToken,
         codeAutoRetrievalTimeout: (String verID) {
-          verificationId=verID;
+          verificationId = verID;
         },
-        codeSent: (String verID,[int forceCodeResend]) async {
+        codeSent: (String verID, [int forceCodeResend]) async {
           verificationId = verID;
           resendToken = forceCodeResend;
         },
         timeout: const Duration(minutes: 2),
         verificationCompleted: (AuthCredential credential) async {
-          Navigator.pop(context,true);
+          Navigator.pop(context, true);
         },
         verificationFailed: (FirebaseAuthException exception){
           print('${exception.message}');
@@ -66,595 +80,231 @@ class OtpPageState extends State<OtpPage> {
 
 
   Future<bool> signInWithOTP(smsCode, verId) async {
-    openLoadingDialog(context, "Verifying otp...");
-    AuthCredential authCreds = PhoneAuthProvider.credential(
-        verificationId: verId, smsCode: smsCode);
+    showDialog(
+        context: context,
+        builder: (context) => WaitingDialog(message :'Verifying OPT...')
+    );
+
+    // print('here');
+    // print(verId);
+    // print(verificationId);
+    final credentials = PhoneAuthProvider.credential(
+        verificationId: verId, smsCode: smsCode
+    );
+
     UserCredential result;
+
     try {
-      result = await auth.signInWithCredential(authCreds);
-    } catch ( e){
-      var exception = e as PlatformException;
-      Navigator.pop(context);
-      print(e.runtimeType.toString());
-      key.currentState.showSnackBar(SnackBar(
-        content: Text(exception.message,style: TextStyle(
-            color: Colors.white
-        ),),
+      result = await _auth.signInWithCredential(credentials);
+    } catch (e) {
+      Navigator.of(context).pop();
+
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.red,
-        behavior: SnackBarBehavior.floating,
+        content: Text(e.message, style: TextStyle(color: Colors.white)),
       ));
     }
-    if(result?.user != null){
-      Navigator.pop(context);
-      print("Phone Auth verified");
+    if (result?.user != null) {
+      Navigator.of(context).pop();
+
       return true;
     } else {
       return false;
     }
   }
 
-
-
   @override
   void initState() {
     super.initState();
-    currController = controller1;
     verifyNumber(widget.phoneNumber, context, resendToken);
-    timer = Timer.periodic(Duration(seconds: 1), (Timer t) => otpResendDuration());
-  }
-
-  otpResendDuration(){
-    if(time==0)
-      timer.cancel();
-    else
-      setState(() {
-        time-=1;
-      });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgetList = [
+    return NoScrollView(
+      // key: _scaffoldKey,
+      appBar: HaweyatiAppBar( hideHome: true),
+      body: DottedBackgroundView(
+        child: Column(children: [
+          HeaderView(
+            title: 'Verification',
+            subtitle: 'Please type the verification code you received',
+          ),
 
-      Padding(
-        padding: EdgeInsets.only(left: 0.0, right: 2.0),
-        child: new Container(
-          color: Colors.transparent,
-        ),
-      ),
+          RichText(text: TextSpan(
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black
+              ),
+              text: widget.phoneNumber,
+              children: [TextSpan(
+                  text: '  Change',
+                  style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color: Theme.of(context).primaryColor
+                  ),
+                  recognizer: TapGestureRecognizer()..onTap = () {
+                    Navigator.of(context).pop();
+                  }
+              )]
+          )),
+          Container(
+            width: 220,
+            padding: const EdgeInsets.only(top: 40),
+            child: Stack(
+              children: [
+                Opacity(
+                  opacity: 0,
+                  child: TextFormField(
+                    maxLength: 6,
+                    maxLengthEnforced: true,
+                    focusNode: _node,
+                    controller: _controller,
+                    onChanged: (val) {
+                      final codes = val.split('');
 
-      Padding(
-        padding: const EdgeInsets.only(right: 2.0, left: 2.0),
-        child: new Container(
-            alignment: Alignment.center,
-            decoration: new BoxDecoration(
-                color: Color.fromRGBO(0, 0, 0, 0.1),
-                border: new Border.all(
-                    width: 1.0,
-                    color: Color.fromRGBO(0, 0, 0, 0.1)
+                      for (var i = 0; i < _codes.length; ++i) {
+                        if (i < codes.length) {
+                          _codes[i] = codes[i];
+                        } else {
+                          _codes[i] = '';
+                        }
+                      }
+
+                      setState(() {});
+                      if (codes.length == 6) {
+                        matchOtp();
+                      }
+                    },
+                  ),
                 ),
-                borderRadius: new BorderRadius.circular(4.0)
+                GestureDetector(
+                  onTap: () {
+                    if (_node.hasFocus) {
+                      SystemChannels.textInput.invokeMethod('TextInput.show');
+                    } else {
+                      _node.requestFocus();
+                    }
+                  },
+                  child: Container(
+                    color: Colors.white,
+                    child: Row(children: [
+                      _OtpField(text: _codes[0]),
+                      _OtpField(text: _codes[1]),
+                      _OtpField(text: _codes[2]),
+                      _OtpField(text: _codes[3]),
+                      _OtpField(text: _codes[4]),
+                      _OtpField(text: _codes[5]),
+                    ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
+                  ),
+                ),
+              ],
             ),
-            child: new TextField(
-              inputFormatters: [
-                LengthLimitingTextInputFormatter(1),
-              ],
-              enabled: false,
-              controller: controller1,
-              autofocus: false,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24.0, color: Colors.black),
+          ),
+          Spacer(),
 
-            )
-
-        ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: _ResendTimer(onResend: () {
+              verifyNumber(widget.phoneNumber, context, resendToken);
+            }),
+          )
+        ]),
       ),
-
-      Padding(
-        padding: const EdgeInsets.only(right: 2.0, left: 2.0),
-        child: new Container(
-          alignment: Alignment.center,
-          decoration: new BoxDecoration(
-              color: Color.fromRGBO(0, 0, 0, 0.1),
-              border: new Border.all(
-                  width: 1.0,
-                  color: Color.fromRGBO(0, 0, 0, 0.1)
-              ),
-              borderRadius: new BorderRadius.circular(4.0)
-          ),
-          child: new TextField(
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(1),
-            ],
-            controller: controller2,
-            autofocus: false,
-            enabled: false,
-            keyboardType: TextInputType.number,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 24.0, color: Colors.black),
-          ),
-        ),
-      ),
-
-      Padding(
-        padding: const EdgeInsets.only(right: 2.0, left: 2.0),
-        child: new Container(
-          alignment: Alignment.center,
-          decoration: new BoxDecoration(
-              color: Color.fromRGBO(0, 0, 0, 0.1),
-              border: new Border.all(
-                  width: 1.0,
-                  color: Color.fromRGBO(0, 0, 0, 0.1)
-              ),
-              borderRadius: new BorderRadius.circular(4.0)
-          ),
-          child: new TextField(
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(1),
-            ],
-
-            keyboardType: TextInputType.number,
-            controller: controller3,
-            textAlign: TextAlign.center,
-            autofocus: false,
-            enabled: false,
-            style: TextStyle(fontSize: 24.0, color: Colors.black),
-          ),
-        ),
-      ),
-
-      Padding(
-        padding: const EdgeInsets.only(right: 2.0, left: 2.0),
-        child: new Container(
-          alignment: Alignment.center,
-          decoration: new BoxDecoration(
-              color: Color.fromRGBO(0, 0, 0, 0.1),
-              border: new Border.all(
-                  width: 1.0,
-                  color: Color.fromRGBO(0, 0, 0, 0.1)
-              ),
-              borderRadius: new BorderRadius.circular(4.0)
-          ),
-          child: new TextField(
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(1),
-            ],
-
-            textAlign: TextAlign.center,
-            controller: controller4,
-            autofocus: false,
-            enabled: false,
-            style: TextStyle(fontSize: 24.0, color: Colors.black),
-          ),
-        ),
-      ),
-
-      Padding(
-        padding: const EdgeInsets.only(right: 2.0, left: 2.0),
-        child: new Container(
-          alignment: Alignment.center,
-          decoration: new BoxDecoration(
-              color: Color.fromRGBO(0, 0, 0, 0.1),
-              border: new Border.all(
-                  width: 1.0,
-                  color: Color.fromRGBO(0, 0, 0, 0.1)
-              ),
-              borderRadius: new BorderRadius.circular(4.0)
-          ),
-          child: new TextField(
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(1),
-            ],
-
-            textAlign: TextAlign.center,
-            controller: controller5,
-            autofocus: false,
-            enabled: false,
-            style: TextStyle(fontSize: 24.0, color: Colors.black),
-          ),
-        ),
-      ),
-
-      Padding(
-        padding: const EdgeInsets.only(right: 2.0, left: 2.0),
-        child: new Container(
-          alignment: Alignment.center,
-          decoration: new BoxDecoration(
-              color: Color.fromRGBO(0, 0, 0, 0.1),
-              border: new Border.all(
-                  width: 1.0,
-                  color: Color.fromRGBO(0, 0, 0, 0.1)
-              ),
-              borderRadius: new BorderRadius.circular(4.0)
-          ),
-          child: new TextField(
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(1),
-            ],
-
-            textAlign: TextAlign.center,
-            controller: controller6,
-            autofocus: false,
-            enabled: false,
-            style: TextStyle(fontSize: 24.0, color: Colors.black),
-          ),
-        ),
-      ),
-
-      Padding(
-        padding: EdgeInsets.only(left: 2.0, right: 0.0),
-        child: new Container(
-          color: Colors.transparent,
-        ),
-      ),
-
-    ];
-
-    return new Scaffold(
-      key: key,
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(title: Text("Enter OTP"), backgroundColor: Theme.of(context).primaryColor,),
-      backgroundColor: Color(0xFFeaeaea),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Flexible(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text("Verifying your number!", style: TextStyle(
-                        fontSize: 18.0, fontWeight: FontWeight.bold),),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 16.0, top: 4.0, right: 16.0),
-                    child: Text(
-                      "Please type the verification code sent to",
-                      style: TextStyle(
-                          fontSize: 15.0, fontWeight: FontWeight.normal),
-                      textAlign: TextAlign.center,),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 30.0, top: 2.0, right: 30.0),
-                    child: Text(
-                     widget.phoneNumber,
-                      style: TextStyle(
-                          fontSize: 15.0, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
-                      textAlign: TextAlign.center,),
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: Image(
-                      image: AssetImage('assets/images/otp-icon.png'),
-                      height: 120.0,
-                      width: 120.0,),
-                  ),
-                ],
-              ), flex: 90,),
-
-            Flexible(child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children
-                    :
-                <Widget>[
-                  GridView.count (
-                      crossAxisCount:
-                      8,
-                      mainAxisSpacing: 10.0,
-                      shrinkWrap: true,
-                      primary: false,
-                      scrollDirection: Axis.vertical,
-                      children: List < Container
-                      >
-                          .
-                      generate
-                        (
-                          8, (int index) => Container(child: widgetList[index])
-                      )
-                  ),
-                ]
-            )
-              , flex: 20,),
-
-            Flexible(child: Column(
-              mainAxisSize:
-              MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-
-                new Container(
-                  child
-                      : Padding(
-                    padding: const EdgeInsets.only(
-                        left: 8.0, top: 16.0, right:
-                    8.0, bottom: 0.0),
-                    child: Row
-                      (
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize
-                          .min,
-                      children: <Widget>[
-
-                        MaterialButton
-                          (onPressed: () {
-                          inputTextToField("1");
-                        }
-                          , child: Text("1", style
-                              : TextStyle(fontSize: 25.0, fontWeight: FontWeight
-                              .w400), textAlign: TextAlign.center)
-                          ,),
-
-                        MaterialButton(onPressed: () {
-                          inputTextToField("2");
-                        }
-                          , child: Text("2", style
-                              : TextStyle(fontSize: 25.0, fontWeight: FontWeight
-                              .w400), textAlign: TextAlign.center)
-                          ,),
-
-                        MaterialButton(onPressed: () {
-                          inputTextToField("3");
-                        }
-                          , child: Text("3", style
-                              : TextStyle(fontSize: 25.0, fontWeight: FontWeight
-                              .w400), textAlign: TextAlign.center)
-                          ,),
-                      ],
-                    ),
-                  ),
-                ),
-
-                new Container(
-                  child: Padding(
-                    padding:
-                    const EdgeInsets.only(left: 8.0, top
-                        : 4.0, right: 8.0, bottom: 0.0
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.
-                      start,
-                      mainAxisSize: MainAxisSize.min,
-                      children:
-                      <Widget>[
-                        MaterialButton(onPressed: () {
-                          inputTextToField("4");
-                        }
-                          , child: Text("4", style
-                              : TextStyle(fontSize: 25.0, fontWeight: FontWeight
-                              .w400), textAlign: TextAlign.center)
-                          ,),
-
-                        MaterialButton(onPressed: () {
-                          inputTextToField("5");
-                        }
-                          , child: Text("5", style
-                              : TextStyle(fontSize: 25.0, fontWeight: FontWeight
-                              .w400), textAlign: TextAlign.center)
-                          ,),
-
-                        MaterialButton(onPressed: () {
-                          inputTextToField("6");
-                        }
-                          , child: Text("6", style
-                              : TextStyle(fontSize: 25.0, fontWeight: FontWeight
-                              .w400), textAlign: TextAlign.center)
-                          ,),
-                      ],
-                    ),
-                  ),
-                ),
-
-                new Container(
-                  child: Padding(
-                    padding:
-                    const EdgeInsets.only(left: 8.0, top
-                        : 4.0, right: 8.0, bottom: 0.0
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.
-                      start,
-                      mainAxisSize: MainAxisSize.min,
-                      children:
-                      <Widget>[
-                        MaterialButton(onPressed: () {
-                          inputTextToField("7");
-                        }
-                          , child: Text("7", style
-                              : TextStyle(fontSize: 25.0, fontWeight: FontWeight
-                              .w400), textAlign: TextAlign.center)
-                          ,),
-
-                        MaterialButton(onPressed: () {
-                          inputTextToField("8");
-                        }
-                          , child: Text("8", style
-                              : TextStyle(fontSize: 25.0, fontWeight: FontWeight
-                              .w400), textAlign: TextAlign.center)
-                          ,),
-
-                        MaterialButton(onPressed: () {
-                          inputTextToField("9");
-                        }
-                          , child: Text("9", style
-                              : TextStyle(fontSize: 25.0, fontWeight: FontWeight
-                              .w400), textAlign: TextAlign.center)
-                          ,),
-                      ],
-                    ),
-                  ),
-                ),
-
-                new Container(
-                  child: Padding(
-                    padding:
-                    const EdgeInsets.only(left: 8.0, top
-                        : 4.0, right: 8.0, bottom: 0.0
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.
-                      start,
-                      mainAxisSize: MainAxisSize.min,
-                      children:
-                      <Widget>[
-                        MaterialButton(onPressed: () {
-                          deleteText();
-                        }
-                            , child: Image.asset('assets/images/delete.png'
-                                , width: 25.0, height: 25.0)),
-
-                        MaterialButton(onPressed: () {
-                          inputTextToField("0");
-                        }
-                          , child: Text("0", style
-                              : TextStyle(fontSize: 25.0, fontWeight: FontWeight
-                              .w400), textAlign: TextAlign.center)
-                          ,),
-
-                        MaterialButton(onPressed: () {
-                          smsCode = '';
-                          smsCode+=controller1.text+controller2.text+controller3.text+controller4.text+controller5.text+controller6.text;
-                          if(smsCode.length==6){
-                            matchOtp();
-                          }
-                        }
-                            , child: Image.asset('assets/images/success.png',
-                                width: 25.0, height: 25.0)),
-                      ],
-                    ),
-                  ),
-                ),
-                Align(
-                    alignment: Alignment(0, 0.95),
-                    child: time!=0 ? Text(
-                      "Please Wait 0:${time}",
-                      style: TextStyle(
-                          fontSize: 16, color:  Theme.of(context).accentColor),
-                    ) : InkWell(
-                      onTap: (){
-                        verifyNumber(widget.phoneNumber, context, resendToken);
-                        setState(() {
-                          time=50;
-                        });
-                      },
-                      child: Container(
-                        color: Theme.of(context).accentColor,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Resend OTP',
-                            style: TextStyle(
-                                fontSize: 16, color: time != 0 ?
-                            Theme.of(context).accentColor : Colors.white),
-                          ),
-                        ),
-                      ),
-                    )),
-              ],
-            ), flex: 90,),
-          ],
-        )
-        ,
-      )
-      ,
     );
   }
 
-  void inputTextToField(String str) {
-    //Edit first textField
-    if (currController == controller1) {
-      controller1.text = str;
-      currController = controller2;
-    }
-
-    //Edit second textField
-    else if (currController == controller2) {
-      controller2.text = str;
-      currController = controller3;
-    }
-
-    //Edit third textField
-    else if (currController == controller3) {
-      controller3.text = str;
-      currController = controller4;
-    }
-
-    //Edit fourth textField
-    else if (currController == controller4) {
-      controller4.text = str;
-      currController = controller5;
-    }
-
-    //Edit fifth textField
-    else if (currController == controller5) {
-      controller5.text = str;
-      currController = controller6;
-    }
-
-    //Edit sixth textField
-    else if (currController == controller6) {
-      controller6.text = str;
-      currController = controller6;
-    }
-  }
-
-  void deleteText() {
-    if (currController.text.length == 0) {
-
-    }
-    else {
-      currController.text = "";
-      currController = controller5;
-      return;
-    }
-
-    if (currController == controller1) {
-      controller1.text = "";
-    }
-    else if (currController == controller2) {
-      controller1.text = "";
-      currController = controller1;
-    }
-    else if (currController == controller3) {
-      controller2.text = "";
-      currController = controller2;
-    }
-    else if (currController == controller4) {
-      controller3.text = "";
-      currController = controller3;
-    }
-    else if (currController == controller5) {
-      controller4.text = "";
-      currController = controller4;
-    }
-    else if (currController == controller6) {
-      controller5.text = "";
-      currController = controller5;
-    }
-  }
-
   void matchOtp() async {
-   bool isOtpVerified = await signInWithOTP(smsCode, verificationId);
-   if(isOtpVerified){
-     showDialog(context: context,
-         barrierDismissible: false,
-         builder: (BuildContext context) {
-           return AlertDialog(
-             title: Text("Successfully"),
-             content: Text("Otp matched successfully."),
-             actions: <Widget>[IconButton(
-                 icon: Icon(Icons.check), onPressed: () {
-               Navigator.of(context).pop(true);
-               Navigator.of(context).pop(true);
-             })
-             ],);
-         }
-     );
-   }
+    print(_controller.text);
+    if (await signInWithOTP(_controller.text, verificationId)) {
+      Navigator.of(context).pop(true);
+    }
+  }
+}
+
+class _ResendTimer extends StatefulWidget {
+  final List<int> gaps;
+  final Function onResend;
+
+  _ResendTimer({this.gaps, this.onResend});
+
+  @override
+  __ResendTimerState createState() => __ResendTimerState();
+}
+class __ResendTimerState extends State<_ResendTimer> {
+  var _allow = false;
+  final _controller = StreamController.broadcast();
+
+  @override
+  void initState() {
+    super.initState();
+    _startCounter();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(children: [
+      Text("Didn't receive a code?", style: TextStyle(
+          color: Colors.grey.shade600
+      )),
+      SizedBox(height: 5),
+
+      if (_allow)
+        GestureDetector(
+            onTap: () {
+              widget.onResend();
+
+              setState(() {
+                _allow = false;
+              });
+
+              _startCounter();
+            },
+            child: Text('Resend Code', style: TextStyle(
+                color: Theme.of(context).primaryColor
+            ))
+        )
+      else
+        StreamBuilder(
+          stream: _controller.stream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text('Wait for ' + _buildTime(snapshot.data), style: TextStyle(
+                  color: Theme.of(context).primaryColor
+              ));
+            } else {
+              return Text('...');
+            }
+          },
+        )
+    ], direction: Axis.vertical, crossAxisAlignment: WrapCrossAlignment.center);
+  }
+
+  static _buildTime(int seconds) {
+    final _seconds = seconds % 60;
+    final _minutes = seconds ~/ 60;
+
+    return _minutes.toString().padLeft(2, '0')
+        + ':' + _seconds.toString().padLeft(2, '0');
+  }
+
+  void _startCounter() async {
+    var len = 120;
+
+    while (len >= 0) {
+      if (_controller.isClosed) return;
+      await Future.delayed(Duration(seconds: 1), () {
+        if (_controller.isClosed) return;
+        _controller.add(len--);
+      });
+    }
+
+    setState(() { _allow = true; });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.close();
   }
 }

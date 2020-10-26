@@ -20,9 +20,9 @@ import 'package:haweyati_supplier_driver_app/widgits/order-location-picker.dart'
 import 'my-orders_page.dart';
 
 
-class OrderDetailPage extends StatelessWidget {
+class SupplierOrderDetailPage extends StatelessWidget {
   final Order order;
-  OrderDetailPage(this.order);
+  SupplierOrderDetailPage(this.order);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class OrderDetailPage extends StatelessWidget {
           SliverList(delegate: SliverChildBuilderDelegate(
                   (context, index) => SupplierItemSelector(
                     index: index,
-                    item: order.items[index],
+                    order: order,
                     orderId: order.id,
                     widget: _OrderItemWidget(order.items[index]),
                   ),
@@ -266,7 +266,7 @@ class _OrderDetailHeader extends StatelessWidget {
                 left: 109,
                 child: Image.asset(SettingsIcon, width: 22)
             ),
-            // Positioned(left: 30, child: Image.asset(CartIcon, width: 30)),
+            Positioned(left: 185,top: 5, child: Image.asset(CartIcon, width: 30)),
             Positioned(
                 right: 30, top: 9,
                 child: Image.asset(HomeIcon, width: 20)
@@ -336,9 +336,9 @@ class _OrderStatusPainter extends CustomPainter {
 class SupplierItemSelector extends StatefulWidget {
   final String orderId;
   final int index;
-  final OrderItemHolder item;
+  final Order order;
   final Widget widget;
-  SupplierItemSelector({this.index,this.item,this.orderId,this.widget});
+  SupplierItemSelector({this.index,this.order,this.orderId,this.widget});
   @override
   _SupplierItemSelectorState createState() => _SupplierItemSelectorState();
 }
@@ -350,7 +350,7 @@ class _SupplierItemSelectorState extends State<SupplierItemSelector> {
   @override
   void initState() {
     super.initState();
-    item = widget.item;
+    item = widget.order.items[widget.index];
   }
 
   @override
@@ -359,7 +359,7 @@ class _SupplierItemSelectorState extends State<SupplierItemSelector> {
       child: Stack(
         children: [
           widget.widget,
-          if (item. supplier== AppData.supplier.sId)
+          if (item.supplier?.sId == AppData.supplier.sId)
             Transform.translate(
                 offset: Offset(-55, -55),
                 child: Transform.rotate(
@@ -379,7 +379,7 @@ class _SupplierItemSelectorState extends State<SupplierItemSelector> {
                   ),
                 )
             ),
-          if (item.supplier == null || AppData.supplier.sId == item.supplier)
+          if (item.supplier == null || AppData.supplier.sId == item.supplier?.sId && widget.order.status.index !=4)
             Positioned(
               top: 8,
               right: 0,
@@ -387,7 +387,7 @@ class _SupplierItemSelectorState extends State<SupplierItemSelector> {
                 scale: 0.7,
                 child: CupertinoSwitch(
                   activeColor: Theme.of(context).accentColor,
-                  value: AppData.supplier.sId == item.supplier,
+                  value: AppData.supplier.sId == item.supplier?.sId,
                   onChanged: (bool value) async {
                     openLoadingDialog(context, "Submitting");
                     await HaweyatiService.patch('orders/add-supplier', {
@@ -398,7 +398,7 @@ class _SupplierItemSelectorState extends State<SupplierItemSelector> {
                     });
 
                     if(value){
-                      item.supplier = AppData.supplier.sId;
+                      item.supplier = AppData.supplier;
                     } else {
                       item.supplier = null;
                     }

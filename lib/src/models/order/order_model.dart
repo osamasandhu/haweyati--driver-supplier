@@ -6,6 +6,7 @@ import 'package:haweyati_supplier_driver_app/src/models/order/order-location_mod
 import 'package:haweyati_supplier_driver_app/src/models/order/scaffoldings/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/payment_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/customer_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
 import 'package:hive/hive.dart';
 
 import 'order-item_model.dart';
@@ -120,8 +121,13 @@ class Order extends HiveObject implements JsonSerializable {
       items: (json['items'] as List)
         .map((item) {
           var supplier = item['supplier'];
-          if (supplier is Map) {
-            supplier = supplier['_id'];
+          //Todo
+          // if (supplier is Map) {
+          //   supplier = supplier['_id'];
+          // }
+
+          if(supplier != null && supplier is Map){
+            supplier = SupplierModel.fromJson(supplier);
           }
 
           return OrderItemHolder(

@@ -4,16 +4,18 @@ import 'package:haweyati_supplier_driver_app/src/models/time-slot_model.dart';
 class OrderLocation extends Location {
   TimeSlot dropOffTime;
   DateTime dropOffDate;
+  String address;
+  double latitude;
+  double longitude;
+
 
   OrderLocation({
-    double latitude,
-    double longitude,
+    this.address,
+    this.latitude,
+    this.longitude,
     this.dropOffTime,
     this.dropOffDate
-  }): super(
-    latitude: 2,
-    longitude: 1,
-  );
+  });
 
   update(Location location) {
     city = location?.city;

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
+import 'package:haweyati_supplier_driver_app/src/supplier/auth-pages/waiting-approval_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/haweyati-text-field.dart';
@@ -10,7 +11,6 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart'
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/location-picker-widget.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/profile-image-picker.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-form.dart';
-import 'package:haweyati_supplier_driver_app/supplier/auth-pages/waiting-approval_page.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
 import 'package:haweyati_supplier_driver_app/utils/validators.dart';
@@ -26,7 +26,7 @@ class EditDriverProfile extends StatefulWidget {
 class _EditDriverProfileState extends State<EditDriverProfile> {
 
   PickedFile _image;
-  LocationPickerData _userLocation;
+  Location _userLocation;
   bool isVehicleInfoChanged = false;
 
   List<String> vehicleTypes = [
@@ -104,13 +104,13 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                 'person' : AppData.driver.profile.id,
                 "name": name.text,
                 "license" : _license.text,
-                "latitude" : _userLocation.position.latitude,
-                "longitude" : _userLocation.position.longitude,
+                "latitude" : _userLocation.latitude,
+                "longitude" : _userLocation.longitude,
                 "vehicleName" : _vehicleName.text,
                 "model" : _model.text,
                 "type" : selectedType,
                 "identificationNo" : _identification.text,
-                "city" : _userLocation.city,
+                // "city" : _userLocation.city,
                 "address" : _userLocation.address,
                 'isVehicleInfoChanged' : isVehicleInfoModified()
               });

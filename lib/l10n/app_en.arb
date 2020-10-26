@@ -136,5 +136,8 @@
   },
 
   "signInAsDriver": "Sign In as Driver",
-  "@signInAsDriver": {}
+  "@signInAsDriver": {},
+
+  "signInAsSupplier": "Sign In as Supplier",
+  "@signInAsSupplier": {}
 }

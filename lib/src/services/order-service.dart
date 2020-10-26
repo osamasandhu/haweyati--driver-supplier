@@ -6,10 +6,6 @@ class OrdersService extends HaweyatiService<Order> {
   @override
   Order parse(Map<String, dynamic> item) => Order.fromJson(item);
 
-  // Future<List<Order>> orders() async {
-  //   return this.getAll('orders');
-  // }
-
   Future<List<Order>> supplierAllOrders() async {
     String services = '';
 
@@ -21,11 +17,15 @@ class OrdersService extends HaweyatiService<Order> {
       }
     }
     //Todo : Fix city bug it returns null or address instead
-    return this.getAll('orders/filter$services&city=Jeddah');
+    return this.getAll('orders/filter$services&city=${AppData.supplier.city}');
   }
 
   Future<List<Order>> supplierSelectedOrders() async {
-    return this.getAll('orders/supplier/${AppData.supplier.sId}');
+    return this.getAll('orders/selected-supplier/${AppData.supplier.sId}');
+  }
+
+  Future<List<Order>> supplierCompletedOrders() async {
+    return this.getAll('orders/completed-supplier/${AppData.supplier.sId}');
   }
 
   Future<List<Order>> driverAllOrders() async {
@@ -33,6 +33,11 @@ class OrdersService extends HaweyatiService<Order> {
   }
 
   Future<List<Order>> driverSelectedOrders() async {
-    return this.getAll('orders/driver/${AppData.driver.sId}');
+    return this.getAll('orders/dispatched-driver/${AppData.driver.sId}');
   }
+
+  Future<List<Order>> driverCompletedOrders() async {
+    return this.getAll('orders/completed-driver/${AppData.driver.sId}');
+  }
+
 }

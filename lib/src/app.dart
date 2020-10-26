@@ -13,9 +13,22 @@ class HaweyatiBusinessApp extends Theme {
         color: Color(0xff313f53),
         brightness: Brightness.dark
       ),
-      dialogTheme: DialogTheme(
-        shape: RoundedRectangleBorder()
+      textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith((states) {
+                print(states);
+                return Color(0xFFFF974D);
+              }),
+              overlayColor: MaterialStateProperty.all(Color(0x33FFFFFF)),
+              foregroundColor: MaterialStateProperty.all(Colors.white),
+              shape: MaterialStateProperty.all(StadiumBorder())
+          )
       ),
+        dialogTheme: DialogTheme(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)
+            )
+        ),
       primaryColor: Color(0xff313f53),
       accentColor: Color(0xFFFF974D),
       inputDecorationTheme: InputDecorationTheme(

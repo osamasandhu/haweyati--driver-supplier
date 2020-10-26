@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class WaitingDialog extends AlertDialog {
-  WaitingDialog([String message = "Please Wait ..."]): super(
+  WaitingDialog({String message = "Please Wait ..."}): super(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10)
     ),

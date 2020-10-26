@@ -95,7 +95,7 @@ class _LocationPickerMapPageState extends State<LocationPickerMapPage> {
   void initState() {
     super.initState();
 
-    _location = widget.coordinates ?? null;
+    _location = widget.coordinates;
     // _location = widget.coordinates ?? AppData.instance().coordinates;
   }
 
@@ -144,6 +144,7 @@ class _LocationPickerMapPageState extends State<LocationPickerMapPage> {
                         onTap: () async {
                           final prediction = await PlacesAutocomplete.show(
                             context: context, apiKey: apiKey,
+                              components: [Component(Component.country, "sau")]
                           );
 
                           if (prediction != null) {

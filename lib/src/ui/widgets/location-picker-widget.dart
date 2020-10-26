@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
-import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/widgits/locations-map_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart';
 import 'package:haweyati_supplier_driver_app/src/common/map-utils/map-utils.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'locations-map_page.dart';
+
 class LocationPickerWidget extends StatefulWidget {
   final Location location;
-  final Function(LocationPickerData) onChanged;
+  final Function(Location) onChanged;
   LocationPickerWidget({this.onChanged,this.location});
 
   @override
@@ -20,35 +21,38 @@ class LocationPickerWidget extends StatefulWidget {
 }
 
 class _LocationPickerWidgetState extends State<LocationPickerWidget> {
-  LocationPickerData _data;
+  Location _data;
   Location previouslySavedLocation;
   SharedPreferences prefs;
 
   initPicker() async {
-    prefs = await SharedPreferences.getInstance();
+    // prefs = await SharedPreferences.getInstance();
 
-    print(AppData.supplier.location.latitude);
-    print(AppData.supplier.location.longitude);
+    // print(AppData.supplier.location.latitude);
+    // print(AppData.supplier.location.longitude);
+    //
+    // previouslySavedLocation = Location(
+    //   address: prefs.getString('address'),
+    //   latitude: prefs.getDouble('latitude'),
+    //   longitude: prefs.getDouble('longitude')
+    // );
 
-    previouslySavedLocation = Location(
-      address: prefs.getString('address'),
-      latitude: prefs.getDouble('latitude'),
-      longitude: prefs.getDouble('longitude')
-    );
+
     if(widget.location!=null){
       LatLng _location = LatLng(widget.location.latitude,widget.location.longitude);
       MapUtils.findAddress(_location).then((value) => setState(() {
-        _data = LocationPickerData(address: MapUtils.formatAddress(value[0]), position: _location,city: value[0].subAdminArea);
+        _data = Location(address: MapUtils.formatAddress(value.first), latitude: _location.latitude,longitude: _location.longitude);
         widget.onChanged(_data);
       }));
-      return;
-    }
-    if(previouslySavedLocation!=null){
-      LatLng _location = LatLng(previouslySavedLocation.latitude,previouslySavedLocation.longitude);
-      MapUtils.findAddress(_location).then((value) => setState(() {
-        _data = LocationPickerData(address: MapUtils.formatAddress(value[0]), position: _location);
-        widget.onChanged(_data);
-      }));
+    } else {
+      LatLng currentCords = await MapUtils.currentLocation;
+      String address = MapUtils.formatAddress((await MapUtils.findAddress(currentCords)).first);
+      if(this.mounted){
+        setState(() {
+          _data = Location(address: address,latitude: currentCords.latitude,longitude: currentCords.longitude);
+          widget.onChanged(_data);
+        });
+      }
     }
   }
 
@@ -88,10 +92,8 @@ class _LocationPickerWidgetState extends State<LocationPickerWidget> {
               FocusScope.of(context).requestFocus(FocusNode());
               FocusScope.of(context).requestFocus(FocusNode());
               final location = await CustomNavigator.navigateTo(context,
-                  LocationPickerPage(
-                    location: previouslySavedLocation,
-
-              ));
+                  LocationPickerMapPage(widget.location !=null ? LatLng(widget.location.latitude,widget.location.longitude) : null)
+              );
               if (location != null) {
                 widget.onChanged(location);
                 setState(() => this._data = location);

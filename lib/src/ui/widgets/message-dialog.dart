@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-openMessageDialog(BuildContext context, String text,[bool popTwoTimes=false]) {
+openMessageDialog(BuildContext context, String text,[int popLength]) {
   showDialog(
       context: context,
       barrierDismissible: false,
@@ -13,10 +13,12 @@ openMessageDialog(BuildContext context, String text,[bool popTwoTimes=false]) {
           Align(
             alignment: Alignment.topRight,
             child: MaterialButton(child: Text("Ok"),onPressed: (){
-              if(popTwoTimes){
-                Navigator.pop(context);
-                Navigator.pop(context);
-              }else {
+              if(popLength!=null){
+                for(int i=0; i<popLength; ++i){
+                  Navigator.pop(context);
+                }
+              }
+              else {
                 Navigator.pop(context);
               }
             },

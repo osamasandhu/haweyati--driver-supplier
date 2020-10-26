@@ -2,21 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/sign-in_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/driver-sign-up_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/pre-signup_page.dart';
-import 'package:haweyati_supplier_driver_app/supplier/auth-pages/supplier-sign-up_page.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/driver/driver-home_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/helpline_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/notifications_page.dart';
-import 'package:haweyati_supplier_driver_app/supplier/auth-pages/waiting-approval_page.dart';
-import 'package:haweyati_supplier_driver_app/supplier/service-requests/buildingMaterial/available-building-materials-categories.dart';
-import 'package:haweyati_supplier_driver_app/supplier/service-requests/dumpster/add-dumpster_page.dart';
-import 'package:haweyati_supplier_driver_app/supplier/service-requests/dumpster/available-dumspters-list_page.dart';
-import 'package:haweyati_supplier_driver_app/supplier/service-requests/finishingMaterial/add-finishing-Materail.dart';
-import 'package:haweyati_supplier_driver_app/supplier/supplier-homepage.dart';
 import 'package:haweyati_supplier_driver_app/widgits/locations-map_page.dart';
 import '../widgits/map.dart';
 import 'data.dart';
+import 'driver/profile/driver-home_page.dart';
+import 'supplier/auth-pages/supplier-sign-up_page.dart';
+import 'supplier/auth-pages/waiting-approval_page.dart';
+import 'supplier/service-requests/available-services_page.dart';
+import 'supplier/service-requests/buildingMaterial/available-building-materials-categories.dart';
+import 'supplier/service-requests/dumpster/add-dumpster_page.dart';
+import 'supplier/service-requests/dumpster/available-dumspters-list_page.dart';
+import 'supplier/service-requests/finishingMaterial/add-finishing-Materail.dart';
+import 'supplier/supplier-homepage.dart';
 import 'ui/pages/auth/pre-sign-in_page.dart';
-import 'ui/pages/supplier/services/available-services_page.dart';
 
 final routes = <String, Widget Function(BuildContext)>{
   '/': (context) {
@@ -25,7 +25,7 @@ final routes = <String, Widget Function(BuildContext)>{
         return AppData.supplier.status == 'Active'
             ? SupplierHomePage() : WaitingApproval();
       } else if (AppData.isDriver) {
-        return AppData.supplier.status == 'Active'
+        return AppData.driver.status == 'Active'
             ? DriverHomePage() : WaitingApproval();
       } else {
         throw Exception("Could not determine user type");

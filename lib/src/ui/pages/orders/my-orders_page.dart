@@ -62,7 +62,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
       /// TODO: Fix this
       // loader: () => _service.orders(orderId: _orderId),
       builder: (context, order) => GestureDetector(
-        onTap: () => navigateTo(context, OrderDetailPage(order)),
+        onTap: () => navigateTo(context, SupplierOrderDetailPage(order)),
         child: _OrderListTile(order)
       ),
     );

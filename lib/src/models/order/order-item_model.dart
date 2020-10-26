@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:haweyati_supplier_driver_app/model/json_serializable.dart';
+import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
 import 'package:hive/hive.dart';
 
 abstract class Orderable extends HiveObject implements JsonSerializable {}
@@ -16,7 +17,7 @@ abstract class OrderItem extends HiveObject implements JsonSerializable {
 class OrderItemHolder<T extends OrderItem> implements JsonSerializable {
   T item;
   double subtotal;
-  String supplier;
+  SupplierModel supplier;
 
   OrderItemHolder({
     this.item,

@@ -166,5 +166,8 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get signInAsDriver => 'Sign In as Driver';
+  String get signInAsDriver => 'تسجيل الدخول كسائق';
+
+  @override
+  String get signInAsSupplier => 'تسجيل الدخول كمورد';
 }

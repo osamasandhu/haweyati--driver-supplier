@@ -1,4 +1,3 @@
-import 'package:haweyati_supplier_driver_app/model/order/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/services/scaffolding/scaffolding-item_model.dart';
 

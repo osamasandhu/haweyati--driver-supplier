@@ -9,7 +9,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="haweyati_supplier_driver_app"
+        android:label="Haweyati Supplier/Driver"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

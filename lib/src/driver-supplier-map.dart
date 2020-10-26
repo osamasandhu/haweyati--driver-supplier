@@ -8,6 +8,8 @@ import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:haweyati_supplier_driver_app/src/common/map-utils/map-utils.dart';
+import 'package:haweyati_supplier_driver_app/utils/const.dart';
 import '../widgits/latlngcov.dart';
 import 'google-map-service.dart';
 
@@ -15,14 +17,16 @@ String apiKey = 'AIzaSyDdNpY6LGWgHqRfTRZsKkVhocYOaER325w';
 
 class DriverRouteMapPage extends StatefulWidget {
   final List<LatLng> wayPoints;
-  DriverRouteMapPage({this.wayPoints});
+  final LatLng destination;
+  DriverRouteMapPage({this.wayPoints,this.destination});
   @override
   State<DriverRouteMapPage> createState() => MyLocationMapPageState();
 }
 
 class MyLocationMapPageState extends State<DriverRouteMapPage> {
-  BitmapDescriptor startPin;
-  BitmapDescriptor destPin;
+  BitmapDescriptor driver;
+  BitmapDescriptor customer;
+  BitmapDescriptor store;
   GoogleMapsServices _googleMapServices = GoogleMapsServices();
   String userAddress;
   final Set<Polyline> _polyLines = {};
@@ -35,7 +39,8 @@ class MyLocationMapPageState extends State<DriverRouteMapPage> {
   List<PlacesSearchResult> places = [];
   GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: apiKey);
 
-  void _getCurrentLocation([bool animateCamera = false]) async {
+  void _initalizeMap([bool animateCamera = false]) async {
+    setMarkers();
     final position = await Geolocator()
       .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
@@ -49,34 +54,52 @@ class MyLocationMapPageState extends State<DriverRouteMapPage> {
         CameraUpdate.newCameraPosition(CameraPosition(target: driverLocation, zoom: 15.0)),
       );
     }
-    await createRoute();
+
+    await updateDriverData();
+  }
+
+  void setMarkers(){
+    BitmapDescriptor
+        .fromAssetImage(ImageConfiguration(size: Size(9, 9)), StoreMarkerIcon)
+        .then((onValue) {
+      store = onValue;
+      for(int i=0; i<widget.wayPoints.length; ++i){
+        allMarkers.add(Marker(
+            markerId: MarkerId('store$i'),
+            position: widget.wayPoints[i],
+            icon: store
+        ));
+      }
+    });
+    BitmapDescriptor
+        .fromAssetImage(ImageConfiguration(size: Size(9, 9)), PersonMarkerIcon)
+        .then((onValue) {
+      customer = onValue;
+      allMarkers.add(Marker(
+          markerId: MarkerId('customer'),
+          position: widget.destination,
+          icon: customer
+      ));
+    } );
+
+    BitmapDescriptor
+        .fromAssetImage(ImageConfiguration(size: Size(9, 9)), VehicleMarkerIcon)
+        .then((onValue) {driver = onValue;});
+
   }
 
   void createRoute() async {
-    print("called route");
-    String route = await _googleMapServices.getRouteCoordinates(driverLocation, widget.wayPoints);
+    String route = await _googleMapServices.getRouteCoordinates(driverLocation, widget.wayPoints,widget.destination);
     setState(() {
-      print("ASd");
       _polyLines.clear();
       _polyLines.add(Polyline(
           polylineId: PolylineId('route'),
           width: 3,
           points: convertToLatLng(decodePoly(route)),
-          color: Colors.blue));
+          color: Colors.blue
+      ));
     });
   }
-
-
-  void updateMarker(){
-    allMarkers.clear();
-    allMarkers.add(Marker(
-        markerId: MarkerId('0'),
-        position: driverLocation,
-        draggable: true,
-        onDragEnd: onMarkerDragEnd
-    ));
-  }
-
 
   void onMapTapped(LatLng cords) async {
     setState(() {
@@ -92,9 +115,10 @@ class MyLocationMapPageState extends State<DriverRouteMapPage> {
         markerId: MarkerId('driver'),
         position: driverLocation,
         draggable: true,
-        onDragEnd: onMarkerDragEnd
+        onDragEnd: onMarkerDragEnd,
+      icon: driver
     ));
-    userAddress = await findAddress(driverLocation);
+    userAddress = MapUtils.formatAddress((await MapUtils.findAddress(driverLocation)).first);
     setState(() {
       searchAddressField.text = userAddress;
     });
@@ -115,6 +139,7 @@ class MyLocationMapPageState extends State<DriverRouteMapPage> {
     Prediction p = await PlacesAutocomplete.show(
       context: context,
       apiKey: apiKey,
+        components: [Component(Component.country, "sau")]
     );
     displayPrediction(p);
   }
@@ -147,16 +172,7 @@ class MyLocationMapPageState extends State<DriverRouteMapPage> {
   @override
   void initState() {
     super.initState();
-
-    BitmapDescriptor
-      .fromAssetImage(ImageConfiguration(size: Size(9, 9)), 'assets/start_pin.png')
-      .then((onValue) => startPin = onValue);
-
-    BitmapDescriptor
-      .fromAssetImage(ImageConfiguration(size: Size(9, 9)), 'assets/dest_pin.png')
-      .then((onValue) => destPin = onValue);
-
-    _getCurrentLocation();
+    _initalizeMap();
   }
 
 
@@ -199,7 +215,7 @@ class MyLocationMapPageState extends State<DriverRouteMapPage> {
                     ),
                   )),
                   GestureDetector(
-                      onTap:()=> _getCurrentLocation(true),
+                      onTap:()=> _initalizeMap(true),
                       child: Icon(Icons.my_location)
                   ),
                 ]),
@@ -236,45 +252,8 @@ class MyLocationMapPageState extends State<DriverRouteMapPage> {
           Text('(Make sure you have your location enabled)',style: TextStyle(color: Colors.grey),)
         ],
       )),
-      bottomNavigationBar: Material(
-        elevation: 10,
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: SizedBox(
-            height: 45,
-            child: FlatButton.icon(
-              shape: StadiumBorder(),
-              textColor: Colors.white,
-              icon: Icon(Icons.location_on),
-              color: Theme.of(context).accentColor,
-              label: Text(('Set_Your_Location')),
-              onPressed: ()  {
-
-              },
-            ),
-          ),
-        ),
-      ),
     );
   }
 
-  Future<String> findAddress(LatLng cords) async{
-
-    var addresses = await Geocoder.google(apiKey).findAddressesFromCoordinates(Coordinates(cords.latitude,cords.longitude));
-    String formattedAddress = "";
-    if (addresses.first.addressLine.contains(",")) {
-      List<String> descriptionSplit = addresses.first.addressLine.split(",");
-      for (var i = 0; i < descriptionSplit.length - 1; ++i) {
-        if (i == descriptionSplit.length - 2) {
-          formattedAddress += descriptionSplit[i];
-        } else {
-          formattedAddress += descriptionSplit[i] + ", ";
-        }
-      }
-    } else {
-      formattedAddress = addresses.first.addressLine;
-    }
-    return formattedAddress;
-  }
 
 }

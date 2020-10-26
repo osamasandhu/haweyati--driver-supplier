@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
+import 'package:haweyati_supplier_driver_app/src/driver/orders/driver-order-detail.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/order-detail_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/timeAgoSinceDate.dart';
@@ -8,13 +10,17 @@ import 'custom-navigator.dart';
 
 class OrderTile extends StatelessWidget {
   final Order order;
-  OrderTile({this.order});
+  final Function refresh;
+  OrderTile({this.order,this.refresh});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){
-        CustomNavigator.navigateTo(context, OrderDetailPage(order));
+      onTap: () async {
+       await CustomNavigator.navigateTo(context, AppData.isSupplier
+            ? SupplierOrderDetailPage(order)
+            : DriverOrderDetailPage(order));
+       // refresh();
         // CustomNavigator.navigateTo(context, SupplierOrderDetail(order: order,));
       },
       child: Container(

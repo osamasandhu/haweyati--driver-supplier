@@ -3,13 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:haweyati_supplier_driver_app/utils/const.dart';
 
 class HaweyatiAppBar extends StatelessWidget with PreferredSizeWidget {
-  final bool hideCart;
   final bool hideHome;
   final double progress;
   final List<Widget> actions;
 
   const HaweyatiAppBar({
-    this.hideCart = false,
     this.hideHome = false,
     this.actions,
     this.progress = 0.0
@@ -24,14 +22,6 @@ class HaweyatiAppBar extends StatelessWidget with PreferredSizeWidget {
         onTap: () => Navigator
             .of(context)
             .popUntil((route) => route.settings.name == '/')
-      )
-    );
-    if (!hideCart) _actions.add(
-      GestureDetector(
-        child: IconButton(
-          onPressed: () {},
-          icon: Image.asset(CartIcon, width: 30)
-        ),
       )
     );
 

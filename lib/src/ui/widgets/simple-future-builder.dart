@@ -85,7 +85,14 @@ class SimpleFutureBuilder<T> extends FutureBuilder<T> {
     future: future,
     noDataMessage : noDataMessage,
     noneChild: SliverToBoxAdapter(child: Text("No Connection was found")),
-    noDataChild: SliverToBoxAdapter(child: Text("No Data was found")),
+    noDataChild: SliverToBoxAdapter(child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Center(child: Icon(Icons.search,size: 60,color: Color(0xff313f53),) ),
+        Center(child: Text(noDataMessage ?? "No Results",style: TextStyle(color: Colors.grey,fontSize: 22),)),
+      ],
+    )),
     unknownChild: SliverToBoxAdapter(child: Text("Unknown Error Occurred")),
     activeChild: SliverToBoxAdapter(child: Center(child: CircularProgressIndicator())),
     waitingChild: SliverToBoxAdapter(child: Center(child: CircularProgressIndicator())),
