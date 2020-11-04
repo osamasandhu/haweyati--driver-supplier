@@ -13,10 +13,10 @@ import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.d
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/my-orders_page.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/widgets/flat-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/raised-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/rich-price-text.dart';
@@ -33,130 +33,129 @@ class DriverOrderDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScrollableView.sliver(
-      fab: FloatingActionButton(
-        child: Icon(Icons.map,color: Colors.white,),
-        onPressed: (){
-          
-          // List<LatLng> wayPoints = [
-          //   // BZ Universityersity
-          //   LatLng(30.276798, 71.512020),
-          //   //Chowk Kumhara
-          //   LatLng(30.210255, 71.515635),
-          //   //Women University
-          //   LatLng(30.204883, 71.461753),
-          //   //BZ University
-          //   // LatLng(30.276798, 71.512020),
-          // ];
-          //
-          // //Cant
-          // LatLng destination = LatLng(30.165381, 71.386373);
-          
-          List<LatLng> wayPoints = [];
+    return LocalizedView(
+      builder: (context,lang) =>
+       ScrollableView.sliver(
+        fab: FloatingActionButton(
+          child: Icon(Icons.map,color: Colors.white,),
+          onPressed: (){
 
-            order.items.forEach((element) {
-              wayPoints.add(LatLng(element.supplier.location.latitude,element.supplier.location.longitude));
-            });
+            // List<LatLng> wayPoints = [
+            //   // BZ Universityersity
+            //   LatLng(30.276798, 71.512020),
+            //   //Chowk Kumhara
+            //   LatLng(30.210255, 71.515635),
+            //   //Women University
+            //   LatLng(30.204883, 71.461753),
+            //   //BZ University
+            //   // LatLng(30.276798, 71.512020),
+            // ];
+            //
+            // //Cant
+            // LatLng destination = LatLng(30.165381, 71.386373);
 
-          CustomNavigator.navigateTo(context, DriverRouteMapPage(
-            wayPoints: wayPoints,
-            destination: LatLng(order.location.latitude,order.location.longitude),
-          ));
-          
-          
-        },
-      ),
-      bottom:  order.status.index == 1 ? RaisedActionButton(
-        label: "Accept Order",
-        onPressed: () async {
-          bool confirm =  await showDialog(context: context,
-              builder: (context){
-                return ConfirmationDialog(title: Text('Are you sure you want to accept this order?'),);
+            List<LatLng> wayPoints = [];
+
+              order.items.forEach((element) {
+                wayPoints.add(LatLng(element.supplier.location.latitude,element.supplier.location.longitude));
               });
-          if(confirm!=null && confirm){
-            openLoadingDialog(context, "Accepting order");
-            var res = await HaweyatiService.patch('orders/add-driver', {
-              'driver' : AppData.driver.serialize(),
-              '_id' :order.id,
-              'flag' : true
-            });
-            // Navigator.pop(context);
-            Navigator.pop(context);
-          }
-        },
-      ) : order.status.index == 4 ? SizedBox(): RaisedActionButton(
-        label: "Mark as Completed",
-        onPressed: () async {
-         CustomNavigator.navigateTo(context, MarkOrderCompleted(orderId: order.id,));
-        },
-      ) ,
-        showBackground: true,
-        padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
-        appBar: HaweyatiAppBar(actions: [
-          IconButton(
-            icon: Image.asset(CustomerCareIcon, width: 20),
-            // onPressed: () => Navigator.of(context).pushNamed(HELPLINE_PAGE)
-          )
-        ]),
-        children: [
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(5, 20, 5, 40),
-            sliver: SliverToBoxAdapter(child: _OrderDetailHeader(order.status.index)),
-          ),
 
-          SliverToBoxAdapter(child: OrderMeta(order)),
+            CustomNavigator.navigateTo(context, DriverRouteMapPage(
+              wayPoints: wayPoints,
+              destination: LatLng(order.location.latitude,order.location.longitude),
+            ));
 
-          SliverPadding(
-            padding: const EdgeInsets.only(bottom: 15, top: 25),
-            sliver: SliverToBoxAdapter(child: LocationPicker(initialValue: order.location)),
-          ),
 
-          SliverList(delegate: SliverChildBuilderDelegate(
-                  (context, index) =>_OrderItemWidget(order.items[index]),
-              childCount: order.items.length
-          )),
-
-          SliverToBoxAdapter(
-            child: Table(
-              defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
-              children: [
-                TableRow(children: [
-                  Text('Sub Total', style: TextStyle(
-                    height: 2, fontSize: 13,
-                    fontFamily: 'Lato',
-                    color: Colors.grey.shade600,
-                  )),
-
-                  RichPriceText(price: order.total - order.deliveryFee, fontSize: 13)
-                ]),
-                TableRow(children: [
-                  Text('Delivery Fee', style: TextStyle(
-                    height: 2, fontSize: 13,
-                    fontFamily: 'Lato',
-                    color: Colors.grey.shade600,
-                  )),
-
-                  RichPriceText(price: order.deliveryFee, fontSize: 13)
-                ])
-              ],
+          },
+        ),
+        bottom:  order.status == OrderStatus.accepted ? RaisedActionButton(
+          label: lang.acceptOrder,
+          onPressed: () async {
+            bool confirm =  await showDialog(context: context,
+                builder: (context){
+                  return ConfirmationDialog(title: Text(lang.sureAcceptOrder),
+                  );
+                });
+            if(confirm!=null && confirm){
+              openLoadingDialog(context, lang.acceptingOrder);
+              var res = await HaweyatiService.patch('orders/add-driver', {
+                'driver' : AppData.driver.serialize(),
+                '_id' :order.id,
+                'flag' : true
+              });
+              Navigator.pop(context);
+              Navigator.pop(context);
+            }
+          },
+        ) : order.status == OrderStatus.dispatched ?  RaisedActionButton(
+          label: lang.markCompleted,
+          onPressed: () async {
+           CustomNavigator.navigateTo(context, MarkOrderCompleted(orderId: order.id,));
+          },
+        ) : SizedBox(),
+          showBackground: true,
+          padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
+          appBar: HaweyatiAppBar(),
+          children: [
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(5, 20, 5, 40),
+              sliver: SliverToBoxAdapter(child: _OrderDetailHeader(order.status.index)),
             ),
-          ),
-          SliverToBoxAdapter(child: Divider()),
-          SliverToBoxAdapter(
-            child: Table(children: [
-              TableRow(children: [
-                Text('Total', style: TextStyle(
-                  height: 2,
-                  fontSize: 13,
-                  fontFamily: 'Lato',
-                  color: Colors.grey.shade600,
-                )),
 
-                RichPriceText(price: order.total, fontWeight: FontWeight.bold, fontSize: 18)
-              ])
-            ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
-          )
-        ]
+            SliverToBoxAdapter(child: OrderMeta(order)),
+
+            SliverPadding(
+              padding: const EdgeInsets.only(bottom: 15, top: 25),
+              sliver: SliverToBoxAdapter(child: LocationPicker(initialValue: order.location)),
+            ),
+
+            SliverList(delegate: SliverChildBuilderDelegate(
+                    (context, index) =>_OrderItemWidget(order.items[index]),
+                childCount: order.items.length
+            )),
+
+            SliverToBoxAdapter(
+              child: Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
+                children: [
+                  TableRow(children: [
+                    Text(lang.subtotal, style: TextStyle(
+                      height: 2, fontSize: 13,
+                      fontFamily: 'Lato',
+                      color: Colors.grey.shade600,
+                    )),
+
+                    RichPriceText(price: order.total - order.deliveryFee, fontSize: 13)
+                  ]),
+                  TableRow(children: [
+                    Text(lang.deliveryFee, style: TextStyle(
+                      height: 2, fontSize: 13,
+                      fontFamily: 'Lato',
+                      color: Colors.grey.shade600,
+                    )),
+
+                    RichPriceText(price: order.deliveryFee, fontSize: 13)
+                  ])
+                ],
+              ),
+            ),
+            SliverToBoxAdapter(child: Divider()),
+            SliverToBoxAdapter(
+              child: Table(children: [
+                TableRow(children: [
+                  Text(lang.total, style: TextStyle(
+                    height: 2,
+                    fontSize: 13,
+                    fontFamily: 'Lato',
+                    color: Colors.grey.shade600,
+                  )),
+
+                  RichPriceText(price: order.total, fontWeight: FontWeight.bold, fontSize: 18)
+                ])
+              ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
+            )
+          ]
+      ),
     );
   }
 }
@@ -169,67 +168,70 @@ class _OrderItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final qty = _qty(holder);
 
-    return DarkContainer(
-      margin: const EdgeInsets.only(bottom: 15),
-      padding: const EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 35),
-      child: Column(children: [
-        OrderItemTile(holder),
+    return LocalizedView(
+      builder: (context,lang) =>
+       DarkContainer(
+        margin: const EdgeInsets.only(bottom: 15),
+        padding: const EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 35),
+        child: Column(children: [
+          OrderItemTile(holder),
 
-        if (holder.item is FinishingMaterialOrderItem)
-          Table(children: [
-            ..._buildVariants((holder.item as FinishingMaterialOrderItem).variants),
+          if (holder.item is FinishingMaterialOrderItem)
+            Table(children: [
+              ..._buildVariants((holder.item as FinishingMaterialOrderItem).variants),
 
-            TableRow(children: [
-              Text('Quantity', style: TextStyle(
-                height: 1.6,
-                fontSize: 13,
-                color: Colors.grey,
-              )),
+              TableRow(children: [
+                Text(lang.quantity, style: TextStyle(
+                  height: 1.6,
+                  fontSize: 13,
+                  color: Colors.grey,
+                )),
 
-              Text('${(holder.item as FinishingMaterialOrderItem).qty} ${(holder.item as FinishingMaterialOrderItem).qty == 1 ? 'Piece' : 'Pieces'}',
-                textAlign: TextAlign.right,
-                style: TextStyle(color: Color(0xFF313F53)),
-              )
-            ]),
-            TableRow(children: [
-              Text('Price', style: TextStyle(
-                height: 1.6,
-                fontSize: 13,
-                color: Colors.grey,
-              )),
+                Text('${(holder.item as FinishingMaterialOrderItem).qty} ${(holder.item as FinishingMaterialOrderItem).qty == 1 ? 'Piece' : 'Pieces'}',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(color: Color(0xFF313F53)),
+                )
+              ]),
+              TableRow(children: [
+                Text(lang.price, style: TextStyle(
+                  height: 1.6,
+                  fontSize: 13,
+                  color: Colors.grey,
+                )),
 
-              RichPriceText(price: (holder.item as FinishingMaterialOrderItem).price)
-            ]),
-            TableRow(children: [
-              Text('Total', style: TextStyle(
-                height: 2.5,
-                fontSize: 13,
-                color: Colors.grey,
-              )),
+                RichPriceText(price: (holder.item as FinishingMaterialOrderItem).price)
+              ]),
+              TableRow(children: [
+                Text(lang.total, style: TextStyle(
+                  height: 2.5,
+                  fontSize: 13,
+                  color: Colors.grey,
+                )),
 
-              RichPriceText(price: holder.subtotal, fontWeight: FontWeight.bold)
-            ])
-          ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline)
-        else
-          Table(children: [
-            TableRow(children: [
-              Text('Quantity', style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 2)),
-              Text(AppLocalizations.of(context).nProducts(qty), textAlign: TextAlign.right, style: TextStyle(
-                  fontSize: 13
-              ))
-            ]),
-            TableRow(children: [
-              Text('Price', style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 2)),
-              RichPriceText(price: holder.subtotal / qty, fontSize: 13)
-            ]),
+                RichPriceText(price: holder.subtotal, fontWeight: FontWeight.bold)
+              ])
+            ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline)
+          else
+            Table(children: [
+              TableRow(children: [
+                Text(lang.quantity, style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 2)),
+                Text(AppLocalizations.of(context).nProducts(qty), textAlign: TextAlign.right, style: TextStyle(
+                    fontSize: 13
+                ))
+              ]),
+              TableRow(children: [
+                Text(lang.price, style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 2)),
+                RichPriceText(price: holder.subtotal / qty, fontSize: 13)
+              ]),
 
-            TableRow(children: [
-              Text('Total', style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 3)),
-              RichPriceText(price: holder.subtotal, fontWeight: FontWeight.bold)
-            ]),
-          ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline)
-      ]),
+              TableRow(children: [
+                Text(lang.total, style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 3)),
+                RichPriceText(price: holder.subtotal, fontWeight: FontWeight.bold)
+              ]),
+            ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline)
+        ]),
 
+      ),
     );
   }
 
@@ -388,4 +390,52 @@ class _OrderStatusPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
+
+
+
+class DriverBottomWidget extends StatefulWidget {
+  final Order order;
+  DriverBottomWidget({this.order});
+  @override
+  _DriverBottomWidgetState createState() => _DriverBottomWidgetState();
+}
+
+class _DriverBottomWidgetState extends State<DriverBottomWidget> {
+  bool completed = false;
+  bool accepted = false;
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.order.status == OrderStatus.accepted && !accepted ? RaisedActionButton(
+      label: "Accept Order",
+      onPressed: () async {
+        bool confirm =  await showDialog(context: context,
+            builder: (context){
+              return ConfirmationDialog(title: Text('Are you sure you want to accept this order?'),
+              );
+            });
+        if(confirm!=null && confirm){
+          openLoadingDialog(context, "Accepting order");
+          var res = await HaweyatiService.patch('orders/add-driver', {
+            'driver' : AppData.driver.serialize(),
+            '_id' :widget.order.id,
+            'flag' : true
+          });
+          // Navigator.pop(context);
+          Navigator.pop(context);
+          setState(() {
+            accepted=true;
+          });
+        }
+      },
+    ) : widget.order.status == OrderStatus.dispatched ?  RaisedActionButton(
+      label: "Mark as Completed",
+      onPressed: () async {
+        CustomNavigator.navigateTo(context, MarkOrderCompleted(orderId: widget.order.id,));
+      },
+    ) : SizedBox();
+  }
 }

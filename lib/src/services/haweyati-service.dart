@@ -5,10 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
- // const apiUrl = "http://192.168.100.85:4000";
  const apiUrl = "http://192.168.100.100:4000";
  // const apiUrl = "http://178.128.16.246:4000";
- // const apiUrl = "http://128.199.20.220:4000";
 
 abstract class HaweyatiService<T> {
 
@@ -144,6 +142,7 @@ abstract class HaweyatiService<T> {
     print("$apiUrl/$route");
     prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
+    print(token);
 
     try {
       final response = await dio.get('$apiUrl/$route',

@@ -1,12 +1,11 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/widgits/confirmation-dialog.dart';
+import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
 
 Future<bool> exitApp(BuildContext context) async {
   bool confirm = await showDialog(context: context,builder: (context){
     return AlertDialog(
-        title: Text("Are you sure you want to exit this application?",style: TextStyle(
+        title: Text(AppLocalizations.of(context).exitApp,style: TextStyle(
           fontSize: 18
         ),),
         insetPadding: const EdgeInsets.all(15),
@@ -21,11 +20,11 @@ Future<bool> exitApp(BuildContext context) async {
                       color: Theme.of(context).primaryColor
                   ))
               ),
-              child: Text("Yes",style: TextStyle(color: Theme.of(context).accentColor),),
+              child: Text(AppLocalizations.of(context).yes,style: TextStyle(color: Theme.of(context).accentColor),),
               onPressed: () => Navigator.of(context).pop(true)
           ),
           TextButton(
-              child: Text("No"),
+              child: Text(AppLocalizations.of(context).no),
               onPressed: () => Navigator.of(context).pop(false)
           ),
         ]

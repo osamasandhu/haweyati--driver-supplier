@@ -17,23 +17,32 @@ class OrdersService extends HaweyatiService<Order> {
       }
     }
     //Todo : Fix city bug it returns null or address instead
-    return this.getAll('orders/filter$services&city=${AppData.supplier.city}');
+    return this.getAll('orders/filter$services&city=Jeddah');
+    // return this.getAll('orders/filter$services&city=${AppData.supplier.city}');
   }
 
   Future<List<Order>> supplierSelectedOrders() async {
-    return this.getAll('orders/selected-supplier/${AppData.supplier.sId}');
+    return this.getAll('orders/selected-supplier/${AppData.supplier.id}');
   }
 
   Future<List<Order>> supplierCompletedOrders() async {
-    return this.getAll('orders/completed-supplier/${AppData.supplier.sId}');
+    return this.getAll('orders/completed-supplier/${AppData.supplier.id}');
+  }
+
+  Future<List<Order>> supplierDispatchedOrders() async {
+    return this.getAll('orders/dispatched-supplier/${AppData.supplier.id}');
   }
 
   Future<List<Order>> driverAllOrders() async {
     return this.getAll('orders/getactive');
   }
 
-  Future<List<Order>> driverSelectedOrders() async {
+  Future<List<Order>> driverDispatchedOrders() async {
     return this.getAll('orders/dispatched-driver/${AppData.driver.sId}');
+  }
+
+  Future<List<Order>> driverAcceptedOrders() async {
+    return this.getAll('orders/preparing-driver/${AppData.driver.sId}');
   }
 
   Future<List<Order>> driverCompletedOrders() async {

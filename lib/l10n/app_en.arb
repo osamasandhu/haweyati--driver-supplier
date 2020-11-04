@@ -139,5 +139,221 @@
   "@signInAsDriver": {},
 
   "signInAsSupplier": "Sign In as Supplier",
-  "@signInAsSupplier": {}
+  "@signInAsSupplier": {},
+
+  "signUpAsDriver": "Sign Up as Driver",
+  "@signUpAsDriver": {},
+
+  "signUpAsSupplier": "Sign Up as Supplier",
+  "@signUpAsSupplier": {},
+
+  "registerNow": "Register Now",
+  "@registerNow": {},
+
+  "exitApp" : "Are you sure you want to exit this application?",
+  "@exitApp" : {},
+
+  "incorrectCredentials" : "You have entered an incorrect username or password",
+  "@incorrectCredentials" : {},
+
+  "validatePassword" : "Please provide password",
+  "@validatePassword" : {},
+
+  "validatePhoneNo" : "Please provide phone number",
+  "@validatePhoneNo" : {},
+
+  "notASupplier" : "You are not registered as a Supplier on this account",
+  "@notASupplier": {},
+
+  "notADriver" : "You are not registered as a Driver on this account",
+  "@notADriver": {},
+
+  "underReview" : "Your account is being reviewed!",
+  "@underReview": {},
+
+  "accountRejected" : "Your account has been rejected!",
+  "@accountRejected": {},
+
+  "accountApproved" : "Your account has been approved!",
+  "@accountApproved": {},
+
+  "refreshingStatus" : "Refreshing status",
+  "@refreshingStatus": {},
+
+  "selectService" : "You must select at least one service",
+  "@selectService": {},
+
+  "selectBranch" : "Please select Branch",
+  "@selectBranch": {},
+
+  "signingUp" : "Signing Up",
+  "@signingUp": {},
+
+  "enterReqInfo" : "Enter Required Information",
+  "@enterReqInfo": {},
+
+  "selectServices" : "Select Services",
+  "@selectServices": {},
+
+  "isSubBranch" : "It is a Sub Branch",
+  "@isSubBranch": {},
+
+  "address" : "Address",
+  "@address": {},
+
+  "validateAddress" : "Please Enter Address",
+  "@validateAddress": {},
+
+  "name" : "Name",
+  "@name": {},
+
+  "validateName" : "Please Enter Name",
+  "@validateName": {},
+
+  "name" : "Name",
+  "@name": {},
+
+  "licenseNo" : "License Number",
+  "@licenseNo": {},
+
+  "validateLicenseNo" : "Please Enter License Number",
+  "@validateLicenseNo": {},
+
+  "vehicleDetails" : "Vehicle Details",
+  "@vehicleDetails": {},
+
+  "vehicleType" : "Vehicle Type",
+  "@vehicleType": {},
+
+  "vehicleName" : "Vehicle Name",
+  "@vehicleName": {},
+
+  "vehicleModel" : "Vehicle Model",
+  "@vehicleModel": {},
+
+  "selectSupplier" : "Select Supplier",
+  "@selectSupplier": {},
+
+  "validateVehicle" : "Please enter Vehicle Name",
+  "@validateVehicle": {},
+
+  "validateModel" : "Please enter Vehicle Model",
+  "@validateModel": {},
+
+  "identification" : "Identification",
+  "@identification": {},
+
+  "validateIdentification" : "Please enter identification",
+  "@validateIdentification": {},
+
+  "camera" : "Camera",
+  "@camera": {},
+
+  "gallery" : "Gallery",
+  "@gallery": {},
+
+  "noImageSelected" : "No Image selected",
+  "@noImageSelected": {},
+
+  "welcome" : "Welcome",
+  "@welcome": {},
+
+  "newOrders" : "New Orders",
+  "@newOrders": {},
+
+  "acceptedOrders" : "Accepted",
+  "@acceptedOrders": {},
+
+  "dispatchedOrders" : "Dispatched",
+  "@dispatchedOrders": {},
+
+  "completedOrders" : "Completed",
+  "@completedOrders": {},
+
+  "updatingProfile" : "Updating Profile",
+  "@updatingProfile": {},
+
+  "submit" : "Submit",
+  "@submit": {},
+
+  "serviceRequests" : "Service Requests",
+  "@serviceRequests": {},
+
+  "myProfile" : "My Profile",
+  "@myProfile": {},
+
+  "changePassword" : "Change Password",
+  "@changePassword": {},
+
+  "changePassword" : "Change Password",
+  "@changePassword": {},
+
+  "verification" : "Verification",
+  "@verification": {},
+
+  "typeCode" : "Please type the verification code you received",
+  "@typeCode": {},
+
+  "didntReceiveCode" : "Didn't receive a code?",
+  "@didntReceiveCode": {},
+
+  "resendCode" : "Resend code?",
+  "@resendCode": {},
+
+  "waitFor" : "Wait for",
+  "@waitFor": {},
+
+  "verifyingOTP" : "Verifying OTP",
+  "@verifyingOTP": {},
+
+  "resetPassword" : "Reset Password",
+  "@resetPassword": {},
+
+  "enterPhoneIntFormat" : "Enter Your Phone Number in International Format to ",
+  "@enterPhoneIntFormat": {},
+
+  "processing" : "Processing",
+  "@processing": {},
+
+  "alreadyExistsDriver" : "A driver with this phone number already exists",
+  "@alreadyExistsDriver": {},
+
+  "alreadyExistsSupplier" : "A supplier with this phone number already exists",
+  "@alreadyExistsSupplier": {},
+
+  "alreadyExistsProfile" : "profile already exists with this phone number.Are you sure you want to sync these accounts?",
+  "@alreadyExistsProfile": {},
+
+  "sureAcceptOrder" : "Are you sure you want to accept this order?",
+  "@sureAcceptOrder": {},
+
+  "sureAcceptOrder" : "Are you sure you want to accept this order?",
+  "@sureAcceptOrder": {},
+
+  "acceptOrder" : "Accept Order",
+  "@acceptOrder": {},
+
+  "acceptOrder" : "Accept Order",
+  "@acceptOrder": {},
+
+  "acceptingOrder" : "Accepting Order",
+  "@acceptingOrder": {},
+
+  "markCompleted" : "Mark as completed",
+  "@markCompleted": {},
+
+  "subtotal" : "Subtotal",
+  "@subtotal": {},
+
+  "deliveryFee" : "Delivery Fee",
+  "@deliveryFee": {},
+
+  "total" : "Total",
+  "@total": {},
+
+  "quantity" : "Quantity",
+  "@quantity": {},
+
+  "price" : "Price",
+  "@price": {}
 }

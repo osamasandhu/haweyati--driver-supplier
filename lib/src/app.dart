@@ -1,5 +1,6 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 
 import 'routes.dart';
 import 'package:flutter/material.dart';
@@ -36,12 +37,18 @@ class HaweyatiBusinessApp extends Theme {
         border: OutlineInputBorder()
       ),
     ),
-    child: CupertinoApp(
-      routes: routes,
-      title: 'Haweyati Business',
-
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-    )
+    child : ValueListenableBuilder(
+        valueListenable: AppData.instance().currentLocale,
+        builder: (context, value, _) {
+          return CupertinoApp(
+              locale: value,
+              routes: routes,
+              title: 'Haweyati Supplier/Driver',
+              debugShowCheckedModeBanner: false,
+              supportedLocales: AppLocalizations.supportedLocales,
+              localizationsDelegates: AppLocalizations.localizationsDelegates
+          );
+        }
+    ),
   );
 }

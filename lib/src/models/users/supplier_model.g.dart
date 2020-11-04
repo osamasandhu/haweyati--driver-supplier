@@ -21,7 +21,7 @@ class SupplierModelAdapter extends TypeAdapter<SupplierModel> {
       person: fields[4] as Profile,
       city: fields[1] as String,
       location: fields[3] as Location,
-      sId: fields[0] as String,
+      id: fields[0] as String,
       shopParentId: fields[5] as String,
       message: fields[7] as String,
       status: fields[2] as String,
@@ -33,7 +33,7 @@ class SupplierModelAdapter extends TypeAdapter<SupplierModel> {
     writer
       ..writeByte(8)
       ..writeByte(0)
-      ..write(obj.sId)
+      ..write(obj.id)
       ..writeByte(1)
       ..write(obj.city)
       ..writeByte(2)

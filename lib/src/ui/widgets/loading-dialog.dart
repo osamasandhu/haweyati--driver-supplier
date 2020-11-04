@@ -14,7 +14,7 @@ openLoadingDialog(BuildContext context, String text) {
                       strokeWidth: 1,
                       valueColor: AlwaysStoppedAnimation(Colors.black))),
               SizedBox(width: 10),
-              Text(text + "...")
+              Expanded(child: Text(text + "..."))
             ]),
           ));
 }

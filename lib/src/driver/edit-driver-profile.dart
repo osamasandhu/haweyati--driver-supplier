@@ -4,6 +4,7 @@ import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart'
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/supplier/auth-pages/waiting-approval_page.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/haweyati-text-field.dart';
@@ -73,235 +74,236 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
 
   @override
   Widget build(BuildContext context) {
-    print("Called");
-    return Scaffold(
-      key: key,
-      appBar: HaweyatiAppBar(),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
-        child: SimpleForm(
-          key: simpleFormKey,
-          onSubmit: () async {
-            isVehicleInfoChanged = isVehicleInfoModified();
-            if(isVehicleInfoChanged){
-              bool proceed = await showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) => openConfirmVehicleInfoChangeDialog(context));
-                      print(proceed);
-              if(proceed==null || !proceed){
-                print("returned");
-                return;
-              }
-              print("working");
-            }
-              FocusScope.of(context).requestFocus(FocusNode());
-              FocusScope.of(context).requestFocus(FocusNode());
-              openLoadingDialog(context, 'Updating profile');
-
-              FormData profile = FormData.fromMap({
-                "_id" : AppData.driver.sId,
-                'person' : AppData.driver.profile.id,
-                "name": name.text,
-                "license" : _license.text,
-                "latitude" : _userLocation.latitude,
-                "longitude" : _userLocation.longitude,
-                "vehicleName" : _vehicleName.text,
-                "model" : _model.text,
-                "type" : selectedType,
-                "identificationNo" : _identification.text,
-                // "city" : _userLocation.city,
-                "address" : _userLocation.address,
-                'isVehicleInfoChanged' : isVehicleInfoModified()
-              });
-
-              if(imagePath!=null){
-                profile.files.add(
-                  MapEntry(
-                    'image', await MultipartFile.fromFile(imagePath)
-                  )
-                );
-              }
-
-              var res = await HaweyatiService.patch('drivers', profile);
-              Navigator.pop(context);
-              print(res.data);
-              try{
-                await AppData.signIn(Driver.fromJson(res.data));
-                if(isVehicleInfoChanged){
-                  CustomNavigator.pushReplacement(context, WaitingApproval());
-                }else{
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+    return LocalizedView(
+      builder: (context, lang) =>  Scaffold(
+        key: key,
+        appBar: HaweyatiAppBar(),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(20),
+          child: SimpleForm(
+            key: simpleFormKey,
+            onSubmit: () async {
+              isVehicleInfoChanged = isVehicleInfoModified();
+              if(isVehicleInfoChanged){
+                bool proceed = await showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) => openConfirmVehicleInfoChangeDialog(context));
+                        print(proceed);
+                if(proceed==null || !proceed){
+                  print("returned");
+                  return;
                 }
-                print(res.data);
-              } catch (e){
-                Navigator.pop(context);
-                key.currentState.hideCurrentSnackBar();
-                showSimpleSnackbar(key, res.toString(),true);
+                print("working");
               }
-          },
-          child: Column(children: <Widget>[
-            ProfileImagePicker(
-              previousImage: AppData.driver?.profile?.image?.name,
-              onImagePicked: (String val){
-                setState(() {
-                  imagePath = val;
+                FocusScope.of(context).requestFocus(FocusNode());
+                FocusScope.of(context).requestFocus(FocusNode());
+                openLoadingDialog(context, lang.updatingProfile);
+
+                FormData profile = FormData.fromMap({
+                  "_id" : AppData.driver.sId,
+                  'person' : AppData.driver.profile.id,
+                  "name": name.text,
+                  "license" : _license.text,
+                  "latitude" : _userLocation.latitude,
+                  "longitude" : _userLocation.longitude,
+                  "vehicleName" : _vehicleName.text,
+                  "model" : _model.text,
+                  "type" : selectedType,
+                  "identificationNo" : _identification.text,
+                  // "city" : _userLocation.city,
+                  "address" : _userLocation.address,
+                  'isVehicleInfoChanged' : isVehicleInfoModified()
                 });
-              },
-            ),
-            HaweyatiTextField(
-              controller: name,
-              validator: (value) => emptyValidator(value, 'Name'),
-              label: 'Name',
-            ),
-            // SizedBox(height: 15),
-            // HaweyatiTextField(
-            //   keyboardType: TextInputType.emailAddress,
-            //   label: "Email",
-            //   controller: _email,
-            //   icon: Icons.mail,
-            //   validator: (value) {
-            //     return value.isEmpty ? "Please Enter Email" : null;
-            //   },
-            // ),\
-            SizedBox(height: 15),
-            HaweyatiTextField(
-              keyboardType: TextInputType.emailAddress,
-              label: "License Number",
-              controller: _license,
-              icon: Icons.calendar_today,
-              validator: (value) {
-                return value.isEmpty ? "Please Enter License Number" : null;
-              },
-            ),
 
-            LocationPickerWidget(
-              location: AppData.driver.location,
-              onChanged: (location){
-                if(location!=null){
-                  _userLocation = location;
+                if(imagePath!=null){
+                  profile.files.add(
+                    MapEntry(
+                      'image', await MultipartFile.fromFile(imagePath)
+                    )
+                  );
                 }
-              },
-            ),
+
+                var res = await HaweyatiService.patch('drivers', profile);
+                Navigator.pop(context);
+                print(res.data);
+                try{
+                  await AppData.signIn(Driver.fromJson(res.data));
+                  if(isVehicleInfoChanged){
+                    CustomNavigator.pushReplacement(context, WaitingApproval());
+                  }else{
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  }
+                  print(res.data);
+                } catch (e){
+                  Navigator.pop(context);
+                  key.currentState.hideCurrentSnackBar();
+                  showSimpleSnackbar(key, res.toString(),true);
+                }
+            },
+            child: Column(children: <Widget>[
+              ProfileImagePicker(
+                previousImage: AppData.driver?.profile?.image?.name,
+                onImagePicked: (String val){
+                  setState(() {
+                    imagePath = val;
+                  });
+                },
+              ),
+              HaweyatiTextField(
+                controller: name,
+                validator: (value) => emptyValidator(value, lang.name),
+                label: lang.name,
+              ),
+              // SizedBox(height: 15),
+              // HaweyatiTextField(
+              //   keyboardType: TextInputType.emailAddress,
+              //   label: "Email",
+              //   controller: _email,
+              //   icon: Icons.mail,
+              //   validator: (value) {
+              //     return value.isEmpty ? "Please Enter Email" : null;
+              //   },
+              // ),\
+              SizedBox(height: 15),
+              HaweyatiTextField(
+                keyboardType: TextInputType.emailAddress,
+                label: lang.licenseNo,
+                controller: _license,
+                icon: Icons.calendar_today,
+                validator: (value) {
+                  return value.isEmpty ? lang.validateLicenseNo : null;
+                },
+              ),
+
+              LocationPickerWidget(
+                location: AppData.driver.location,
+                onChanged: (location){
+                  if(location!=null){
+                    _userLocation = location;
+                  }
+                },
+              ),
 
 
-            Padding(
-              padding: const EdgeInsets.only(top: 30, bottom: 20),
-              child: Text('Vehicle Details', style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold
-              )),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30, bottom: 20),
+                child: Text(lang.vehicleDetails, style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold
+                )),
+              ),
 
-            RoundDropDownButton<String>(
-              hint: Text("Vehicle Type"),
-              items: vehicleTypes
-                  .map((i) => DropdownMenuItem<String>(
-                  child: Text(i), value: i))
-                  .toList(),
-              value: selectedType,
-              onChanged: (item) => setState(() {
-                this.selectedType = item;
-                FocusScope.of(context).requestFocus(new FocusNode());
-              }),
-            ),
+              RoundDropDownButton<String>(
+                hint: Text(lang.vehicleType),
+                items: vehicleTypes
+                    .map((i) => DropdownMenuItem<String>(
+                    child: Text(i), value: i))
+                    .toList(),
+                value: selectedType,
+                onChanged: (item) => setState(() {
+                  this.selectedType = item;
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                }),
+              ),
 
-            HaweyatiTextField(
-              keyboardType: TextInputType.emailAddress,
-              label: "Vehicle Name",
-              controller: _vehicleName,
-              icon: Icons.call,
-              validator: (value) {
-                return value.isEmpty ? "Please Enter Vehicle Name" : null;
-              },
-            ),
-            SizedBox(height: 15),
-            HaweyatiTextField(
-              label: "Model",
-              controller: _model,
-              icon: Icons.airplanemode_active,
-              validator: (value) {
-                return value.isEmpty ? "Please Enter Model" : null;
-              },
-            ),
-            SizedBox(height: 15),
-            HaweyatiTextField(
-              label: "Identification",
-              controller: _identification,
-              icon: Icons.airplanemode_active,
-              validator: (value) {
-                return value.isEmpty ? "Please Enter Identification" : null;
-              },
-            ),
-            SizedBox(height: 15,),
-            Container(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints.expand(height: 45),
-                  child: FlatButton(
-                    onPressed: ()=> simpleFormKey.currentState.submit(),
-                    shape: StadiumBorder(),
-                    textColor: Colors.white,
-                    child: Text("Submit"),
-                    color: Theme.of(context).accentColor,
+              HaweyatiTextField(
+                keyboardType: TextInputType.emailAddress,
+                label: lang.vehicleName,
+                controller: _vehicleName,
+                icon: Icons.call,
+                validator: (value) {
+                  return value.isEmpty ? lang.validateVehicle : null;
+                },
+              ),
+              SizedBox(height: 15),
+              HaweyatiTextField(
+                label: lang.vehicleModel,
+                controller: _model,
+                icon: Icons.airplanemode_active,
+                validator: (value) {
+                  return value.isEmpty ? lang.validateModel : null;
+                },
+              ),
+              SizedBox(height: 15),
+              HaweyatiTextField(
+                label: lang.identification,
+                controller: _identification,
+                icon: Icons.airplanemode_active,
+                validator: (value) {
+                  return value.isEmpty ? lang.validateIdentification : null;
+                },
+              ),
+              SizedBox(height: 15,),
+              Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints.expand(height: 45),
+                    child: FlatButton(
+                      onPressed: ()=> simpleFormKey.currentState.submit(),
+                      shape: StadiumBorder(),
+                      textColor: Colors.white,
+                      child: Text(lang.submit),
+                      color: Theme.of(context).accentColor,
+                    ),
                   ),
                 ),
               ),
-            ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 20.0),
-            //   child: RaisedButton(
-            //     child: Text("Submit"),
-            //     onTap: () async {
-            //     print(isVehicleInfoModified());
-            //     return;
-            //     if(form.currentState.validate()){
-            //
-            //
-            //       FocusScope.of(context).requestFocus(FocusNode());
-            //       FocusScope.of(context).requestFocus(FocusNode());
-            //       openLoadingDialog(context, 'Updating profile');
-            //
-            //
-            //       final profile = Map<String, dynamic>.from({
-            //         "name": name.text,
-            //         "license" : _license.text,
-            //         "latitude" : _userLocation.position.latitude,
-            //         "longitude" : _userLocation.position.longitude,
-            //         "vehicleName" : _vehicleName.text,
-            //         "model" : _model.text,
-            //         "type" : selectedType,
-            //         "identificationNo" : _identification.text,
-            //         "city" : _userLocation.city,
-            //         "address" : _userLocation.address
-            //       });
-            //
-            //       var res = await HaweyatiService.patch('drivers', profile);
-            //       Navigator.pop(context);
-            //       print(res.data);
-            //       return;
-            //       try{
-            //         // await AppData.signIn(DriverModel.fromJson(res.data));
-            //         Navigator.pop(context);
-            //         Navigator.pop(context);
-            //         print(res.data);
-            //       } catch (e){
-            //         Navigator.pop(context);
-            //         key.currentState.hideCurrentSnackBar();
-            //         showSimpleSnackbar(key, res.toString(),true);
-            //       }
-            //     } else {
-            //       setState(() {
-            //         autoValidate=true;
-            //       });
-            //     }
-            //   },),
-            // )
-          ],),
-        ),),);
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(vertical: 20.0),
+              //   child: RaisedButton(
+              //     child: Text("Submit"),
+              //     onTap: () async {
+              //     print(isVehicleInfoModified());
+              //     return;
+              //     if(form.currentState.validate()){
+              //
+              //
+              //       FocusScope.of(context).requestFocus(FocusNode());
+              //       FocusScope.of(context).requestFocus(FocusNode());
+              //       openLoadingDialog(context, 'Updating profile');
+              //
+              //
+              //       final profile = Map<String, dynamic>.from({
+              //         "name": name.text,
+              //         "license" : _license.text,
+              //         "latitude" : _userLocation.position.latitude,
+              //         "longitude" : _userLocation.position.longitude,
+              //         "vehicleName" : _vehicleName.text,
+              //         "model" : _model.text,
+              //         "type" : selectedType,
+              //         "identificationNo" : _identification.text,
+              //         "city" : _userLocation.city,
+              //         "address" : _userLocation.address
+              //       });
+              //
+              //       var res = await HaweyatiService.patch('drivers', profile);
+              //       Navigator.pop(context);
+              //       print(res.data);
+              //       return;
+              //       try{
+              //         // await AppData.signIn(DriverModel.fromJson(res.data));
+              //         Navigator.pop(context);
+              //         Navigator.pop(context);
+              //         print(res.data);
+              //       } catch (e){
+              //         Navigator.pop(context);
+              //         key.currentState.hideCurrentSnackBar();
+              //         showSimpleSnackbar(key, res.toString(),true);
+              //       }
+              //     } else {
+              //       setState(() {
+              //         autoValidate=true;
+              //       });
+              //     }
+              //   },),
+              // )
+            ],),
+          ),),),
+    );
   }
 }

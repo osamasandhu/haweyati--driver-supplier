@@ -22,6 +22,7 @@ class _SupplierPendingOrdersListingState extends State<SupplierPendingOrdersList
       key: _key,
       loadingMessage: 'Loading Available Orders',
       loader: ()=> OrdersService().supplierAllOrders(),
+      noDataMessage: 'No Available Orders',
       builder: (context,data){
         return Padding(
           padding: const EdgeInsets.all(8.0),

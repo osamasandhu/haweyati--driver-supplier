@@ -1,89 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/waiting-dialog.dart';
 
 class LocalizationSelector extends StatelessWidget {
-  final Locale selected;
-  final Function onChanged;
+  LocalizationSelector();
 
-  LocalizationSelector({
-    this.selected,
-    this.onChanged
-  });
+  final _appData = AppData.instance();
 
   @override
   Widget build(BuildContext context) {
     return DropdownButton<Locale>(
-      isDense: true,
-      iconEnabledColor: Colors.white,
-      icon: Icon(Icons.language, size: 20),
-      underline: Container(),
-      dropdownColor: Theme.of(context).primaryColor,
+        isDense: true,
+        underline: Container(),
+        iconEnabledColor: Colors.white,
+        icon: Icon(Icons.language, size: 20),
+        dropdownColor: Color(0xFF313F53),
 
-      value: this.selected ?? Locale('ar'),
+        value: _appData.currentLocale.value,
 
-      items: [
-        DropdownMenuItem(
-          value: Locale('en'),
-          child: Padding(
-            padding: const EdgeInsets.only(right: 5),
-            child: Text('English', style: TextStyle(color: Colors.white, fontSize: 13)),
+        items: [
+          DropdownMenuItem(
+            value: Locale('en'),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Text('English', style: TextStyle(color: Colors.white, fontSize: 13)),
+            ),
           ),
-        ),
 
-        DropdownMenuItem(
-          value: Locale('ar'),
-          child: Padding(
-            padding: const EdgeInsets.only(right: 5),
-            child: Text('Arabic', style: TextStyle(color: Colors.white, fontSize: 13)),
-          ),
-        )
-      ],
+          DropdownMenuItem(
+            value: Locale('ar'),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Text('العربية', style: TextStyle(color: Colors.white, fontSize: 13)),
+            ),
+          )
+        ],
 
-      onChanged: this.onChanged,
+        onChanged: (val) async {
+          if (_appData.currentLocale.value.languageCode != val.languageCode) {
+            /// Create 2s delay for smooth translation
+            showDialog(
+                context: context,
+                builder: (context) => WaitingDialog(
+                    message: AppLocalizations.of(context).changingLanguage
+                )
+            );
+            _appData.locale = await Future.delayed(Duration(seconds: 1), () => val);
+            Navigator.of(context).pop();
+          }
+        }
     );
   }
 }
-
-
-//class LocalizationSelector extends StatefulWidget {
-//  final String selected;
-//  final Function onChanged;
-//
-//  LocalizationSelector({
-//    this.onChanged
-//  });
-//
-//  @override
-//  _LocalizationSelectorState createState() => _LocalizationSelectorState();
-//}
-//
-//class _LocalizationSelectorState extends State<LocalizationSelector> {
-//  final _localizations = {
-//    "English": "",
-//    "Arabic": ""
-//  };
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Container();
-//  }
-//}
-//
-//
-//class LocalizationSelector extends DropdownButton {
-//  LocalizationSelector(): super(
-//    underline: SizedBox(),
-//    icon: Icon(Icons.language),
-//    dropdownColor: Theme.of(context).primaryColor,
-//    value: _language,
-//    items: _languages.map((String value) {
-//      return new DropdownMenuItem<String>(
-//        value: value,
-//        child: Image.asset('assets/images/$value.png',height: 30 ,width: 80, color:Colors.white,),
-//      );
-//    }).toList(),
-//    onChanged: (language) {
-//      final locale = Locale(language == 'English' ? 'en' : 'ar');
-//      setState(() => EasyLocalization.of(context).locale = locale);
-//    },
-//  );
-//}

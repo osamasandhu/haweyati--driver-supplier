@@ -20,7 +20,7 @@ class OrderTile extends StatelessWidget {
        await CustomNavigator.navigateTo(context, AppData.isSupplier
             ? SupplierOrderDetailPage(order)
             : DriverOrderDetailPage(order));
-       // refresh();
+       refresh();
         // CustomNavigator.navigateTo(context, SupplierOrderDetail(order: order,));
       },
       child: Container(
@@ -39,7 +39,7 @@ class OrderTile extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(15),
             decoration: BoxDecoration(
-              color: Colors.red[300],
+              color: tileColor(order.status),
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(10),
                 topLeft: Radius.circular(10)
@@ -97,4 +97,34 @@ class OrderTile extends StatelessWidget {
       ),
     );
   }
+
+  Color tileColor(OrderStatus status){
+    switch(status){
+      case OrderStatus.rejected:
+        return Colors.red[300];
+        break;
+      case OrderStatus.pending:
+        return Colors.red[300];
+        break;
+      case OrderStatus.accepted:
+        return Colors.green;
+        break;
+      case OrderStatus.dispatched:
+        return Colors.deepOrangeAccent;
+        break;
+      case OrderStatus.delivered:
+        return Colors.black;
+        break;
+      case OrderStatus.preparing:
+        return Colors.yellowAccent;
+        break;
+      case OrderStatus.approved:
+        return Colors.red[300];
+        break;
+      default:
+        return Colors.red[300];
+    }
+  }
+
+
 }

@@ -1,6 +1,10 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:haweyati_supplier_driver_app/src/services/order-service.dart';
+import 'package:haweyati_supplier_driver_app/src/supplier/orders/listings/supplier-dispatched.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/orders-listing.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/utils/exit-application-dialog.dart';
 import 'package:haweyati_supplier_driver_app/utils/fcm-token.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
@@ -23,102 +27,118 @@ class _SupplierHomePageState extends State<SupplierHomePage> {
   List<Widget> _children = [
     SupplierPendingOrdersListing(),
     SupplierSelectedOrdersListing(),
+    SupplierDispatchedOrdersListing(),
     SupplierCompletedOrdersListing(),
   ];
+
+  // List<Widget> _children = [
+  //   OrdersListing(future: OrdersService().supplierAllOrders(),),
+  //   OrdersListing(future: OrdersService().supplierSelectedOrders(),),
+  //   OrdersListing(future: OrdersService().supplierCompletedOrders(),),
+  // ];
 
   @override
   void initState() {
     super.initState();
+    print(AppData.supplier.city);
     FirebaseMessaging().subscribeToTopic('suppliers');
     FCMService().updateProfileFcmToken();
   }
 
   @override Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => exitApp(context),
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Image.asset(
-            "assets/images/icon.png",
-            width: 40, height: 40,
-          ),
-          actions: <Widget>[
-            IconButton(
-                icon: Image.asset("assets/images/customer-care.png", width: 20, height: 20),
-                onPressed: () => Navigator.of(context).pushNamed('/helpline')
+    return LocalizedView(
+      builder: (context, lang) =>  WillPopScope(
+        onWillPop: () => exitApp(context),
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Image.asset(
+              "assets/images/icon.png",
+              width: 40, height: 40,
             ),
-            IconButton(
-                icon: Image.asset("assets/images/notification.png", width: 20, height: 20),
-                onPressed: () => Navigator.of(context).pushNamed('/notifications')
-            )
-          ],
-          leading: IconButton(
-              icon: Image.asset(
-                "assets/images/home-page-icon.png",
-                width: 20,
-                height: 20,
+            actions: <Widget>[
+              IconButton(
+                  icon: Image.asset("assets/images/customer-care.png", width: 20, height: 20),
+                  onPressed: () => Navigator.of(context).pushNamed('/helpline')
               ),
-              onPressed: () {
-                _key.currentState.openDrawer();
-              }
-          ),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10),
-              )
-          ),
-
-          flexibleSpace: _selectedIndex == 0 ? FlexibleSpaceBar(
-            collapseMode: CollapseMode.parallax,
-            background: Container(
-              padding: const EdgeInsets.only(top: 90, left: 18),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/images/homepageimage.png'),
-                    scale: 3.5, alignment: Alignment(.9, .7)
-                ),
-              ),
-              child: Column(children: <Widget>[
-                AppData.isSupplier ? Text("Welcome, " + AppData.supplier.person.name ?? '', style: TextStyle(
-                    color: Colors.white, fontSize: 24
-                )) : SizedBox(),
-                SizedBox(height: 30),
-                detail(icon: Icons.format_list_numbered, text1: "Orders", text2: "60", context: context),
-                detail(icon: Icons.star_border, text1: "Rating", text2: "4.5", context: context),
-                detail(icon: Icons.attach_money, text1: "Monthly Income", text2: "120000.00",context: context),
-              ], crossAxisAlignment: CrossAxisAlignment.start),
-            ),
-          ): null
-        ),
-        key: _key,
-        body: _children[_selectedIndex],
-        drawer: SupplierDrawer(),
-        bottomNavigationBar: BottomNavigationBar(
-            items: [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.list),
-                  label: 'All Orders'
-              ),
-
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.playlist_add_check),
-                  label: 'Selected'
-              ),
-
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.done_outline_rounded),
-                  label: 'Completed'
+              IconButton(
+                  icon: Image.asset("assets/images/notification.png", width: 20, height: 20),
+                  onPressed: () => Navigator.of(context).pushNamed('/notifications')
               )
             ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.grey.shade600,
-            backgroundColor: Theme.of(context).primaryColor,
-            onTap: (index) {
-              setState(() => _selectedIndex = index);
-            }
+            leading: IconButton(
+                icon: Image.asset(
+                  "assets/images/home-page-icon.png",
+                  width: 20,
+                  height: 20,
+                ),
+                onPressed: () {
+                  _key.currentState.openDrawer();
+                }
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                )
+            ),
+
+            flexibleSpace: _selectedIndex == 0 ? FlexibleSpaceBar(
+              collapseMode: CollapseMode.parallax,
+              background: Container(
+                padding: const EdgeInsets.only(top: 90, left: 18),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/images/homepageimage.png'),
+                      scale: 3.5, alignment: Alignment(.9, .7)
+                  ),
+                ),
+                child: Column(children: <Widget>[
+                  AppData.isSupplier ? Text("${lang.welcome}, " + AppData.supplier.person.name ?? '', style: TextStyle(
+                      color: Colors.white, fontSize: 24
+                  )) : SizedBox(),
+                  SizedBox(height: 30),
+                  detail(icon: Icons.format_list_numbered, text1: "Orders", text2: "60", context: context),
+                  detail(icon: Icons.star_border, text1: "Rating", text2: "4.5", context: context),
+                  detail(icon: Icons.attach_money, text1: "Monthly Income", text2: "120000.00",context: context),
+                ], crossAxisAlignment: CrossAxisAlignment.start),
+              ),
+            ): null
+          ),
+          key: _key,
+          body: _children[_selectedIndex],
+          drawer: SupplierDrawer(),
+          bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+              items: [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.list),
+                    label: lang.newOrders
+                ),
+
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.playlist_add_check),
+                    label: lang.acceptedOrders
+                ),
+
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.playlist_add_check),
+                    label: lang.dispatchedOrders
+                ),
+
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.done_outline_rounded),
+                    label: lang.completedOrders
+                )
+              ],
+              currentIndex: _selectedIndex,
+              selectedItemColor: Colors.white,
+              unselectedItemColor: Colors.grey.shade600,
+              backgroundColor: Theme.of(context).primaryColor,
+              onTap: (index) {
+                setState(() => _selectedIndex = index);
+              }
+          ),
         ),
       ),
     );

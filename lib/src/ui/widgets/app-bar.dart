@@ -18,7 +18,10 @@ class HaweyatiAppBar extends StatelessWidget with PreferredSizeWidget {
     List<Widget> _actions = [];
     if (!hideHome) _actions.add(
       GestureDetector(
-        child: Image.asset(HomeIcon, width: 23, color: Colors.white),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.asset(HomeIcon, width: 23, color: Colors.white),
+        ),
         onTap: () => Navigator
             .of(context)
             .popUntil((route) => route.settings.name == '/')

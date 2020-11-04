@@ -45,7 +45,7 @@ class _BuildingMaterialRequestState extends State<ScaffoldingRequest> {
 
         openLoadingDialog(context, "Submitting Request");
         FormData data = FormData.fromMap({
-          'suppliers': AppData.supplier.sId,
+          'suppliers': AppData.supplier.id,
           'type': 'Scaffolding',
           'description' : _description.text,
           'city' : _city,

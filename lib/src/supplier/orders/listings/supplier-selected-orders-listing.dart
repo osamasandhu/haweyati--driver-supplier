@@ -13,24 +13,30 @@ class SupplierSelectedOrdersListing extends StatefulWidget {
 class _SupplierSelectedOrdersListingState extends State<SupplierSelectedOrdersListing> {
 
   Future<List<Order>> orders;
+  final GlobalKey<LiveScrollableViewState> _key = GlobalKey<LiveScrollableViewState>();
 
   @override
   void initState() {
     super.initState();
-    orders = OrdersService().supplierSelectedOrders();
+    // orders = OrdersService().supplierSelectedOrders();
     // orders.then((value) => print(value));
   }
 
   @override
   Widget build(BuildContext context) {
     return LiveScrollableView<Order>(
+      key: _key,
       loadingMessage: 'Loading Selected Orders',
+      noDataMessage: 'No Selected Orders',
       loader: ()=> OrdersService().supplierSelectedOrders(),
       builder: (context,data){
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: OrderTile(
             order: data,
+            refresh: (){
+              _key.currentState.loadDataAgain();
+            },
           ),
         );
       },

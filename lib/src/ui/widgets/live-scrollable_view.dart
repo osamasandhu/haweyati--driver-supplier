@@ -125,21 +125,24 @@ class LiveScrollableViewState<T> extends State<LiveScrollableView<T>> {
                     ));
                   } else {
                     return SliverToBoxAdapter(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                              width: 35,
-                              height: 35,
-                              child: CircularProgressIndicator(strokeWidth: 2)
-                          ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 250),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                                width: 35,
+                                height: 35,
+                                child: CircularProgressIndicator(strokeWidth: 2)
+                            ),
 
-                          Padding(
-                            padding: const EdgeInsets.only(top: 13),
-                            child: Text(widget.loadingMessage ?? 'Locating Services'),
-                          )
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 13),
+                              child: Text(widget.loadingMessage ?? 'Locating Services'),
+                            )
+                          ],
+                        ),
                       ),
                     );
                   }
@@ -149,13 +152,16 @@ class LiveScrollableViewState<T> extends State<LiveScrollableView<T>> {
                     if (snapshot.data is List) {
                       if ((snapshot.data as List).isEmpty)
                         return SliverToBoxAdapter(
-                          child: widget.noDataChild ?? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Center(child: Icon(Icons.search,size: 60,) ),
-                              Center(child: Text(widget.noDataMessage ?? "No Results",style: TextStyle(color: Colors.grey,fontSize: 22),)),
-                            ],
+                          child: Padding(
+                            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/3),
+                            child: widget.noDataChild ?? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Center(child: Icon(Icons.search,size: 60,) ),
+                                Center(child: Text(widget.noDataMessage ?? "No Results",style: TextStyle(color: Colors.grey,fontSize: 22),)),
+                              ],
+                            ),
                           ),
                         );
                     }

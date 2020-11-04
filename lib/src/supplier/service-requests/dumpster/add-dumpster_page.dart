@@ -58,7 +58,7 @@ class _DumpsterRequestPageState extends State<DumpsterRequestPage> {
 
          openLoadingDialog(context, "Submitting Request");
           FormData data = FormData.fromMap({
-            'suppliers': AppData.supplier.sId,
+            'suppliers': AppData.supplier.id,
             'type': 'Construction Dumpster',
             'size' : int.parse(_size.text),
             'description' : _description.text,

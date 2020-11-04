@@ -10,12 +10,18 @@ import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/raised-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/rich-price-text.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/scroll_view.dart';
 import 'package:haweyati_supplier_driver_app/utils/const.dart';
+import 'package:haweyati_supplier_driver_app/widgits/cancel-order-supplier.dart';
+import 'package:haweyati_supplier_driver_app/widgits/confirmation-dialog.dart';
+import 'package:haweyati_supplier_driver_app/widgits/dispatch-order.dart';
 import 'package:haweyati_supplier_driver_app/widgits/order-location-picker.dart';
 import 'my-orders_page.dart';
 
@@ -26,79 +32,89 @@ class SupplierOrderDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScrollableView.sliver(
-        showBackground: true,
-        padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
-        appBar: HaweyatiAppBar(actions: [
-          IconButton(
-              icon: Image.asset(CustomerCareIcon, width: 20),
-              // onPressed: () => Navigator.of(context).pushNamed(HELPLINE_PAGE)
-          )
-        ]),
-        children: [
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(5, 20, 5, 40),
-            sliver: SliverToBoxAdapter(child: _OrderDetailHeader(order.status.index)),
-          ),
-
-          SliverToBoxAdapter(child: OrderMeta(order)),
-
-          SliverPadding(
-            padding: const EdgeInsets.only(bottom: 15, top: 25),
-            sliver: SliverToBoxAdapter(child: LocationPicker(initialValue: order.location)),
-          ),
-
-          SliverList(delegate: SliverChildBuilderDelegate(
-                  (context, index) => SupplierItemSelector(
-                    index: index,
-                    order: order,
-                    orderId: order.id,
-                    widget: _OrderItemWidget(order.items[index]),
-                  ),
-              childCount: order.items.length
-          )),
-
-          SliverToBoxAdapter(
-            child: Table(
-              defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
-              children: [
-                TableRow(children: [
-                  Text('Sub Total', style: TextStyle(
-                    height: 2, fontSize: 13,
-                    fontFamily: 'Lato',
-                    color: Colors.grey.shade600,
-                  )),
-
-                  RichPriceText(price: order.total - order.deliveryFee, fontSize: 13)
-                ]),
-                TableRow(children: [
-                  Text('Delivery Fee', style: TextStyle(
-                    height: 2, fontSize: 13,
-                    fontFamily: 'Lato',
-                    color: Colors.grey.shade600,
-                  )),
-
-                  RichPriceText(price: order.deliveryFee, fontSize: 13)
-                ])
-              ],
+    print(order.toJson());
+    return LocalizedView(
+      builder: (context,lang) =>
+      ScrollableView.sliver(
+        bottom: order.status == OrderStatus.preparing ?  RaisedActionButton(
+          label: "Dispatch Order",
+          onPressed: () async {
+            CustomNavigator.navigateTo(context, DispatchOrder(orderId: order.id,));
+          },
+        ) : SizedBox(),
+          showBackground: true,
+          padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
+          appBar: HaweyatiAppBar(actions: [
+            IconButton(
+                icon: Image.asset(CustomerCareIcon, width: 20),
+                // onPressed: () => Navigator.of(context).pushNamed(HELPLINE_PAGE)
+            )
+          ]),
+          children: [
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(5, 20, 5, 40),
+              sliver: SliverToBoxAdapter(child: _OrderDetailHeader(order.status.index)),
             ),
-          ),
-          SliverToBoxAdapter(child: Divider()),
-          SliverToBoxAdapter(
-            child: Table(children: [
-              TableRow(children: [
-                Text('Total', style: TextStyle(
-                  height: 2,
-                  fontSize: 13,
-                  fontFamily: 'Lato',
-                  color: Colors.grey.shade600,
-                )),
 
-                RichPriceText(price: order.total, fontWeight: FontWeight.bold, fontSize: 18)
-              ])
-            ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
-          )
-        ]
+            SliverToBoxAdapter(child: OrderMeta(order)),
+
+            SliverPadding(
+              padding: const EdgeInsets.only(bottom: 15, top: 25),
+              sliver: SliverToBoxAdapter(child: LocationPicker(initialValue: order.location,edit: false,)),
+            ),
+
+            SliverList(delegate: SliverChildBuilderDelegate(
+                    (context, index) => SupplierItemSelector(
+                      index: index,
+                      order: order,
+                      orderId: order.id,
+                      widget: _OrderItemWidget(order.items[index]),
+                    ),
+                childCount: order.items.length
+            )),
+
+            SliverToBoxAdapter(
+              child: Table(
+                defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
+                children: [
+                  TableRow(children: [
+                    Text(lang.subtotal, style: TextStyle(
+                      height: 2, fontSize: 13,
+                      fontFamily: 'Lato',
+                      color: Colors.grey.shade600,
+                    )),
+
+                    RichPriceText(price: order.total - order.deliveryFee, fontSize: 13)
+                  ]),
+                  TableRow(children: [
+                    Text(lang.deliveryFee, style: TextStyle(
+                      height: 2, fontSize: 13,
+                      fontFamily: 'Lato',
+                      color: Colors.grey.shade600,
+                    )),
+
+                    RichPriceText(price: order.deliveryFee, fontSize: 13)
+                  ])
+                ],
+              ),
+            ),
+            SliverToBoxAdapter(child: Divider()),
+            SliverToBoxAdapter(
+              child: Table(children: [
+                TableRow(children: [
+                  Text(lang.total, style: TextStyle(
+                    height: 2,
+                    fontSize: 13,
+                    fontFamily: 'Lato',
+                    color: Colors.grey.shade600,
+                  )),
+
+                  RichPriceText(price: order.total, fontWeight: FontWeight.bold, fontSize: 18)
+                ])
+              ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
+            )
+          ]
+      ),
     );
   }
 }
@@ -111,67 +127,70 @@ class _OrderItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final qty = _qty(holder);
 
-    return DarkContainer(
-      margin: const EdgeInsets.only(bottom: 15),
-      padding: const EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 35),
-      child: Column(children: [
-        OrderItemTile(holder),
+    return LocalizedView(
+      builder: (context,lang) =>
+       DarkContainer(
+        margin: const EdgeInsets.only(bottom: 15),
+        padding: const EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 35),
+        child: Column(children: [
+          OrderItemTile(holder),
 
-        if (holder.item is FinishingMaterialOrderItem)
-          Table(children: [
-            ..._buildVariants((holder.item as FinishingMaterialOrderItem).variants),
+          if (holder.item is FinishingMaterialOrderItem)
+            Table(children: [
+              ..._buildVariants((holder.item as FinishingMaterialOrderItem).variants),
 
-            TableRow(children: [
-              Text('Quantity', style: TextStyle(
-                height: 1.6,
-                fontSize: 13,
-                color: Colors.grey,
-              )),
+              TableRow(children: [
+                Text(lang.quantity, style: TextStyle(
+                  height: 1.6,
+                  fontSize: 13,
+                  color: Colors.grey,
+                )),
 
-              Text('${(holder.item as FinishingMaterialOrderItem).qty} ${(holder.item as FinishingMaterialOrderItem).qty == 1 ? 'Piece' : 'Pieces'}',
-                textAlign: TextAlign.right,
-                style: TextStyle(color: Color(0xFF313F53)),
-              )
-            ]),
-            TableRow(children: [
-              Text('Price', style: TextStyle(
-                height: 1.6,
-                fontSize: 13,
-                color: Colors.grey,
-              )),
+                Text('${(holder.item as FinishingMaterialOrderItem).qty} ${(holder.item as FinishingMaterialOrderItem).qty == 1 ? 'Piece' : 'Pieces'}',
+                  textAlign: TextAlign.right,
+                  style: TextStyle(color: Color(0xFF313F53)),
+                )
+              ]),
+              TableRow(children: [
+                Text(lang.price, style: TextStyle(
+                  height: 1.6,
+                  fontSize: 13,
+                  color: Colors.grey,
+                )),
 
-              RichPriceText(price: (holder.item as FinishingMaterialOrderItem).price)
-            ]),
-            TableRow(children: [
-              Text('Total', style: TextStyle(
-                height: 2.5,
-                fontSize: 13,
-                color: Colors.grey,
-              )),
+                RichPriceText(price: (holder.item as FinishingMaterialOrderItem).price)
+              ]),
+              TableRow(children: [
+                Text(lang.total, style: TextStyle(
+                  height: 2.5,
+                  fontSize: 13,
+                  color: Colors.grey,
+                )),
 
-              RichPriceText(price: holder.subtotal, fontWeight: FontWeight.bold)
-            ])
-          ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline)
-        else
-          Table(children: [
-            TableRow(children: [
-              Text('Quantity', style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 2)),
-              Text(AppLocalizations.of(context).nProducts(qty), textAlign: TextAlign.right, style: TextStyle(
-                  fontSize: 13
-              ))
-            ]),
-            TableRow(children: [
-              Text('Price', style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 2)),
-              RichPriceText(price: holder.subtotal / qty, fontSize: 13)
-            ]),
+                RichPriceText(price: holder.subtotal, fontWeight: FontWeight.bold)
+              ])
+            ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline)
+          else
+            Table(children: [
+              TableRow(children: [
+                Text(lang.quantity, style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 2)),
+                Text(AppLocalizations.of(context).nProducts(qty), textAlign: TextAlign.right, style: TextStyle(
+                    fontSize: 13
+                ))
+              ]),
+              TableRow(children: [
+                Text(lang.price, style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 2)),
+                RichPriceText(price: holder.subtotal / qty, fontSize: 13)
+              ]),
 
-            TableRow(children: [
-              Text('Total', style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 3)),
-              RichPriceText(price: holder.subtotal, fontWeight: FontWeight.bold)
-            ]),
-          ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline)
-      ]),
+              TableRow(children: [
+                Text(lang.total, style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 3)),
+                RichPriceText(price: holder.subtotal, fontWeight: FontWeight.bold)
+              ]),
+            ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline)
+        ]),
 
+      ),
     );
   }
 
@@ -359,7 +378,7 @@ class _SupplierItemSelectorState extends State<SupplierItemSelector> {
       child: Stack(
         children: [
           widget.widget,
-          if (item.supplier?.sId == AppData.supplier.sId)
+          if (item.supplier?.id == AppData.supplier.id )
             Transform.translate(
                 offset: Offset(-55, -55),
                 child: Transform.rotate(
@@ -379,7 +398,8 @@ class _SupplierItemSelectorState extends State<SupplierItemSelector> {
                   ),
                 )
             ),
-          if (item.supplier == null || AppData.supplier.sId == item.supplier?.sId && widget.order.status.index !=4)
+          if (item.supplier == null || AppData.supplier.id == item.supplier?.id && widget.order.status.index !=4 &&
+              (widget.order.status == OrderStatus.accepted || widget.order.status == OrderStatus.approved) )
             Positioned(
               top: 8,
               right: 0,
@@ -387,14 +407,25 @@ class _SupplierItemSelectorState extends State<SupplierItemSelector> {
                 scale: 0.7,
                 child: CupertinoSwitch(
                   activeColor: Theme.of(context).accentColor,
-                  value: AppData.supplier.sId == item.supplier?.sId,
+                  value: AppData.supplier.id == item.supplier?.id,
                   onChanged: (bool value) async {
+                    String reason;
+                    if(!value){
+                      reason = await showDialog(context: context,builder: (context){
+                        return CancelOrderSupplier();
+                      });
+                      print(reason);
+                      if(!value && reason==null){
+                        return;
+                      }
+                    }
                     openLoadingDialog(context, "Submitting");
                     await HaweyatiService.patch('orders/add-supplier', {
                       'item': widget.index,
                       'supplier': AppData.supplier.toJson(),
                       '_id': widget.orderId,
-                      'flag': value
+                      'flag': value,
+                      'reason': reason
                     });
 
                     if(value){

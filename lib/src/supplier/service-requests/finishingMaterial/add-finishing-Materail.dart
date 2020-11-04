@@ -58,7 +58,7 @@ class _FinishingMaterialRequestState extends State<FinishingMaterialRequest> {
         FormData data = FormData.fromMap({
           'parentId' : widget.parent.sId,
           'parent' : widget.parent.name,
-          'suppliers': AppData.supplier.sId,
+          'suppliers': AppData.supplier.id,
           'title': _title.text,
           'type': 'Finishing Material',
           'price' : _price.text,

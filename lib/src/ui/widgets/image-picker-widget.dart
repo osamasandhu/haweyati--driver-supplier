@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerWidget extends StatefulWidget {
@@ -19,66 +20,68 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color(0xfff2f2f2f2),
-        borderRadius: BorderRadius.circular(10)
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(children: <Widget>[
-          Row(children: <Widget>[
-            FlatButton(
-              child: Text('Camera'),
-              shape: StadiumBorder(),
-              textColor: Colors.white,
-              color: Theme.of(context).accentColor,
-              onPressed: () async {
-                final image = await ImagePicker().getImage(source: ImageSource.camera);
-                if(image!=null){
-                  setState(() {
-                    this._image = image;
-                  });
-                  widget.onImagePicked(image);
+    return LocalizedView(
+      builder: (context, lang) => Container(
+        decoration: BoxDecoration(
+          color: Color(0xfff2f2f2f2),
+          borderRadius: BorderRadius.circular(10)
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(children: <Widget>[
+            Row(children: <Widget>[
+              FlatButton(
+                child: Text(lang.camera),
+                shape: StadiumBorder(),
+                textColor: Colors.white,
+                color: Theme.of(context).accentColor,
+                onPressed: () async {
+                  final image = await ImagePicker().getImage(source: ImageSource.camera);
+                  if(image!=null){
+                    setState(() {
+                      this._image = image;
+                    });
+                    widget.onImagePicked(image);
+                  }
                 }
-              }
-            ),
-            FlatButton(
-              child: Text('Gallery'),
-              shape: StadiumBorder(),
-              textColor: Colors.white,
-              color: Theme.of(context).accentColor,
-              onPressed: () async {
-                final image = await ImagePicker().getImage(source: ImageSource.gallery);
-                if(image!=null){
-                  setState(() {
-                    this._image = image;
-                  });
-                  widget.onImagePicked(image);
-                }
-              },
-            )
-          ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
-          Padding(
-            padding: const EdgeInsets.only(top: 5),
-            child: Container(
-              height: 200,
-              child: _resolveImage(),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(10)
               ),
-            ),
-          )
-        ]),
+              FlatButton(
+                child: Text(lang.gallery),
+                shape: StadiumBorder(),
+                textColor: Colors.white,
+                color: Theme.of(context).accentColor,
+                onPressed: () async {
+                  final image = await ImagePicker().getImage(source: ImageSource.gallery);
+                  if(image!=null){
+                    setState(() {
+                      this._image = image;
+                    });
+                    widget.onImagePicked(image);
+                  }
+                },
+              )
+            ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: Container(
+                height: 200,
+                child: _resolveImage(lang),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(10)
+                ),
+              ),
+            )
+          ]),
+        ),
       ),
     );
   }
 
-  Widget _resolveImage() {
+  Widget _resolveImage( lang) {
     if (widget.previousImage == null && _image == null) {
       return Center(
-        child: Text('No Image Selected', style: TextStyle(
+        child: Text(lang.noImageSelected, style: TextStyle(
           fontSize: 15,
           color: Colors.grey.shade600,
           fontWeight: FontWeight.bold
@@ -95,7 +98,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
           )
         ),),
         child: Center(
-          child: (widget.previousImage == null && _image == null) ? Text('No Image is Selected', style: TextStyle(
+          child: (widget.previousImage == null && _image == null) ? Text(lang.noImageSelected, style: TextStyle(
             color: Colors.grey.shade600,
             fontStyle: FontStyle.italic
           )): Container(

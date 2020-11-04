@@ -7,7 +7,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/pages/notifications_page.dar
 import 'package:haweyati_supplier_driver_app/widgits/locations-map_page.dart';
 import '../widgits/map.dart';
 import 'data.dart';
-import 'driver/profile/driver-home_page.dart';
+import 'driver/driver-home_page.dart';
 import 'supplier/auth-pages/supplier-sign-up_page.dart';
 import 'supplier/auth-pages/waiting-approval_page.dart';
 import 'supplier/service-requests/available-services_page.dart';

@@ -111,10 +111,11 @@ class _OrderLocationPickerState extends State<OrderLocationPicker> {
 class LocationPicker extends StatefulWidget {
   final Location initialValue;
   final Function(Location location) onChanged;
+  final bool edit;
 
   LocationPicker({
     this.initialValue,
-    @required this.onChanged
+    @required this.onChanged,this.edit=true
   });
 
   @override
@@ -142,7 +143,7 @@ class _LocationPickerState extends State<LocationPicker> {
               fontWeight: FontWeight.bold
           )),
           Spacer(),
-          EditButton(onPressed: () async {
+         widget.edit ? EditButton(onPressed: () async {
             final location = await CustomNavigator.navigateTo(context, LocationPickerMapPage(
                 LatLng(widget.initialValue.latitude, widget.initialValue.longitude)
             ));
@@ -152,7 +153,7 @@ class _LocationPickerState extends State<LocationPicker> {
 
               setState(() {});
             }
-          })
+          }) : SizedBox()
         ]),
         SizedBox(height: 15),
         Padding(

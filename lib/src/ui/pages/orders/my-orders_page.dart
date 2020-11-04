@@ -129,12 +129,12 @@ class _OrderStatus extends Container {
   static String _text(OrderStatus status) {
     switch (status) {
       case OrderStatus.dispatched:
-      case OrderStatus.active:
-        return 'Active';
+      case OrderStatus.accepted:
+        return 'Accepted';
       case OrderStatus.pending:
         return 'Pending';
-      case OrderStatus.closed:
-        return 'Completed';
+      case OrderStatus.delivered:
+        return 'Delivered';
       case OrderStatus.rejected:
         return 'Canceled';
     }
@@ -144,11 +144,11 @@ class _OrderStatus extends Container {
   static Color _color(OrderStatus status) {
     switch (status) {
       case OrderStatus.dispatched:
-      case OrderStatus.active:
+      case OrderStatus.accepted:
         return Colors.green;
       case OrderStatus.pending:
         return Color(0xFFFF974D);
-      case OrderStatus.closed:
+      case OrderStatus.delivered:
         return Color(0xFF313F53);
       case OrderStatus.rejected:
         return Colors.red;

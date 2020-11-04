@@ -60,7 +60,7 @@ class _BuildingMaterialRequestState extends State<BuildingMaterialRequest> {
         FormData data = FormData.fromMap({
           'parent' : widget.category.sId,
           'parentName' : widget.category.name,
-          'suppliers': AppData.supplier.sId,
+          'suppliers': AppData.supplier.id,
           'type': 'Building Material',
           'title' : _title.text,
           'description' : _description.text,

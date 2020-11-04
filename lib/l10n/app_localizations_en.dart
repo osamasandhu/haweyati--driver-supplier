@@ -145,9 +145,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get vehicles => 'Vehicles';
 
   @override
-  String price(Object value) {
-    return '${value} SAR';
-  }
+  String get price => 'Price';
 
   @override
   String nProducts(int count) {
@@ -170,4 +168,205 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInAsSupplier => 'Sign In as Supplier';
+
+  @override
+  String get signUpAsDriver => 'Sign Up as Driver';
+
+  @override
+  String get signUpAsSupplier => 'Sign Up as Supplier';
+
+  @override
+  String get registerNow => 'Register Now';
+
+  @override
+  String get exitApp => 'Are you sure you want to exit this application?';
+
+  @override
+  String get incorrectCredentials => 'You have entered an incorrect username or password';
+
+  @override
+  String get validatePassword => 'Please provide password';
+
+  @override
+  String get validatePhoneNo => 'Please provide phone number';
+
+  @override
+  String get notASupplier => 'You are not registered as a Supplier on this account';
+
+  @override
+  String get notADriver => 'You are not registered as a Driver on this account';
+
+  @override
+  String get underReview => 'Your account is being reviewed!';
+
+  @override
+  String get accountRejected => 'Your account has been rejected!';
+
+  @override
+  String get accountApproved => 'Your account has been approved!';
+
+  @override
+  String get refreshingStatus => 'Refreshing status';
+
+  @override
+  String get selectService => 'You must select at least one service';
+
+  @override
+  String get selectBranch => 'Please select Branch';
+
+  @override
+  String get signingUp => 'Signing Up';
+
+  @override
+  String get enterReqInfo => 'Enter Required Information';
+
+  @override
+  String get selectServices => 'Select Services';
+
+  @override
+  String get isSubBranch => 'It is a Sub Branch';
+
+  @override
+  String get address => 'Address';
+
+  @override
+  String get validateAddress => 'Please Enter Address';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get validateName => 'Please Enter Name';
+
+  @override
+  String get licenseNo => 'License Number';
+
+  @override
+  String get validateLicenseNo => 'Please Enter License Number';
+
+  @override
+  String get vehicleDetails => 'Vehicle Details';
+
+  @override
+  String get vehicleType => 'Vehicle Type';
+
+  @override
+  String get vehicleName => 'Vehicle Name';
+
+  @override
+  String get vehicleModel => 'Vehicle Model';
+
+  @override
+  String get selectSupplier => 'Select Supplier';
+
+  @override
+  String get validateVehicle => 'Please enter Vehicle Name';
+
+  @override
+  String get validateModel => 'Please enter Vehicle Model';
+
+  @override
+  String get identification => 'Identification';
+
+  @override
+  String get validateIdentification => 'Please enter identification';
+
+  @override
+  String get camera => 'Camera';
+
+  @override
+  String get gallery => 'Gallery';
+
+  @override
+  String get noImageSelected => 'No Image selected';
+
+  @override
+  String get welcome => 'Welcome';
+
+  @override
+  String get newOrders => 'New Orders';
+
+  @override
+  String get acceptedOrders => 'Accepted';
+
+  @override
+  String get dispatchedOrders => 'Dispatched';
+
+  @override
+  String get completedOrders => 'Completed';
+
+  @override
+  String get updatingProfile => 'Updating Profile';
+
+  @override
+  String get submit => 'Submit';
+
+  @override
+  String get serviceRequests => 'Service Requests';
+
+  @override
+  String get myProfile => 'My Profile';
+
+  @override
+  String get changePassword => 'Change Password';
+
+  @override
+  String get verification => 'Verification';
+
+  @override
+  String get typeCode => 'Please type the verification code you received';
+
+  @override
+  String get didntReceiveCode => 'Didn\'t receive a code?';
+
+  @override
+  String get resendCode => 'Resend code?';
+
+  @override
+  String get waitFor => 'Wait for';
+
+  @override
+  String get verifyingOTP => 'Verifying OTP';
+
+  @override
+  String get resetPassword => 'Reset Password';
+
+  @override
+  String get enterPhoneIntFormat => 'Enter Your Phone Number in International Format to ';
+
+  @override
+  String get processing => 'Processing';
+
+  @override
+  String get alreadyExistsDriver => 'A driver with this phone number already exists';
+
+  @override
+  String get alreadyExistsSupplier => 'A supplier with this phone number already exists';
+
+  @override
+  String get alreadyExistsProfile => 'profile already exists with this phone number.Are you sure you want to sync these accounts?';
+
+  @override
+  String get sureAcceptOrder => 'Are you sure you want to accept this order?';
+
+  @override
+  String get acceptOrder => 'Accept Order';
+
+  @override
+  String get acceptingOrder => 'Accepting Order';
+
+  @override
+  String get markCompleted => 'Mark as completed';
+
+  @override
+  String get subtotal => 'Subtotal';
+
+  @override
+  String get deliveryFee => 'Delivery Fee';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get quantity => 'Quantity';
 }

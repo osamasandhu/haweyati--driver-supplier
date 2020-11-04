@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/dotted-background_view.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/no-scroll_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/header-view.dart';
@@ -121,95 +122,97 @@ class OtpPageState extends State<OtpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return NoScrollView(
-      // key: _scaffoldKey,
-      appBar: HaweyatiAppBar( hideHome: true),
-      body: DottedBackgroundView(
-        child: Column(children: [
-          HeaderView(
-            title: 'Verification',
-            subtitle: 'Please type the verification code you received',
-          ),
+    return LocalizedView(
+      builder: (context,lang)=> NoScrollView(
+        // key: _scaffoldKey,
+        appBar: HaweyatiAppBar( hideHome: true),
+        body: DottedBackgroundView(
+          child: Column(children: [
+            HeaderView(
+              title: lang.verification,
+              subtitle: lang.typeCode,
+            ),
 
-          RichText(text: TextSpan(
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black
-              ),
-              text: widget.phoneNumber,
-              children: [TextSpan(
-                  text: '  Change',
-                  style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: Theme.of(context).primaryColor
-                  ),
-                  recognizer: TapGestureRecognizer()..onTap = () {
-                    Navigator.of(context).pop();
-                  }
-              )]
-          )),
-          Container(
-            width: 220,
-            padding: const EdgeInsets.only(top: 40),
-            child: Stack(
-              children: [
-                Opacity(
-                  opacity: 0,
-                  child: TextFormField(
-                    maxLength: 6,
-                    maxLengthEnforced: true,
-                    focusNode: _node,
-                    controller: _controller,
-                    onChanged: (val) {
-                      final codes = val.split('');
+            RichText(text: TextSpan(
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black
+                ),
+                text: widget.phoneNumber,
+                children: [TextSpan(
+                    text: '  Change',
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        color: Theme.of(context).primaryColor
+                    ),
+                    recognizer: TapGestureRecognizer()..onTap = () {
+                      Navigator.of(context).pop();
+                    }
+                )]
+            )),
+            Container(
+              width: 220,
+              padding: const EdgeInsets.only(top: 40),
+              child: Stack(
+                children: [
+                  Opacity(
+                    opacity: 0,
+                    child: TextFormField(
+                      maxLength: 6,
+                      maxLengthEnforced: true,
+                      focusNode: _node,
+                      controller: _controller,
+                      onChanged: (val) {
+                        final codes = val.split('');
 
-                      for (var i = 0; i < _codes.length; ++i) {
-                        if (i < codes.length) {
-                          _codes[i] = codes[i];
-                        } else {
-                          _codes[i] = '';
+                        for (var i = 0; i < _codes.length; ++i) {
+                          if (i < codes.length) {
+                            _codes[i] = codes[i];
+                          } else {
+                            _codes[i] = '';
+                          }
                         }
-                      }
 
-                      setState(() {});
-                      if (codes.length == 6) {
-                        matchOtp();
+                        setState(() {});
+                        if (codes.length == 6) {
+                          matchOtp();
+                        }
+                      },
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (_node.hasFocus) {
+                        SystemChannels.textInput.invokeMethod('TextInput.show');
+                      } else {
+                        _node.requestFocus();
                       }
                     },
+                    child: Container(
+                      color: Colors.white,
+                      child: Row(children: [
+                        _OtpField(text: _codes[0]),
+                        _OtpField(text: _codes[1]),
+                        _OtpField(text: _codes[2]),
+                        _OtpField(text: _codes[3]),
+                        _OtpField(text: _codes[4]),
+                        _OtpField(text: _codes[5]),
+                      ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
+                    ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    if (_node.hasFocus) {
-                      SystemChannels.textInput.invokeMethod('TextInput.show');
-                    } else {
-                      _node.requestFocus();
-                    }
-                  },
-                  child: Container(
-                    color: Colors.white,
-                    child: Row(children: [
-                      _OtpField(text: _codes[0]),
-                      _OtpField(text: _codes[1]),
-                      _OtpField(text: _codes[2]),
-                      _OtpField(text: _codes[3]),
-                      _OtpField(text: _codes[4]),
-                      _OtpField(text: _codes[5]),
-                    ], mainAxisAlignment: MainAxisAlignment.spaceBetween),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Spacer(),
+            Spacer(),
 
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15),
-            child: _ResendTimer(onResend: () {
-              verifyNumber(widget.phoneNumber, context, resendToken);
-            }),
-          )
-        ]),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 15),
+              child: _ResendTimer(onResend: () {
+                verifyNumber(widget.phoneNumber, context, resendToken);
+              }),
+            )
+          ]),
+        ),
       ),
     );
   }
@@ -243,41 +246,43 @@ class __ResendTimerState extends State<_ResendTimer> {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(children: [
-      Text("Didn't receive a code?", style: TextStyle(
-          color: Colors.grey.shade600
-      )),
-      SizedBox(height: 5),
+    return LocalizedView(
+      builder: (context,lang)=> Wrap(children: [
+        Text(lang.didntReceiveCode, style: TextStyle(
+            color: Colors.grey.shade600
+        )),
+        SizedBox(height: 5),
 
-      if (_allow)
-        GestureDetector(
-            onTap: () {
-              widget.onResend();
+        if (_allow)
+          GestureDetector(
+              onTap: () {
+                widget.onResend();
 
-              setState(() {
-                _allow = false;
-              });
+                setState(() {
+                  _allow = false;
+                });
 
-              _startCounter();
-            },
-            child: Text('Resend Code', style: TextStyle(
-                color: Theme.of(context).primaryColor
-            ))
-        )
-      else
-        StreamBuilder(
-          stream: _controller.stream,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text('Wait for ' + _buildTime(snapshot.data), style: TextStyle(
+                _startCounter();
+              },
+              child: Text(lang.resendCode, style: TextStyle(
                   color: Theme.of(context).primaryColor
-              ));
-            } else {
-              return Text('...');
-            }
-          },
-        )
-    ], direction: Axis.vertical, crossAxisAlignment: WrapCrossAlignment.center);
+              ))
+          )
+        else
+          StreamBuilder(
+            stream: _controller.stream,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text('${lang.waitFor} ' + _buildTime(snapshot.data), style: TextStyle(
+                    color: Theme.of(context).primaryColor
+                ));
+              } else {
+                return Text('...');
+              }
+            },
+          )
+      ], direction: Axis.vertical, crossAxisAlignment: WrapCrossAlignment.center),
+    );
   }
 
   static _buildTime(int seconds) {

@@ -40,7 +40,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         onTap: () {
           Navigator.of(context).pop();
         },
-        child: Form(key: _formKey,autovalidate: autoValidate, child: SingleChildScrollView(padding: EdgeInsets.fromLTRB(20, 40, 20, 0), child: Column(
+        child: Form(key: _formKey,
+            autovalidate: autoValidate,
+            child: SingleChildScrollView(padding: EdgeInsets.fromLTRB(20, 40, 20, 0), child: Column(
           children: <Widget>[
 
             HaweyatiPasswordField(

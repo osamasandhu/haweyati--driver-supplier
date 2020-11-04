@@ -232,7 +232,7 @@ abstract class AppLocalizations {
   String get vehicles;
 
   // No description provided in @price
-  String price(Object value);
+  String get price;
 
   // No description provided in @nProducts
   String nProducts(int count);
@@ -242,6 +242,207 @@ abstract class AppLocalizations {
 
   // No description provided in @signInAsSupplier
   String get signInAsSupplier;
+
+  // No description provided in @signUpAsDriver
+  String get signUpAsDriver;
+
+  // No description provided in @signUpAsSupplier
+  String get signUpAsSupplier;
+
+  // No description provided in @registerNow
+  String get registerNow;
+
+  // No description provided in @exitApp
+  String get exitApp;
+
+  // No description provided in @incorrectCredentials
+  String get incorrectCredentials;
+
+  // No description provided in @validatePassword
+  String get validatePassword;
+
+  // No description provided in @validatePhoneNo
+  String get validatePhoneNo;
+
+  // No description provided in @notASupplier
+  String get notASupplier;
+
+  // No description provided in @notADriver
+  String get notADriver;
+
+  // No description provided in @underReview
+  String get underReview;
+
+  // No description provided in @accountRejected
+  String get accountRejected;
+
+  // No description provided in @accountApproved
+  String get accountApproved;
+
+  // No description provided in @refreshingStatus
+  String get refreshingStatus;
+
+  // No description provided in @selectService
+  String get selectService;
+
+  // No description provided in @selectBranch
+  String get selectBranch;
+
+  // No description provided in @signingUp
+  String get signingUp;
+
+  // No description provided in @enterReqInfo
+  String get enterReqInfo;
+
+  // No description provided in @selectServices
+  String get selectServices;
+
+  // No description provided in @isSubBranch
+  String get isSubBranch;
+
+  // No description provided in @address
+  String get address;
+
+  // No description provided in @validateAddress
+  String get validateAddress;
+
+  // No description provided in @name
+  String get name;
+
+  // No description provided in @validateName
+  String get validateName;
+
+  // No description provided in @licenseNo
+  String get licenseNo;
+
+  // No description provided in @validateLicenseNo
+  String get validateLicenseNo;
+
+  // No description provided in @vehicleDetails
+  String get vehicleDetails;
+
+  // No description provided in @vehicleType
+  String get vehicleType;
+
+  // No description provided in @vehicleName
+  String get vehicleName;
+
+  // No description provided in @vehicleModel
+  String get vehicleModel;
+
+  // No description provided in @selectSupplier
+  String get selectSupplier;
+
+  // No description provided in @validateVehicle
+  String get validateVehicle;
+
+  // No description provided in @validateModel
+  String get validateModel;
+
+  // No description provided in @identification
+  String get identification;
+
+  // No description provided in @validateIdentification
+  String get validateIdentification;
+
+  // No description provided in @camera
+  String get camera;
+
+  // No description provided in @gallery
+  String get gallery;
+
+  // No description provided in @noImageSelected
+  String get noImageSelected;
+
+  // No description provided in @welcome
+  String get welcome;
+
+  // No description provided in @newOrders
+  String get newOrders;
+
+  // No description provided in @acceptedOrders
+  String get acceptedOrders;
+
+  // No description provided in @dispatchedOrders
+  String get dispatchedOrders;
+
+  // No description provided in @completedOrders
+  String get completedOrders;
+
+  // No description provided in @updatingProfile
+  String get updatingProfile;
+
+  // No description provided in @submit
+  String get submit;
+
+  // No description provided in @serviceRequests
+  String get serviceRequests;
+
+  // No description provided in @myProfile
+  String get myProfile;
+
+  // No description provided in @changePassword
+  String get changePassword;
+
+  // No description provided in @verification
+  String get verification;
+
+  // No description provided in @typeCode
+  String get typeCode;
+
+  // No description provided in @didntReceiveCode
+  String get didntReceiveCode;
+
+  // No description provided in @resendCode
+  String get resendCode;
+
+  // No description provided in @waitFor
+  String get waitFor;
+
+  // No description provided in @verifyingOTP
+  String get verifyingOTP;
+
+  // No description provided in @resetPassword
+  String get resetPassword;
+
+  // No description provided in @enterPhoneIntFormat
+  String get enterPhoneIntFormat;
+
+  // No description provided in @processing
+  String get processing;
+
+  // No description provided in @alreadyExistsDriver
+  String get alreadyExistsDriver;
+
+  // No description provided in @alreadyExistsSupplier
+  String get alreadyExistsSupplier;
+
+  // No description provided in @alreadyExistsProfile
+  String get alreadyExistsProfile;
+
+  // No description provided in @sureAcceptOrder
+  String get sureAcceptOrder;
+
+  // No description provided in @acceptOrder
+  String get acceptOrder;
+
+  // No description provided in @acceptingOrder
+  String get acceptingOrder;
+
+  // No description provided in @markCompleted
+  String get markCompleted;
+
+  // No description provided in @subtotal
+  String get subtotal;
+
+  // No description provided in @deliveryFee
+  String get deliveryFee;
+
+  // No description provided in @total
+  String get total;
+
+  // No description provided in @quantity
+  String get quantity;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

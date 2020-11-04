@@ -6,7 +6,7 @@ part 'supplier_model.g.dart';
 
 @HiveType(typeId: 2)
 class SupplierModel extends HiveObject {
-  @HiveField(0) String sId;
+  @HiveField(0) String id;
   @HiveField(1) String city;
   @HiveField(2) String status;
   @HiveField(3) Location location;
@@ -20,7 +20,7 @@ class SupplierModel extends HiveObject {
     this.person,
     this.city,
     this.location,
-    this.sId,
+    this.id,
     this.shopParentId,
     this.message,
     this.status,
@@ -28,7 +28,7 @@ class SupplierModel extends HiveObject {
 
   SupplierModel.fromJson(Map<String, dynamic> json) {
     services = json['services'].cast<String>();
-    sId = json['_id'];
+    id = json['_id'];
     person = json['person'] != null ? Profile.fromJson(json['person']) : null;
     status = json['status'];
     city = json['city'];
@@ -37,10 +37,11 @@ class SupplierModel extends HiveObject {
     shopParentId = json['parent'];
   }
 
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['services'] = this.services;
-    data['_id'] = this.sId;
+    data['_id'] = this.id;
     data['status'] = this.status;
     data['city'] = this.city;
     if(this.person!=null){

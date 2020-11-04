@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/dotted-background_view.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/no-scroll_page.dart';
+import 'package:haweyati_supplier_driver_app/utils/const.dart';
 import 'package:haweyati_supplier_driver_app/utils/validators.dart';
 import 'ui/pages/otp-page.dart';
 import 'ui/widgets/haweyati-text-field.dart';
@@ -16,78 +19,73 @@ class PreSignUpPhoneVerifier extends StatefulWidget {
 }
 
 class _PreSignUpPhoneVerifierState extends State<PreSignUpPhoneVerifier> {
-  static String message;
   bool autoValidate = false;
   var key = GlobalKey<FormState>();
   TextEditingController phone = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    message = widget.forgotPassword ? 'Reset Your Password' : 'Register';
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return NoScrollPage(
-        appBar: HaweyatiAppBar(hideHome: true,),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            if(key.currentState.validate()){
+    return LocalizedView(
+      builder: (context,lang) => NoScrollPage(
+          appBar: HaweyatiAppBar(hideHome: true,),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              if(key.currentState.validate()){
 
-              var result = await CustomNavigator.navigateTo(context, OtpPage(phoneNumber: phone.text,));
-              if(result ?? false){
-                Navigator.pop(context,phone.text);
+                var result = await CustomNavigator.navigateTo(context, OtpPage(phoneNumber: phone.text,));
+                if(result ?? false){
+                  Navigator.pop(context,phone.text);
+                }
+
+              } else {
+                setState(() {
+                  autoValidate=true;
+                });
               }
-
-            } else {
-              setState(() {
-                autoValidate=true;
-              });
-            }
-          },
-          child: Icon(
-            Icons.arrow_forward,
-            color: Colors.white,
-            size: 30,
+            },
+            elevation: 0,
+            child: Transform.rotate(
+                angle: lang.localeName == 'ar' ? 3.14: 0,
+                child: Image.asset(NextFeatureIcon, width: 30)
+            ),
           ),
-        ),
-        body: DottedBackgroundView(
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: 40,
-              ),
-              Text(
-                "Hello",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(30, 15, 30, 15),
-                child: Text(
-                  "Enter Your Phone Number in International Format to $message ",
-                  style: TextStyle(fontSize: 15),
+          body: DottedBackgroundView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 40,
+                ),
+                Text(
+                  lang.hello,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Form(
-                key: key,
-                autovalidate: autoValidate,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 30, 15, 100),
-                  child: HaweyatiTextField(
-                    validator: (value)=> phoneValidator(value),
-                    controller: phone,label: "Phone Number",
-                    keyboardType: TextInputType.phone,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 15, 30, 15),
+                  child: Text(
+                    "${lang.enterPhoneIntFormat} ${widget.forgotPassword ? lang.resetPassword : lang.registerNow} ",
+                    style: TextStyle(fontSize: 15),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ),
-            ],
-          ),
-        ));
+                SizedBox(
+                  height: 15,
+                ),
+                Form(
+                  key: key,
+                  autovalidate: autoValidate,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 30, 15, 100),
+                    child: HaweyatiPhoneField(
+                      controller: phone,
+                      label: lang.yourPhone,
+                      validator: (value) => phoneValidator(value),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )),
+    );
   }
 }

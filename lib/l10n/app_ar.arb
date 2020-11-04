@@ -138,5 +138,210 @@
   "@signInAsDriver": {},
 
   "signInAsSupplier": "تسجيل الدخول كمورد",
-  "@signInAsSupplier": {}
+  "@signInAsSupplier": {},
+
+  "signUpAsDriver": "سجل كسائق",
+  "@signUpAsDriver": {},
+
+  "signUpAsSupplier": "اشترك كمورد",
+  "@signUpAsSupplier": {},
+
+  "registerNow": "سجل الان",
+  "@registerNow": {},
+
+  "exitApp" : "هل أنت متأكد أنك تريد الخروج من هذا التطبيق؟",
+  "@exitApp" : {},
+
+  "incorrectCredentials" : "لقد أدخلت اسم مستخدم أو كلمة مرور غير صحيحة",
+  "@incorrectCredentials" : {},
+
+  "validatePassword" : "الرجاء إدخال كلمة المرور",
+  "@validatePassword" : {},
+
+  "validatePhoneNo" : "يرجى تقديم رقم الهاتف",
+  "@validatePhoneNo" : {},
+
+  "notASupplier" : "أنت غير مسجل كمورد في هذا الحساب",
+  "@notASupplier": {},
+
+  "notADriver" : "أنت غير مسجل كسائق في هذا الحساب",
+  "@notADriver": {},
+
+  "underReview" : "حسابك قيد المراجعة!",
+  "@underReview": {},
+
+  "accountRejected" : "تم رفض حسابك!",
+  "@accountRejected": {},
+
+  "accountApproved" : "تمت الموافقة على حسابك",
+  "@accountApproved": {},
+
+  "refreshingStatus" : "حالة التحديث",
+  "@refreshingStatus": {},
+
+  "selectService" : "يجب عليك اختيار خدمة واحدة على الأقل",
+  "@selectService": {},
+
+  "selectBranch" : "الرجاء تحديد الفرع",
+  "@selectBranch": {},
+
+  "signingUp" : "توقيع",
+  "@signingUp": {},
+
+  "enterReqInfo" : "أدخل المعلومات المطلوبة",
+  "@enterReqInfo": {},
+
+  "selectServices" : "حدد الخدمات",
+  "@selectServices": {},
+
+  "isSubBranch" : "إنه فرع فرعي",
+  "@isSubBranch": {},
+
+  "address" : "عنوان",
+  "@address": {},
+
+  "validateAddress" : "الرجاء إدخال العنوان",
+  "@validateAddress": {},
+
+  "name" : "اسم",
+  "@name": {},
+
+  "validateName" : "الرجاء إدخال الاسم",
+  "@validateName": {},
+
+  "licenseNo" : "رقم الرخصة",
+  "@licenseNo": {},
+
+  "validateLicenseNo" : "الرجاء إدخال رقم الترخيص",
+  "@validateLicenseNo": {},
+
+  "vehicleDetails" : "تفاصيل السيارة",
+  "@vehicleDetails": {},
+
+  "vehicleType" : "نوع السيارة",
+  "@vehicleType": {},
+
+  "vehicleName" : "اسم المركبة",
+  "@vehicleName": {},
+
+  "vehicleModel" : "طراز السيارة",
+  "@vehicleModel": {},
+
+  "selectSupplier" : "حدد المورد",
+  "@selectSupplier": {},
+
+  "validateVehicle" : "الرجاء إدخال اسم السيارة",
+  "@validateVehicle": {},
+
+  "validateModel" : "الرجاء إدخال طراز السيارة",
+  "@validateVehicle": {},
+
+  "identification" : "هوية",
+  "@identification": {},
+
+  "validateIdentification" : "التحقق من صحة الهوية",
+  "@validateIdentification": {},
+
+  "camera" : "الة تصوير",
+  "@camera": {},
+
+  "gallery" : "صالة عرض",
+  "@gallery": {},
+
+  "noImageSelected" : "لم يتم اختيار أي صورة",
+  "@noImageSelected": {},
+
+  "welcome" : "أهلا بك",
+  "@welcome": {},
+
+  "newOrders" : "طلبات جديدة",
+  "@newOrders": {},
+
+  "acceptedOrders" : "قبلت",
+  "@acceptedOrders": {},
+
+  "completedOrders" : "الطلبات المكتملة",
+  "@completedOrders": {},
+
+  "dispatchedOrders" : "أرسل",
+  "@dispatchedOrders": {},
+
+  "updatingProfile" : "تحديث الملف الشخصي",
+  "@updatingProfile": {},
+
+  "submit" : "إرسال",
+  "@submit": {},
+
+  "serviceRequests" : "طلبات الخدمة",
+  "@serviceRequests": {},
+
+  "myProfile" : "ملفي",
+  "@myProfile": {},
+
+  "changePassword" : "تغيير كلمة المرور",
+  "@changePassword": {},
+
+  "verification" : "التحقق",
+  "@verification": {},
+
+  "typeCode" : "الرجاء كتابة رمز التحقق الذي تلقيته",
+  "@typeCode": {},
+
+  "didntReceiveCode" : "لم تتلق رمز؟",
+  "@didntReceiveCode": {},
+
+  "resendCode" : "أعد إرسال الرمز؟",
+  "@resendCode": {},
+
+  "waitFor" : "أنتظر لأجل",
+  "@waitFor": {},
+
+  "verifyingOTP" : "التحقق من OTP",
+  "@verifyingOTP": {},
+
+  "resetPassword" : "إعادة تعيين كلمة المرور",
+  "@resetPassword": {},
+
+  "enterPhoneIntFormat" : "أدخل رقم هاتفك بالتنسيق الدولي إلى ",
+  "@enterPhoneIntFormat": {},
+
+  "processing" : "معالجة",
+  "@processing": {},
+
+  "alreadyExistsDriver" : "يوجد سائق برقم الهاتف هذا بالفعل",
+  "@alreadyExistsDriver": {},
+
+  "alreadyExistsSupplier" : "يوجد مورد برقم الهاتف هذا بالفعل",
+  "@alreadyExistsSupplier": {},
+
+  "alreadyExistsProfile" : "الملف الشخصي موجود بالفعل مع رقم الهاتف هذا. هل أنت متأكد أنك تريد مزامنة هذه الحسابات؟",
+  "@alreadyExistsProfile": {},
+
+  "sureAcceptOrder" : "هل أنت متأكد أنك تريد قبول هذا الطلب؟",
+  "@sureAcceptOrder": {},
+
+  "acceptOrder" : "قبول الطلب",
+  "@acceptOrder": {},
+
+  "acceptingOrder" : "قبول الطلب",
+  "@acceptingOrder": {},
+
+  "markCompleted" : "وضع علامة كمكتمل",
+  "@markCompleted": {},
+
+  "subtotal" : "المجموع الفرعي",
+  "@subtotal": {},
+
+  "deliveryFee" : "رسوم التوصيل",
+  "@deliveryFee": {},
+
+  "total" : "مجموع",
+  "@total": {},
+
+  "quantity" : "كمية",
+  "@quantity": {},
+
+  "price" : "السعر",
+  "@price": {}
+
 }

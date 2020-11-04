@@ -7,6 +7,7 @@ import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/localization-selector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'localization-selector.dart';
 import 'no-scroll_page.dart';
 
 const _apiKey = 'AIzaSyDdNpY6LGWgHqRfTRZsKkVhocYOaER325w';
@@ -145,7 +146,7 @@ class LocationPickerPageState extends State<LocationPickerPage> {
         actions: [
           Center(child: Padding(
             padding: const EdgeInsets.only(right: 15),
-            child: LocalizationSelector(selected: Locale('en'), onChanged: (locale) {}),
+            child: LocalizationSelector(),
           ))
         ],
         bottom: PreferredSize(

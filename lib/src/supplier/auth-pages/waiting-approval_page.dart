@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/src/driver/profile/driver-home_page.dart';
+import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
+import 'package:haweyati_supplier_driver_app/src/driver/driver-home_page.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/drivers_service.dart';
 import 'package:haweyati_supplier_driver_app/src/services/supplier-Services.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/pre-sign-in_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/dotted-background_view.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
@@ -51,13 +53,13 @@ class _WaitingApprovalState extends State<WaitingApproval> {
         if(fromRetry){
           Navigator.pop(context);
         }
-        showSimpleSnackbar(globalKey, "Your account is being reviewed!");
+        showSimpleSnackbar(globalKey, AppLocalizations.of(context).underReview);
       }
       else if(driv.status == 'Rejected'){
         if(fromRetry){
           Navigator.pop(context);
         }
-        showSimpleSnackbar(globalKey, "Your account has been rejected!",true);
+        showSimpleSnackbar(globalKey,  AppLocalizations.of(context).accountRejected,true);
       }
     } else {
       supplier = SupplierServices().supplierProfile(AppData.supplier.person.id);
@@ -70,13 +72,13 @@ class _WaitingApprovalState extends State<WaitingApproval> {
         if(fromRetry){
           Navigator.pop(context);
         }
-        showSimpleSnackbar(globalKey, "Your account is being reviewed!");
+        showSimpleSnackbar(globalKey, AppLocalizations.of(context).underReview);
       }
       else if(sup.status == 'Rejected'){
         if(fromRetry){
           Navigator.pop(context);
         }
-        showSimpleSnackbar(globalKey, "Your account has been rejected!",true);
+        showSimpleSnackbar(globalKey, AppLocalizations.of(context).accountRejected,true);
       }
     }
   }
@@ -84,13 +86,13 @@ class _WaitingApprovalState extends State<WaitingApproval> {
   String message (String status){
     switch(status){
       case "Pending":
-        return 'Your account is being reviewed';
+        return AppLocalizations.of(context).underReview;
         break;
       case "Rejected":
-        return "Your account has been rejected";
+        return AppLocalizations.of(context).accountRejected;
         break;
       case "Active":
-        return "Your account has been approved";
+        return AppLocalizations.of(context).accountApproved;
         break;
       default:
         return "Unknown status";
@@ -115,120 +117,122 @@ class _WaitingApprovalState extends State<WaitingApproval> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => exitApp(context),
-      child: Scaffold(
-        appBar: HaweyatiAppBar(
-          actions: [
-            IconButton(
-                icon: Image.asset(
-                  CustomerCareIcon,
-                  width: 20,
-                  height: 20,
-                ),
-                onPressed: () => Navigator.of(context).pushNamed('/helpline')
-            ),
-            IconButton(
-                icon: Image.asset(LogoutIcon,scale: 2.5,),
-                onPressed: () async {
-                  openLoadingDialog(context, "Signing out");
-                  await AppData.signOut();
-                  CustomNavigator.pushReplacement(context, PreSignInPage());
-                }
-            ),
-          ]
-        ),
-        key: globalKey,
-        floatingActionButton: FloatingActionButton(
-          elevation: 0,
-          child: Icon(CupertinoIcons.refresh,size: 40,),
-          foregroundColor: Colors.white,
-          onPressed: () async {
-            openLoadingDialog(context, "Refreshing status");
-            await checkStatus(true);
-          },
-        ),
-          body: DottedBackgroundView(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: AppData.isSupplier ? SimpleFutureBuilder.simpler(
-                  context: context,
-                  future: supplier,
-                  builder: (SupplierModel supplier){
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        CircleAvatar(
-                          radius: 40,
-                          backgroundColor: statusColor(supplier.status),
-                          child: Icon(
-                            CupertinoIcons.search,
-                            size: 50,
-                            color: Colors.white),
-                          ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          message(supplier.status),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                       supplier.status == 'Rejected' ? Text(
-                          "${supplier.message}",
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                          textAlign: TextAlign.center,
-                        ) : SizedBox(),
-                      ],
-                    );
-                  },
-                ) : SimpleFutureBuilder.simpler(
-                  context: context,
-                  future: driver,
-                  builder: (Driver driver){
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        CircleAvatar(
-                          radius: 40,
-                          backgroundColor: statusColor(driver.status),
-                          child: Icon(
+    return LocalizedView(
+      builder: (context, lang) =>  WillPopScope(
+        onWillPop: () => exitApp(context),
+        child: Scaffold(
+          appBar: HaweyatiAppBar(
+            actions: [
+              IconButton(
+                  icon: Image.asset(
+                    CustomerCareIcon,
+                    width: 20,
+                    height: 20,
+                  ),
+                  onPressed: () => Navigator.of(context).pushNamed('/helpline')
+              ),
+              IconButton(
+                  icon: Image.asset(LogoutIcon,scale: 2.5,),
+                  onPressed: () async {
+                    openLoadingDialog(context, lang.signingOut);
+                    await AppData.signOut();
+                    CustomNavigator.pushReplacement(context, PreSignInPage());
+                  }
+              ),
+            ]
+          ),
+          key: globalKey,
+          floatingActionButton: FloatingActionButton(
+            elevation: 0,
+            child: Icon(CupertinoIcons.refresh,size: 40,),
+            foregroundColor: Colors.white,
+            onPressed: () async {
+              openLoadingDialog(context, lang.refreshingStatus);
+              await checkStatus(true);
+            },
+          ),
+            body: DottedBackgroundView(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: AppData.isSupplier ? SimpleFutureBuilder.simpler(
+                    context: context,
+                    future: supplier,
+                    builder: (SupplierModel supplier){
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundColor: statusColor(supplier.status),
+                            child: Icon(
                               CupertinoIcons.search,
                               size: 50,
                               color: Colors.white),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          message(driver.status),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            ),
+                          SizedBox(
+                            height: 20,
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                        driver.status == 'Rejected' ? Text(
-                          "${driver.message}",
-                          style: TextStyle(
-                            fontSize: 20,
+                          Text(
+                            message(supplier.status),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
-                        ) : SizedBox(),
-                      ],
-                    );
-                  },
-                ),
-              ),),
-          )
+                         supplier.status == 'Rejected' ? Text(
+                            "${supplier.message}",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                            textAlign: TextAlign.center,
+                          ) : SizedBox(),
+                        ],
+                      );
+                    },
+                  ) : SimpleFutureBuilder.simpler(
+                    context: context,
+                    future: driver,
+                    builder: (Driver driver){
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundColor: statusColor(driver.status),
+                            child: Icon(
+                                CupertinoIcons.search,
+                                size: 50,
+                                color: Colors.white),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            message(driver.status),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          driver.status == 'Rejected' ? Text(
+                            "${driver.message}",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                            textAlign: TextAlign.center,
+                          ) : SizedBox(),
+                        ],
+                      );
+                    },
+                  ),
+                ),),
+            )
+        ),
       ),
     );
   }

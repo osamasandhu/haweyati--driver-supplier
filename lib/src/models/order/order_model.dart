@@ -90,16 +90,22 @@ class Order extends HiveObject implements JsonSerializable {
         status = OrderStatus.pending;
         break;
       case 1:
-        status = OrderStatus.active;
+        status = OrderStatus.approved;
         break;
       case 2:
-        status = OrderStatus.closed;
+        status = OrderStatus.accepted;
         break;
       case 3:
-        status = OrderStatus.rejected;
+        status = OrderStatus.preparing;
         break;
       case 4:
         status = OrderStatus.dispatched;
+        break;
+      case 5:
+        status = OrderStatus.delivered;
+        break;
+      case 6:
+        status = OrderStatus.rejected;
         break;
     }
 
@@ -188,9 +194,11 @@ class Order extends HiveObject implements JsonSerializable {
 enum OrderStatus {
   rejected,
   pending,
-  active,
   dispatched,
-  closed,
+  preparing,
+  approved,
+  accepted,
+  delivered
 }
 enum OrderType {
   dumpster,
