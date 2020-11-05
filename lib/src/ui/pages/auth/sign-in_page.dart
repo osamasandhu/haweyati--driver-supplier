@@ -28,9 +28,9 @@ import 'package:haweyati_supplier_driver_app/utils/validators.dart';
 import 'package:haweyati_supplier_driver_app/widgits/localization-selector.dart';
 import '../reset-password_page.dart';
 
-class SignInPage extends StatelessWidget {
+class HaweyatiSignIn extends StatelessWidget {
   final bool _isSupplier;
-  SignInPage([this._isSupplier = false]);
+  HaweyatiSignIn([this._isSupplier = false]);
 
   final _username = new TextEditingController();
   final _password = new TextEditingController();
@@ -65,17 +65,20 @@ class SignInPage extends StatelessWidget {
               onSubmit: () async {
                 openLoadingDialog(context, lang.signingIn);
                 Map<String,dynamic> signIn = {
-                  'username' : _username.text,
+                  'username' : "+966" + _username.text,
                   'password' : _password.text
                 };
+
+                print(signIn);
+
                 var token;
                 try {
                   var res = await HaweyatiService.post(
                       'auth/sign-in', signIn);
-                  print(res.data['access_token']);
+                  // print(res.data['access_token']);
                   token = res.data['access_token'];
-                  print(token);
-                  print("xgrdchtfvjgybkhnjn");
+                  // print(token);
+                  // print("xgrdchtfvjgybkhnjn");
 
                 } catch (e) {
                   Navigator.pop(context);
@@ -132,7 +135,7 @@ class SignInPage extends StatelessWidget {
                     controller: _username,
                     label: lang.yourPhone,
                     //todo: uncomment validator on production
-                    // validator: (value) => phoneValidator(value),
+                    validator: (value) => phoneValidator(value),
                   ),
                   SizedBox(height: 20),
                   HaweyatiPasswordField(

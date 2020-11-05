@@ -18,6 +18,7 @@ class Location extends HiveObject implements JsonSerializable {
   });
 
   factory Location.fromJson(Map<String, dynamic> json) {
+    print("Location: $json}");
     return Location(
       city: json['city'],
       address: json['address'],

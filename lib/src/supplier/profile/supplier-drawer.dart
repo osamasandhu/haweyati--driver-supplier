@@ -53,8 +53,8 @@ class SupplierDrawer extends StatelessWidget {
                 icon: Icons.business,
                 onTap: () async {
                   await Navigator.of(context).pop();
-                  CustomNavigator.navigateTo(context, WebSocketsTesting());
-                  // Navigator.of(context).pushNamed('/supplier-services');
+                  // CustomNavigator.navigateTo(context, WebSocketsTesting());
+                  Navigator.of(context).pushNamed('/supplier-services');
                 }
             ),
             DrawerItem(icon: Icons.star, text: lang.rateApp, onTap: () => Navigator.of(context).pop()),

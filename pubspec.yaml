@@ -35,11 +35,10 @@ dependencies:
   hive_flutter:
   easy_localization:
   geocoder: 0.2.1
-  firebase_core: 0.5.0
   image_picker: ^0.6.1+4
 #  flutter_pdfview: ^1.0.0+10
-  firebase_messaging: 6.0.16
-  firebase_auth: 0.18.0+1
+  firebase_messaging: 7.0.3
+  firebase_auth: 0.18.2
 
 
 

@@ -21,7 +21,7 @@ class _CancelOrderSupplierState extends State<CancelOrderSupplier> {
     return LocalizedView(
       builder: (context,lang) =>
       AlertDialog(
-          title: Text("Cancel Order",style: TextStyle(
+          title: Text("Cancel Item",style: TextStyle(
             fontWeight: FontWeight.bold
           ),),
           content: SimpleForm(

@@ -27,6 +27,8 @@ class SupplierModel extends HiveObject {
   });
 
   SupplierModel.fromJson(Map<String, dynamic> json) {
+    print("writing json $json");
+    print("writing city ${json['city']}");
     services = json['services'].cast<String>();
     id = json['_id'];
     person = json['person'] != null ? Profile.fromJson(json['person']) : null;

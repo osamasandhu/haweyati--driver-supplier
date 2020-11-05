@@ -16,7 +16,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/live-scrollable_view
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/rich-price-text.dart';
 import 'package:intl/intl.dart';
 
-import 'order-detail_page.dart';
+import 'supplier-order-detail.dart';
 
 class MyOrdersPage extends StatefulWidget {
   @override
@@ -59,7 +59,6 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
           },
         ),
       ),
-      /// TODO: Fix this
       // loader: () => _service.orders(orderId: _orderId),
       builder: (context, order) => GestureDetector(
         onTap: () => navigateTo(context, SupplierOrderDetailPage(order)),
@@ -129,6 +128,7 @@ class _OrderStatus extends Container {
   static String _text(OrderStatus status) {
     switch (status) {
       case OrderStatus.dispatched:
+        return 'Dispatched';
       case OrderStatus.accepted:
         return 'Accepted';
       case OrderStatus.pending:

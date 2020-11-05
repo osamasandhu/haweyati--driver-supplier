@@ -13,6 +13,7 @@ import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.d
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/my-orders_page.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/order-mutual-widgets.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
@@ -21,7 +22,6 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart'
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/raised-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/rich-price-text.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/scroll_view.dart';
-import 'package:haweyati_supplier_driver_app/utils/const.dart';
 import 'package:haweyati_supplier_driver_app/widgits/confirmation-dialog.dart';
 import 'package:haweyati_supplier_driver_app/widgits/mark-order-complete.dart';
 import 'package:haweyati_supplier_driver_app/widgits/order-location-picker.dart';
@@ -95,18 +95,18 @@ class DriverOrderDetailPage extends StatelessWidget {
         ) : SizedBox(),
           showBackground: true,
           padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
-          appBar: HaweyatiAppBar(),
+          appBar: HaweyatiAppBar(actions: [],),
           children: [
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(5, 20, 5, 40),
-              sliver: SliverToBoxAdapter(child: _OrderDetailHeader(order.status.index)),
+              sliver: SliverToBoxAdapter(child: OrderDetailHeader(order.status.index)),
             ),
 
             SliverToBoxAdapter(child: OrderMeta(order)),
 
             SliverPadding(
               padding: const EdgeInsets.only(bottom: 15, top: 25),
-              sliver: SliverToBoxAdapter(child: LocationPicker(initialValue: order.location)),
+              sliver: SliverToBoxAdapter(child: LocationPicker(initialValue: order.location,edit: false,)),
             ),
 
             SliverList(delegate: SliverChildBuilderDelegate(
@@ -118,15 +118,16 @@ class DriverOrderDetailPage extends StatelessWidget {
               child: Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
                 children: [
-                  TableRow(children: [
-                    Text(lang.subtotal, style: TextStyle(
-                      height: 2, fontSize: 13,
-                      fontFamily: 'Lato',
-                      color: Colors.grey.shade600,
-                    )),
-
-                    RichPriceText(price: order.total - order.deliveryFee, fontSize: 13)
-                  ]),
+                  // TableRow(children: [
+                  //   Text(lang.subtotal, style: TextStyle(
+                  //     height: 2, fontSize: 13,
+                  //     fontFamily: 'Lato',
+                  //     color: Colors.grey.shade600,
+                  //   )),
+                  //
+                  //   RichPriceText(price: order.total - order.deliveryFee, fontSize: 13)
+                  // ]),
+                  order.payment.type == 'COD' ?
                   TableRow(children: [
                     Text(lang.deliveryFee, style: TextStyle(
                       height: 2, fontSize: 13,
@@ -135,25 +136,43 @@ class DriverOrderDetailPage extends StatelessWidget {
                     )),
 
                     RichPriceText(price: order.deliveryFee, fontSize: 13)
-                  ])
+                  ]) : SizedBox()
                 ],
               ),
             ),
             SliverToBoxAdapter(child: Divider()),
             SliverToBoxAdapter(
-              child: Table(children: [
-                TableRow(children: [
-                  Text(lang.total, style: TextStyle(
-                    height: 2,
-                    fontSize: 13,
-                    fontFamily: 'Lato',
-                    color: Colors.grey.shade600,
-                  )),
+              child: Column(
+                children: [
+                  Table(children: [
+                    order.payment.type == 'COD' ?   TableRow(children: [
+                      Text(lang.total, style: TextStyle(
+                        height: 2,
+                        fontSize: 13,
+                        fontFamily: 'Lato',
+                        color: Colors.grey.shade600,
+                      )),
 
-                  RichPriceText(price: order.total, fontWeight: FontWeight.bold, fontSize: 18)
-                ])
-              ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
-            )
+                      RichPriceText(price: order.total, fontWeight: FontWeight.bold, fontSize: 18)
+                    ]) : SizedBox()
+                  ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
+                  Table(children: [
+                    TableRow(children: [
+                      Text("Payment Type", style: TextStyle(
+                        height: 2,
+                        fontSize: 13,
+                        fontFamily: 'Lato',
+                        color: Colors.grey.shade600,
+                      )),
+
+                      Text(order.payment.type, textAlign: TextAlign.right, style: TextStyle(
+                          fontSize: 13
+                      ))                    ])
+                  ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
+                ],
+              ),
+            ),
+
           ]
       ),
     );
@@ -192,15 +211,15 @@ class _OrderItemWidget extends StatelessWidget {
                   style: TextStyle(color: Color(0xFF313F53)),
                 )
               ]),
-              TableRow(children: [
-                Text(lang.price, style: TextStyle(
-                  height: 1.6,
-                  fontSize: 13,
-                  color: Colors.grey,
-                )),
-
-                RichPriceText(price: (holder.item as FinishingMaterialOrderItem).price)
-              ]),
+              // TableRow(children: [
+              //   Text(lang.price, style: TextStyle(
+              //     height: 1.6,
+              //     fontSize: 13,
+              //     color: Colors.grey,
+              //   )),
+              //
+              //   RichPriceText(price: (holder.item as FinishingMaterialOrderItem).price)
+              // ]),
               TableRow(children: [
                 Text(lang.total, style: TextStyle(
                   height: 2.5,
@@ -209,6 +228,7 @@ class _OrderItemWidget extends StatelessWidget {
                 )),
 
                 RichPriceText(price: holder.subtotal, fontWeight: FontWeight.bold)
+
               ])
             ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline)
           else
@@ -219,15 +239,15 @@ class _OrderItemWidget extends StatelessWidget {
                     fontSize: 13
                 ))
               ]),
-              TableRow(children: [
-                Text(lang.price, style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 2)),
-                RichPriceText(price: holder.subtotal / qty, fontSize: 13)
-              ]),
+              // TableRow(children: [
+              //   Text(lang.price, style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 2)),
+              //   RichPriceText(price: holder.subtotal / qty, fontSize: 13)
+              // ]),
 
-              TableRow(children: [
-                Text(lang.total, style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 3)),
-                RichPriceText(price: holder.subtotal, fontWeight: FontWeight.bold)
-              ]),
+              // TableRow(children: [
+              //   Text(lang.total, style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 3)),
+              //   RichPriceText(price: holder.subtotal, fontWeight: FontWeight.bold)
+              // ]),
             ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline)
         ]),
 
@@ -306,93 +326,6 @@ _buildVariants(Map<String, dynamic> variants) {
 
   return list;
 }
-class _OrderDetailHeader extends StatelessWidget {
-  final int status;
-  _OrderDetailHeader(this.status);
-
-  Widget build(BuildContext context) {
-    return Container(
-        width: 300,
-        height: 65,
-        child: Stack(
-          children: [
-            CustomPaint(painter: _OrderStatusPainter(status)),
-            Positioned(
-                left: 30, top: 10,
-                child: Icon(Icons.done_all, size: 20, color: Colors.white)
-            ),
-            Positioned(
-                top: 9,
-                left: 109,
-                child: Image.asset(SettingsIcon, width: 22)
-            ),
-            Positioned(left: 185,top: 6, child: Image.asset(CartIcon, width: 30)),
-            Positioned(
-                right: 30, top: 9,
-                child: Image.asset(HomeIcon,color: Colors.white, width: 20)
-            ),
-          ],
-        )
-    );
-  }
-}
-class _OrderStatusPainter extends CustomPainter {
-  final int progress;
-  _OrderStatusPainter(this.progress);
-
-  static TextPainter _genText(String text) {
-    return TextPainter(
-        text: TextSpan(
-            text: text,
-            style: TextStyle(
-                fontSize: 10,
-                color: Colors.grey.shade700
-            )
-        ),
-        textDirection: TextDirection.ltr
-    );
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final xOffset1 = 40.0;
-    final xOffset2 = 120.0;
-    final xOffset3 = 200.0;
-    final xOffset4 = 280.0;
-
-    final txt1 = _genText('Order Placed')..layout();
-    final txt2 = _genText('Preparing')..layout();
-    final txt3 = _genText('Dispatched')..layout();
-    final txt4 = _genText('Delivered')..layout();
-
-    final _donePainter = Paint()
-      ..color = Color(0xFFFF974D)
-      ..strokeWidth = 1;
-
-    final _unDonePainter = Paint()
-      ..color = Colors.grey.shade300
-      ..strokeWidth = 1;
-
-    txt1.paint(canvas, Offset(xOffset1 - txt1.width / 2, 50));
-    txt2.paint(canvas, Offset(xOffset2 - txt2.width / 2, 50));
-    txt3.paint(canvas, Offset(xOffset3 - txt3.width / 2, 50));
-    txt4.paint(canvas, Offset(xOffset4 - txt4.width / 2, 50));
-
-    canvas.drawLine(Offset(xOffset1, 20), Offset(xOffset2, 20), progress > 1 ? _donePainter : _unDonePainter);
-    canvas.drawLine(Offset(xOffset2, 20), Offset(xOffset3, 20), progress > 2 ? _donePainter : _unDonePainter);
-    canvas.drawLine(Offset(xOffset3, 20), Offset(xOffset4, 20), progress > 3 ? _donePainter : _unDonePainter);
-
-    canvas.drawCircle(Offset(xOffset1, 20), 20, progress > 0 ? _donePainter : _unDonePainter);
-    canvas.drawCircle(Offset(xOffset2, 20), 20, progress > 1 ? _donePainter : _unDonePainter);
-    canvas.drawCircle(Offset(xOffset3, 20), 20, progress > 2 ? _donePainter : _unDonePainter);
-    canvas.drawCircle(Offset(xOffset4, 20), 20, progress > 3 ? _donePainter : _unDonePainter);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
-}
-
-
 
 class DriverBottomWidget extends StatefulWidget {
   final Order order;

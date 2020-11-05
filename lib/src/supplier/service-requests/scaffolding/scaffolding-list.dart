@@ -15,7 +15,6 @@ class _ScaffoldingListState extends State<ScaffoldingList> {
   Future<List<ScaffoldingModel>> scaffolding;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
  scaffolding =ScaffoldingServices().getScaffolding();
 

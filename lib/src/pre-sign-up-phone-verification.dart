@@ -32,9 +32,9 @@ class _PreSignUpPhoneVerifierState extends State<PreSignUpPhoneVerifier> {
             onPressed: () async {
               if(key.currentState.validate()){
 
-                var result = await CustomNavigator.navigateTo(context, OtpPage(phoneNumber: phone.text,));
+                var result = await CustomNavigator.navigateTo(context, OtpPage(phoneNumber: "+966"+phone.text,));
                 if(result ?? false){
-                  Navigator.pop(context,phone.text);
+                  Navigator.pop(context,"+966"+phone.text);
                 }
 
               } else {

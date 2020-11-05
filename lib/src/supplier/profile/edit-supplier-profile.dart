@@ -146,6 +146,8 @@ class _EditSupplierProfileState extends State<EditSupplierProfile> {
                     services.add('Finishing Material');
                   }
                   if(form.currentState.validate()){
+                    print("my id");
+                    print(AppData.supplier.id);
                     FocusScope.of(context).requestFocus(FocusNode());
                     FocusScope.of(context).requestFocus(FocusNode());
                     openLoadingDialog(context, lang.updatingProfile);
@@ -162,17 +164,17 @@ class _EditSupplierProfileState extends State<EditSupplierProfile> {
                     });
 
                     var res = await HaweyatiService.patch('suppliers', profile);
-                    print(res.data);
+                    // print(res.data);
 
                     try{
                       await AppData.signIn(SupplierModel.fromJson(res.data));
                       Navigator.pop(context);
                       Navigator.pop(context);
                       print(res.data);
-                      print("received from up");
+                      // print("received from up");
                     } catch (e){
                       // throw e;
-                      print("exception arahi hai ${e.toString()}");
+                      // print("exception arahi hai ${e.toString()}");
                       Navigator.pop(context);
                       key.currentState.hideCurrentSnackBar();
                       showSimpleSnackbar(key, res.toString(),true);

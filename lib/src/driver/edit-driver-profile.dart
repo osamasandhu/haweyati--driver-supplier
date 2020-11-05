@@ -42,7 +42,7 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
   String imagePath;
   Location location = AppData.driver.location;
   var name = TextEditingController.fromValue(TextEditingValue(text: AppData.driver.profile.name));
-//  var email = TextEditingController.fromValue(TextEditingValue(text: HaweyatiData.customer.profile.email));
+  var _email = TextEditingController.fromValue(TextEditingValue(text: AppData.driver.profile?.email??''));
   final key = GlobalKey<ScaffoldState>();
   final form = GlobalKey<FormState>();
   bool autoValidate=false;
@@ -102,8 +102,9 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
 
                 FormData profile = FormData.fromMap({
                   "_id" : AppData.driver.sId,
-                  'person' : AppData.driver.profile.id,
+                  'profile' : AppData.driver.profile.id,
                   "name": name.text,
+                  "email" : _email.text,
                   "license" : _license.text,
                   "latitude" : _userLocation.latitude,
                   "longitude" : _userLocation.longitude,
@@ -156,7 +157,16 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                 validator: (value) => emptyValidator(value, lang.name),
                 label: lang.name,
               ),
-              // SizedBox(height: 15),
+              SizedBox(height: 15),
+              HaweyatiTextField(
+                keyboardType: TextInputType.emailAddress,
+                label: "Email",
+                controller: _email,
+                icon: Icons.mail,
+                // validator: (value) {
+                //   return value.isEmpty ? "Please Enter Email" : null;
+                // },
+              ),
               // HaweyatiTextField(
               //   keyboardType: TextInputType.emailAddress,
               //   label: "Email",

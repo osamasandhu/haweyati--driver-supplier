@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/src/driver/orders/driver-order-detail.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/order-detail_page.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/supplier-order-detail.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/timeAgoSinceDate.dart';
 
 import 'custom-navigator.dart';
@@ -116,7 +116,7 @@ class OrderTile extends StatelessWidget {
         return Colors.black;
         break;
       case OrderStatus.preparing:
-        return Colors.yellowAccent;
+        return Colors.amber.shade800;
         break;
       case OrderStatus.approved:
         return Colors.red[300];

@@ -127,7 +127,6 @@ class Order extends HiveObject implements JsonSerializable {
       items: (json['items'] as List)
         .map((item) {
           var supplier = item['supplier'];
-          //Todo
           // if (supplier is Map) {
           //   supplier = supplier['_id'];
           // }
@@ -192,13 +191,13 @@ class Order extends HiveObject implements JsonSerializable {
 }
 
 enum OrderStatus {
-  rejected,
   pending,
-  dispatched,
-  preparing,
   approved,
   accepted,
-  delivered
+  preparing,
+  dispatched,
+  delivered,
+  rejected,
 }
 enum OrderType {
   dumpster,

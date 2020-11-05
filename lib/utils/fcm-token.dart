@@ -14,7 +14,7 @@ class FCMService {
   }
 
   Future updateProfileFcmToken() async {
-    return await HaweyatiService.patch('persons', {
+    return await HaweyatiService.patch('persons/update-token', {
       '_id': AppData.isDriver ? AppData.driver.profile.id : AppData.supplier.person.id,
       'token': await getToken(),
     });

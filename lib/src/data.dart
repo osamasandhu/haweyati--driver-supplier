@@ -51,14 +51,12 @@ abstract class AppData {
 
   static Future initiate() async {
     await Hive.initFlutter();
-
     Hive.registerAdapter<Profile>(ProfileAdapter());
     Hive.registerAdapter<Vehicle>(VehicleAdapter());
     Hive.registerAdapter<Location>(LocationAdapter());
     Hive.registerAdapter<Driver>(DriverModelAdapter());
     Hive.registerAdapter<ImageModel>(ImageModelAdapter());
     Hive.registerAdapter<SupplierModel>(SupplierModelAdapter());
-
 
     _supplier = await Hive.openBox('supplier');
     _driver = await Hive.openBox('driver');

@@ -16,9 +16,7 @@ class OrdersService extends HaweyatiService<Order> {
         services = services + '&services[]=' + AppData.supplier.services[i];
       }
     }
-    //Todo : Fix city bug it returns null or address instead
-    return this.getAll('orders/filter$services&city=Jeddah');
-    // return this.getAll('orders/filter$services&city=${AppData.supplier.city}');
+    return this.getAll('orders/filter$services&city=${AppData.supplier.city}');
   }
 
   Future<List<Order>> supplierSelectedOrders() async {

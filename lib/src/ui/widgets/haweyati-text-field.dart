@@ -148,7 +148,7 @@ class _HaweyatiPhoneFieldState extends State<HaweyatiPhoneField> {
       scrollPadding: EdgeInsets.all(180),
       inputFormatters: [
         //Todo: Add on production
-        // FilteringTextInputFormatter.digitsOnly
+        FilteringTextInputFormatter.digitsOnly
       ],
       decoration: InputDecoration(
           labelText: widget.label,
@@ -158,7 +158,7 @@ class _HaweyatiPhoneFieldState extends State<HaweyatiPhoneField> {
           ))
       ),
       onSaved: widget.onSaved,
-      validator: widget.validator,
+      // validator: widget.validator,
       controller: widget.controller,
     );
   }

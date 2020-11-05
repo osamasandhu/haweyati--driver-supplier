@@ -53,8 +53,8 @@ final routes = <String, Widget Function(BuildContext)>{
   '/waiting-approval': (context) => WaitingApproval(),
   '/pre-sign-up': (context) => PreSignUpPage(),
   '/driver-sign-up': (context) => DriverSignUpPage(),
-  '/driver-sign-in': (context) => SignInPage(false),
-  '/supplier-sign-in': (context) => SignInPage(true),
+  '/driver-sign-in': (context) => HaweyatiSignIn(false),
+  '/supplier-sign-in': (context) => HaweyatiSignIn(true),
   '/supplier-sign-up': (context) => SupplierSignUpPage(),
 
   '/select-location' : (context) => Location(),

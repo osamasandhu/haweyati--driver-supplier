@@ -23,7 +23,6 @@ class DropOff implements JsonSerializable {
 
   @override
   Map<String, dynamic> serialize() => {
-    ///TODO: Prettify the object
 
     'dropoffDate': date,
     'dropoffTime': time.serialize(),
