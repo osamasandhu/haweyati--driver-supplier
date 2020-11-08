@@ -49,7 +49,7 @@ class SupplierDrawer extends StatelessWidget {
             // DrawerItem(icon: Icons.monetization_on, text: 'Completed Orders', onTap: () => Navigator.of(context).pop()),
 
             DrawerItem(
-                text: 'Service Requests',
+                text: lang.serviceRequests,
                 icon: Icons.business,
                 onTap: () async {
                   await Navigator.of(context).pop();

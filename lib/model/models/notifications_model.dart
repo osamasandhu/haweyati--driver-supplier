@@ -13,8 +13,14 @@ class NotificationModel extends HiveObject{
   NotificationModel({this.title,this.body});
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
-    title = json['message']['title'];
-    body = json['message']['body'];
+    if(json.containsKey('message')){
+      title = json['message']['title'];
+      body = json['message']['body'];
+    }
+    else {
+      title = json['title'];
+      body = json['body'];
+    }
     createdAt = json['createdAt'];
   }
 

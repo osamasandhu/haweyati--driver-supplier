@@ -42,18 +42,15 @@ class _LocationPickerWidgetState extends State<LocationPickerWidget> {
     if(widget.location!=null){
       LatLng _location = LatLng(widget.location.latitude,widget.location.longitude);
       MapUtils.findAddress(_location).then((value) => setState(() {
-        _data = Location(address: MapUtils.formatAddress(value.first), latitude: _location.latitude,longitude: _location.longitude);
+        _data = Location(address: MapUtils.formatAddress(value.first), latitude: _location.latitude,longitude: _location.longitude,city: value.first.subAdminArea);
         widget.onChanged(_data);
       }));
     } else {
       LatLng currentCords = await MapUtils.currentLocation;
-      String address = MapUtils.formatAddress((await MapUtils.findAddress(currentCords)).first);
-      if(this.mounted){
-        setState(() {
-          _data = Location(address: address,latitude: currentCords.latitude,longitude: currentCords.longitude);
-          widget.onChanged(_data);
-        });
-      }
+      MapUtils.findAddress(currentCords).then((value) => setState(() {
+        _data = Location(address: MapUtils.formatAddress(value.first), latitude: currentCords.latitude,longitude: currentCords.longitude,city: value.first.subAdminArea);
+        widget.onChanged(_data);
+      }));
     }
   }
 

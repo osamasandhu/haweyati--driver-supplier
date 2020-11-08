@@ -108,64 +108,64 @@ class _HaweyatiPasswordFieldState extends State<HaweyatiPasswordField> {
   }
 }
 
-
-class HaweyatiPhoneField extends StatefulWidget {
-  final BuildContext context;
-  final TextEditingController controller;
-  final Function(String) validator;
-  final Function(String) onSaved;
-  final String label;
-
-  HaweyatiPhoneField({
-    this.context,
-    this.onSaved,
-    this.label,
-    this.controller,
-    this.validator,
-  });
-
-  @override
-  _HaweyatiPhoneFieldState createState() => _HaweyatiPhoneFieldState();
-}
-
-class _HaweyatiPhoneFieldState extends State<HaweyatiPhoneField> {
-  final _node = FocusNode();
-
-  @override
-  void initState() {
-    super.initState();
-    _node.addListener(_listenToFocus);
-  }
-
-  _listenToFocus() => setState(() {});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      focusNode: _node,
-      keyboardType: TextInputType.phone,
-      textInputAction: TextInputAction.next,
-      scrollPadding: EdgeInsets.all(180),
-      inputFormatters: [
-        //Todo: Add on production
-        FilteringTextInputFormatter.digitsOnly
-      ],
-      decoration: InputDecoration(
-          labelText: widget.label,
-          focusColor: Theme.of(context).primaryColor,
-          prefix: Text('+966', style: TextStyle(
-            color: Colors.black
-          ))
-      ),
-      onSaved: widget.onSaved,
-      // validator: widget.validator,
-      controller: widget.controller,
-    );
-  }
-
-  @override
-  void dispose() {
-    _node.removeListener(_listenToFocus);
-    super.dispose();
-  }
-}
+//
+// class HaweyatiPhoneField extends StatefulWidget {
+//   final BuildContext context;
+//   final TextEditingController controller;
+//   final Function(String) validator;
+//   final Function(String) onSaved;
+//   final String label;
+//
+//   HaweyatiPhoneField({
+//     this.context,
+//     this.onSaved,
+//     this.label,
+//     this.controller,
+//     this.validator,
+//   });
+//
+//   @override
+//   _HaweyatiPhoneFieldState createState() => _HaweyatiPhoneFieldState();
+// }
+//
+// class _HaweyatiPhoneFieldState extends State<HaweyatiPhoneField> {
+//   final _node = FocusNode();
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     _node.addListener(_listenToFocus);
+//   }
+//
+//   _listenToFocus() => setState(() {});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return TextFormField(
+//       focusNode: _node,
+//       keyboardType: TextInputType.phone,
+//       textInputAction: TextInputAction.next,
+//       scrollPadding: EdgeInsets.all(180),
+//       inputFormatters: [
+//         //Todo: Add on production
+//         FilteringTextInputFormatter.digitsOnly
+//       ],
+//       decoration: InputDecoration(
+//           labelText: widget.label,
+//           focusColor: Theme.of(context).primaryColor,
+//           prefix: Text('+966', style: TextStyle(
+//             color: Colors.black
+//           ))
+//       ),
+//       onSaved: widget.onSaved,
+//       // validator: widget.validator,
+//       controller: widget.controller,
+//     );
+//   }
+//
+//   @override
+//   void dispose() {
+//     _node.removeListener(_listenToFocus);
+//     super.dispose();
+//   }
+// }

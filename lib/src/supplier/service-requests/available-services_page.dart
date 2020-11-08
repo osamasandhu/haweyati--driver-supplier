@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-list-item.dart';
@@ -17,44 +18,47 @@ class SupplierAvailableServicesPage extends StatefulWidget {
 class _SupplierAvailableServicesPageState extends State<SupplierAvailableServicesPage> {
   @override
   Widget build(BuildContext context) {
-    return NoScrollPage(
-      appBar: HaweyatiAppBar(hideHome: true,),
-      body: SingleChildScrollView(child: Column(children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 30, bottom: 10),
-          child: Text('Available Services', style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold
-          )),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 40),
-          child: Text('Lorem Ipsum'),
-        ),
-        DarkListItem(
-          title: 'Construction Dumpsters',
-          trailing: Icon(CupertinoIcons.right_chevron),
-          onTap: () => Navigator.of(context).pushNamed('/services-dumpsters')
-        ),
-        SizedBox(height: 15),
-        DarkListItem(
-          title: 'Scaffolding',
-          trailing: Icon(CupertinoIcons.right_chevron),
-          onTap: () => CustomNavigator.navigateTo(context, ScaffoldingRequest())
-        ),
-        SizedBox(height: 15),
-        DarkListItem(
-          title: 'Building Materials',
-          trailing: Icon(CupertinoIcons.right_chevron),
-          onTap: () => CustomNavigator.navigateTo(context, BuildingMaterialCategories())
-        ),
-        SizedBox(height: 15),
-        DarkListItem(
-          title: 'Finishing Materials',
-          trailing: Icon(CupertinoIcons.right_chevron),
-          onTap: () => CustomNavigator.navigateTo(context, FinishingMaterialCategories())
-        ),
-      ]), padding: const EdgeInsets.symmetric(horizontal: 20)),
+    return LocalizedView(
+      builder: (context,lang) =>
+       NoScrollPage(
+        appBar: HaweyatiAppBar(hideHome: true,),
+        body: SingleChildScrollView(child: Column(children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 30, bottom: 10),
+            child: Text(lang.availableForCall, style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold
+            )),
+          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(bottom: 40),
+          //   child: Text('Lorem Ipsum'),
+          // ),
+          DarkListItem(
+            title: lang.constructionDumpsters,
+            trailing: Icon(CupertinoIcons.right_chevron),
+            onTap: () => Navigator.of(context).pushNamed('/services-dumpsters')
+          ),
+          SizedBox(height: 15),
+          DarkListItem(
+            title: lang.scaffoldings,
+            trailing: Icon(CupertinoIcons.right_chevron),
+            onTap: () => CustomNavigator.navigateTo(context, ScaffoldingRequest())
+          ),
+          SizedBox(height: 15),
+          DarkListItem(
+            title: lang.buildingMaterials,
+            trailing: Icon(CupertinoIcons.right_chevron),
+            onTap: () => CustomNavigator.navigateTo(context, BuildingMaterialCategories())
+          ),
+          SizedBox(height: 15),
+          DarkListItem(
+            title: lang.finishingMaterials,
+            trailing: Icon(CupertinoIcons.right_chevron),
+            onTap: () => CustomNavigator.navigateTo(context, FinishingMaterialCategories())
+          ),
+        ]), padding: const EdgeInsets.symmetric(horizontal: 20)),
+      ),
     );
 //    return Scaffold(
 //      appBar: HaweyatiAppBar(),

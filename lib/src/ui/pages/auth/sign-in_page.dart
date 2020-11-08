@@ -15,6 +15,7 @@ import 'package:haweyati_supplier_driver_app/src/supplier/supplier-homepage.dart
 import 'package:haweyati_supplier_driver_app/src/ui/views/dotted-background_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/contact-input-field.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/header-view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
@@ -28,13 +29,23 @@ import 'package:haweyati_supplier_driver_app/utils/validators.dart';
 import 'package:haweyati_supplier_driver_app/widgits/localization-selector.dart';
 import '../reset-password_page.dart';
 
-class HaweyatiSignIn extends StatelessWidget {
+class HaweyatiSignIn extends StatefulWidget {
   final bool _isSupplier;
   HaweyatiSignIn([this._isSupplier = false]);
 
+  @override
+  _HaweyatiSignInState createState() => _HaweyatiSignInState();
+}
+
+class _HaweyatiSignInState extends State<HaweyatiSignIn> {
   final _username = new TextEditingController();
+
   final _password = new TextEditingController();
+
+  bool isPhoneValid = false;
+
   var _key = GlobalKey<SimpleFormState>();
+
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -49,13 +60,21 @@ class HaweyatiSignIn extends StatelessWidget {
             child: LocalizationSelector(),
           ))],
         ),        floatingActionButton: FloatingActionButton(
+        backgroundColor: !isPhoneValid ? Colors.grey : null,
           elevation: 0,
          child: Transform.rotate(
             angle: AppLocalizations.of(context).localeName == 'ar' ? 3.14: 0,
           child: Image.asset(NextFeatureIcon, width: 30)
            ),
 
-          onPressed: ()=> _key.currentState.submit(),
+          onPressed: () {
+              if(!isPhoneValid){
+                showSimpleSnackbar(scaffoldKey, lang.inputValidPhone,true);
+                return;
+              }
+               _key.currentState.submit();
+              }
+          ,
         ),
         body: DottedBackgroundView(
           child: SingleChildScrollView(child: Padding(
@@ -65,7 +84,7 @@ class HaweyatiSignIn extends StatelessWidget {
               onSubmit: () async {
                 openLoadingDialog(context, lang.signingIn);
                 Map<String,dynamic> signIn = {
-                  'username' : "+966" + _username.text,
+                  'username' :  _username.text,
                   'password' : _password.text
                 };
 
@@ -89,7 +108,7 @@ class HaweyatiSignIn extends StatelessWidget {
 
                 Profile person = await PersonsService().getSignedInPerson();
 
-                if(_isSupplier){
+                if(widget._isSupplier){
                   if(!person.scope.contains('supplier')){
                     Navigator.pop(context);
                     showSimpleSnackbar(scaffoldKey, lang.notASupplier,true);
@@ -131,24 +150,33 @@ class HaweyatiSignIn extends StatelessWidget {
                   title: lang.signIn,
                   subtitle: lang.enterCredentials,
                 ),
-                HaweyatiPhoneField(
-                    controller: _username,
-                    label: lang.yourPhone,
-                    //todo: uncomment validator on production
-                    validator: (value) => phoneValidator(value),
-                  ),
+                ContactInputField((value, status) {
+                  _username.text = value;
+                  if(status!=isPhoneValid){
+                    isPhoneValid = status;
+                    setState(() {
+
+                    });
+                  }
+                }),
+                // HaweyatiPhoneField(
+                //     controller: _username,
+                //     label: lang.yourPhone,
+                //     //todo: uncomment validator on production
+                //     validator: (value) => phoneValidator(value),
+                //   ),
                   SizedBox(height: 20),
                   HaweyatiPasswordField(
                     context: context,
                     label: lang.yourPassword,
                     controller: _password,
-                    validator: (value) => passwordValidator(value),
+                    // validator: (value) => emptyValidator(value,lang.yourPassword),
                   ),
                   Align(
                     alignment: Alignment(1, 1),
                     child: GestureDetector(
                       onTap: () async  {
-                      String verifiedNumber = await  CustomNavigator.navigateTo(context, PreSignUpPhoneVerifier(forgotPassword: true,));
+                      String verifiedNumber = await CustomNavigator.navigateTo(context, PreSignUpPhoneVerifier(forgotPassword: true,));
 
                       if(verifiedNumber!=null){
                         CustomNavigator.navigateTo(context, ResetPasswordPage(phoneNumber: verifiedNumber,));

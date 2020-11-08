@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/model/models/finishing-material_category.dart';
 import 'package:haweyati_supplier_driver_app/src/services/finishing-material_service.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/live-scrollable_view.dart';
@@ -19,23 +20,26 @@ class _FinishingMaterialCategoriesState extends State<FinishingMaterialCategorie
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: HaweyatiAppBar(),
-        backgroundColor: Colors.white,
-        body: LiveScrollableView<FinishingMaterialCategory>(
-          title: 'Available Finishing Material Categories',
-          subtitle: '',
-          loader: ()=> _service.getFinishingMaterial(),
-          builder: (context,data){
-            return ServiceListItem(
-              onTap: (){
-                CustomNavigator.navigateTo(context, FinishingMaterialProducts(parent: data,));
-              },
-              name: data.name,
-              image: data.image.name,
-            );
-          },
-        )
+    return LocalizedView(
+      builder: (context,lang) =>
+       Scaffold(
+          appBar: HaweyatiAppBar(),
+          backgroundColor: Colors.white,
+          body: LiveScrollableView<FinishingMaterialCategory>(
+            title: lang.availableFMCats,
+            subtitle: '',
+            loader: ()=> _service.getFinishingMaterial(),
+            builder: (context,data){
+              return ServiceListItem(
+                onTap: (){
+                  CustomNavigator.navigateTo(context, FinishingMaterialProducts(parent: data,));
+                },
+                name: data.name,
+                image: data.image.name,
+              );
+            },
+          )
+      ),
     );
   }
 }

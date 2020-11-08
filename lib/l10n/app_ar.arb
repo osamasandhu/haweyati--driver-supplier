@@ -81,8 +81,8 @@
   "@termsAndConditions": {},
   "rateApp": "قيم البرنامج",
   "@rateApp": {},
-  "signOut": "تسجيل الخروج",
-  "@signOut": {},
+  "logout": "تسجيل الخروج",
+  "@logout": {},
 
 
   "signIn": "تسجيل الدخول",
@@ -342,6 +342,227 @@
   "@quantity": {},
 
   "price" : "السعر",
-  "@price": {}
+  "@price": {},
 
+  "inputValidPhone" : "الرجاء إدخال رقم هاتف صالح.",
+  "@inputValidPhone": {},
+
+  "notifications" : "إشعارات",
+  "@notifications": {},
+
+  "loadingNotifications" : "تحميل الإخطار",
+  "@loadingNotifications": {},
+
+  "noNotifications" : "لا إخطارات حتى الآن",
+  "@noNotifications": {},
+
+  "loadingAcceptedOrders" : "تحميل الطلبات المقبولة",
+  "@loadingAcceptedOrders": {},
+
+  "dropOffAddress" : "عنوان التسليم",
+  "@dropOffAddress": {},
+
+  "yearsAgo" : "سنين مضت",
+  "@yearsAgo": {},
+
+  "oneYearAgo" : "منذ عام واحد",
+  "@oneYearAgo": {},
+
+  "lastYear" : "العام الماضي",
+  "@lastYear": {},
+
+  "monthsAgo" : "منذ اشهر",
+  "@monthsAgo": {},
+
+  "oneMonthAgo" : "قبل شهر",
+  "@oneMonthAgo": {},
+
+  "lastMonth" : "الشهر الماضي",
+  "@lastMonth": {},
+
+  "weeksAgo" : "منذ أسابيع",
+  "@weeksAgo": {},
+
+  "oneWeekAgo" : "منذ أسبوع",
+  "@oneWeekAgo": {},
+
+  "lastWeek" : "الاسبوع الماضي",
+  "@lastWeek": {},
+
+  "daysAgo" : "أيام مضت",
+  "@daysAgo": {},
+
+  "oneDayAgo" : "قبل يوم واحد",
+  "@oneDayAgo": {},
+
+  "yesterday" : "في الامس",
+  "@yesterday": {},
+
+  "hoursAgo" : "منذ ساعات",
+  "@hoursAgo": {},
+
+  "oneHourAgo" : "منذ ساعة واحدة",
+  "@oneHourAgo": {},
+
+  "anHourAgo" : "قبل ساعة",
+  "@anHourAgo": {},
+
+  "minutesAgo" : "دقائق مضت",
+  "@minutesAgo": {},
+
+  "aMinuteAgo" : "قبل دقيقة",
+  "@aMinuteAgo": {},
+
+  "oneHourAgo" : "منذ ساعة واحدة",
+  "@oneHourAgo": {},
+
+  "anHourAgo" : "قبل ساعة",
+  "@anHourAgo": {},
+
+  "minutesAgo" : "دقائق مضت",
+  "@minutesAgo": {},
+
+  "oneMinuteAgo" : "قبل دقيقة واحدة",
+  "@oneMinuteAgo": {},
+
+  "aMinuteAgo" : "قبل دقيقة",
+  "@aMinuteAgo": {},
+
+  "secondsAgo" : "منذ ثوانى",
+  "@secondsAgo": {},
+
+  "justNow" : "في هذة اللحظة",
+  "@justNow": {},
+
+  "needHelp" : "تحتاج مساعدة؟",
+  "@needHelp": {},
+
+  "availableForCall" : "متاح للاتصال",
+  "@availableForCall": {},
+
+  "getHelp" : "احصل على مساعدة",
+  "@getHelp": {},
+
+  "not" : "ليس",
+  "@not": {},
+
+  "availableServices" : "الخدمات المتاحة",
+  "@availableServices": {},
+
+  "availableDumpsters" : "القلاب المتاح",
+  "@availableDumpsters": {},
+
+  "scaffoldingRequest" : "طلب سقالات",
+  "@scaffoldingRequest": {},
+
+  "pricing" : "التسعير",
+  "@pricing": {},
+
+  "days" : "أيام",
+  "@days": {},
+
+  "rent" : "تأجير",
+  "@rent": {},
+
+  "extraDayRent" : "إيجار يوم إضافي",
+  "@extraDayRent": {},
+
+  "note" : "ملحوظة",
+  "@note": {},
+
+  "description" : "وصف",
+  "@description": {},
+
+  "noLocationPicked" : "لم يتم اختيار الموقع",
+  "@noLocationPicked": {},
+
+  "submittingRequest" : "تقديم الطلب",
+  "@submittingRequest": {},
+
+  "requestSubmitted" : "تم تقديم الطلب بنجاح! رقم الطلب :",
+  "@requestSubmitted": {},
+
+  "addDumpster" : "أضف القمامة",
+  "@addDumpster": {},
+
+  "size" : "بحجم",
+  "@size": {},
+
+  "helperPrice" : "سعر المساعد",
+  "@helperPrice": {},
+
+  "availableBMCats" : "فئات مواد البناء المتوفرة",
+  "@availableBMCats": {},
+
+  "available" : "متاح",
+  "@available": {},
+
+  "products" : "منتجات",
+  "@products": {},
+
+  "addBuildingMaterial" : "أضف مواد البناء",
+  "@addBuildingMaterial": {},
+
+  "twelveYardPrice" : "سعر 12 ياردة",
+  "@twelveYardPrice": {},
+
+  "twentyFourYardPrice" : "سعر 24 ياردة",
+  "@twentyFourYardPrice": {},
+
+  "availableFMCats" : "فئات مواد التشطيب المتاحة",
+  "@availableFMCats": {},
+
+  "addFinishingMaterial" : "أضف مواد التشطيب",
+  "@addFinishingMaterial": {},
+
+  "multipleVariantCheck" : "هذا المنتج له متغيرات متعددة",
+  "@multipleVariantCheck": {},
+
+  "options" : "خيارات",
+  "@options": {},
+
+  "addOptions" : "إضافة خيارات",
+  "@addOptions": {},
+
+  "account" : "الحساب",
+  "@account": {},
+
+  "editProfile" : "تعديل الملف الشخصي",
+  "@editProfile": {},
+
+  "changePassword" : "غير كلمة السر",
+  "@changePassword": {},
+
+  "email" : "البريد الإلكتروني",
+  "@email": {},
+
+  "oldPassword" : "كلمة المرور القديمة",
+  "@oldPassword": {},
+
+  "newPassword" : "كلمة سر جديدة",
+  "@newPassword": {},
+
+  "confirmPassword" : "تأكيد كلمة المرور",
+  "@confirmPassword": {},
+
+  "passwordUpdated" : "لقد تم تحديث كلمة السر الخاصة بك بنجاح!",
+  "@passwordUpdated": {},
+
+  "enterOldPassword" : "الرجاء إدخال كلمة المرور القديمة",
+  "@enterOldPassword": {},
+
+  "atLeastEight" : "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+  "@atLeastEight": {},
+
+  "enterNewPassword" : "الرجاء إدخال كلمة مرور جديدة",
+  "@enterNewPassword": {},
+
+  "confirmNewPassword" : "الرجاء تأكيد كلمة المرور الجديدة",
+  "@confirmNewPassword": {},
+
+  "passwordNotMatched" : "جديد وتأكيد كلمات المرور غير متطابقة",
+  "@passwordNotMatched": {},
+
+  "changingPassword" : "تغيير كلمة المرور",
+  "@changingPassword": {}
 }

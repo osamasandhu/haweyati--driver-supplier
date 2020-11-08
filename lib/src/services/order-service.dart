@@ -32,6 +32,7 @@ class OrdersService extends HaweyatiService<Order> {
   }
 
   Future<List<Order>> driverAllOrders() async {
+    print("called");
     return this.getAll('orders/getactive');
   }
 

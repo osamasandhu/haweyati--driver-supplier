@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>io.flutter.embedded_views_preview</key>
-	<string>YES</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -28,6 +26,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>App uses camera access to allow user to capture an image of location</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Application uses location to request location of suppliers and drivers so that they can find business in their area. Their location is sent to secured backend servers which return nearby services.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App uses photo library access to allow user to capture an image of location</string>
 	<key>UILaunchStoryboardName</key>
@@ -49,5 +49,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>io.flutter.embedded_views_preview</key>
+	<string>YES</string>
 </dict>
 </plist>

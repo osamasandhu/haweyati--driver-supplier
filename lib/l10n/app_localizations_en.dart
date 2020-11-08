@@ -369,4 +369,211 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quantity => 'Quantity';
+
+  @override
+  String get inputValidPhone => 'Please input a valid phone number.';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get loadingNotifications => 'Loading Notifications';
+
+  @override
+  String get noNotifications => 'لا إخطارات حتى الآن';
+
+  @override
+  String get loadingAcceptedOrders => 'Loading Accepted Orders';
+
+  @override
+  String get dropOffAddress => 'Drop-off Address';
+
+  @override
+  String get yearsAgo => 'Years Ago';
+
+  @override
+  String get oneYearAgo => 'One Year Ago';
+
+  @override
+  String get lastYear => 'Last Year';
+
+  @override
+  String get monthsAgo => 'Months Ago';
+
+  @override
+  String get oneMonthAgo => '1 Month Ago';
+
+  @override
+  String get lastMonth => 'Last Month';
+
+  @override
+  String get weeksAgo => 'Weeks Ago';
+
+  @override
+  String get oneWeekAgo => '1 Week Ago';
+
+  @override
+  String get lastWeek => 'Last Week';
+
+  @override
+  String get daysAgo => 'Days Ago';
+
+  @override
+  String get oneDayAgo => '1 Day Ago';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get hoursAgo => 'hours ago';
+
+  @override
+  String get oneHourAgo => '1 hour ago';
+
+  @override
+  String get anHourAgo => 'An hour ago';
+
+  @override
+  String get minutesAgo => 'minutes ago';
+
+  @override
+  String get aMinuteAgo => 'A minute ago';
+
+  @override
+  String get oneMinuteAgo => '1 minute ago';
+
+  @override
+  String get secondsAgo => 'Seconds ago';
+
+  @override
+  String get justNow => 'Just now';
+
+  @override
+  String get needHelp => 'Need Help?';
+
+  @override
+  String get availableForCall => 'Available for Call';
+
+  @override
+  String get getHelp => 'Get Help';
+
+  @override
+  String get not => 'Not';
+
+  @override
+  String get availableServices => 'Available Services';
+
+  @override
+  String get availableDumpsters => 'Available Dumpster';
+
+  @override
+  String get scaffoldingRequest => 'Scaffolding Request';
+
+  @override
+  String get pricing => 'Pricing';
+
+  @override
+  String get days => 'Days';
+
+  @override
+  String get rent => 'Rent';
+
+  @override
+  String get extraDayRent => 'Extra Day Rent';
+
+  @override
+  String get note => 'Note';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get noLocationPicked => 'No Location Picked';
+
+  @override
+  String get submittingRequest => 'Submitting Request';
+
+  @override
+  String get requestSubmitted => 'Request submitted successfully! Request No :';
+
+  @override
+  String get addDumpster => 'Add Dumpster';
+
+  @override
+  String get size => 'Size';
+
+  @override
+  String get helperPrice => 'Helper Price';
+
+  @override
+  String get availableBMCats => 'Available Building Material Categories';
+
+  @override
+  String get availableFMCats => 'Available Finishing Material Categories';
+
+  @override
+  String get available => 'Available';
+
+  @override
+  String get products => 'Products';
+
+  @override
+  String get addBuildingMaterial => 'Add Building Material';
+
+  @override
+  String get twelveYardPrice => '12 Yard Price';
+
+  @override
+  String get twentyFourYardPrice => '24 Yard Price';
+
+  @override
+  String get addFinishingMaterial => 'Add Finishing Material';
+
+  @override
+  String get multipleVariantCheck => 'This product has multiple variants';
+
+  @override
+  String get options => 'Options';
+
+  @override
+  String get addOptions => 'Add Options';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get oldPassword => 'Old Password';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
+  String get passwordUpdated => 'Your password has been updated successfully!';
+
+  @override
+  String get enterOldPassword => 'Please Enter Old Password';
+
+  @override
+  String get atLeastEight => 'Password must be at least 8 characters';
+
+  @override
+  String get enterNewPassword => 'Please Enter New Password';
+
+  @override
+  String get confirmNewPassword => 'Please Confirm New Password';
+
+  @override
+  String get passwordNotMatched => 'New and Confirm Passwords not matched';
+
+  @override
+  String get changingPassword => 'Changing Password';
 }

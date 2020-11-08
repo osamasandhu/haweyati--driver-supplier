@@ -355,5 +355,227 @@
   "@quantity": {},
 
   "price" : "Price",
-  "@price": {}
+  "@price": {},
+
+  "inputValidPhone" : "Please input a valid phone number.",
+  "@inputValidPhone": {},
+
+  "notifications" : "Notifications",
+  "@notifications": {},
+
+  "loadingNotifications" : "Loading Notifications",
+  "@loadingNotifications": {},
+
+  "noNotifications" : "لا إخطارات حتى الآن",
+  "@noNotifications": {},
+
+  "loadingAcceptedOrders" : "Loading Accepted Orders",
+  "@loadingAcceptedOrders": {},
+
+  "dropOffAddress" : "Drop-off Address",
+  "@dropOffAddress": {},
+
+  "yearsAgo" : "Years Ago",
+  "@yearsAgo": {},
+
+  "oneYearAgo" : "One Year Ago",
+  "@oneYearAgo": {},
+
+  "lastYear" : "Last Year",
+  "@lastYear": {},
+
+  "monthsAgo" : "Months Ago",
+  "@monthsAgo": {},
+
+  "oneMonthAgo" : "1 Month Ago",
+  "@oneMonthAgo": {},
+
+  "lastMonth" : "Last Month",
+  "@lastMonth": {},
+
+  "weeksAgo" : "Weeks Ago",
+  "@weeksAgo": {},
+
+  "oneWeekAgo" : "1 Week Ago",
+  "@oneWeekAgo": {},
+
+  "lastWeek" : "Last Week",
+  "@lastWeek": {},
+
+  "daysAgo" : "Days Ago",
+  "@daysAgo": {},
+
+  "oneDayAgo" : "1 Day Ago",
+  "@oneDayAgo": {},
+
+  "yesterday" : "Yesterday",
+  "@yesterday": {},
+
+  "hoursAgo" : "hours ago",
+  "@hoursAgo": {},
+
+  "oneHourAgo" : "1 hour ago",
+  "@oneHourAgo": {},
+
+  "anHourAgo" : "an hour ago",
+  "@anHourAgo": {},
+
+  "minutesAgo" : "minutes ago",
+  "@minutesAgo": {},
+
+  "aMinuteAgo" : "A minute ago",
+  "@aMinuteAgo": {},
+
+  "oneHourAgo" : "1 hour ago",
+  "@oneHourAgo": {},
+
+  "anHourAgo" : "An hour ago",
+  "@anHourAgo": {},
+
+  "minutesAgo" : "minutes ago",
+  "@minutesAgo": {},
+
+  "oneMinuteAgo" : "1 minute ago",
+  "@oneMinuteAgo": {},
+
+  "aMinuteAgo" : "A minute ago",
+  "@aMinuteAgo": {},
+
+  "secondsAgo" : "Seconds ago",
+  "@secondsAgo": {},
+
+  "justNow" : "Just now",
+  "@justNow": {},
+
+  "needHelp" : "Need Help?",
+  "@needHelp": {},
+
+  "availableForCall" : "Available for Call",
+  "@availableForCall": {},
+
+  "getHelp" : "Get Help",
+  "@getHelp": {},
+
+  "not" : "Not",
+  "@not": {},
+
+  "availableServices" : "Available Services",
+  "@availableServices": {},
+
+  "availableDumpsters" : "Available Dumpster",
+  "@availableDumpsters": {},
+
+  "scaffoldingRequest" : "Scaffolding Request",
+  "@scaffoldingRequest": {},
+
+  "pricing" : "Pricing",
+  "@pricing": {},
+
+  "days" : "Days",
+  "@days": {},
+
+  "rent" : "Rent",
+  "@rent": {},
+
+  "extraDayRent" : "Extra Day Rent",
+  "@extraDayRent": {},
+
+  "note" : "Note",
+  "@note": {},
+
+  "description" : "Description",
+  "@description": {},
+
+  "noLocationPicked" : "No Location Picked",
+  "@noLocationPicked": {},
+
+  "submittingRequest" : "Submitting Request",
+  "@submittingRequest": {},
+
+  "requestSubmitted" : "Request submitted successfully! Request No :",
+  "@requestSubmitted": {},
+
+  "addDumpster" : "Add Dumpster",
+  "@addDumpster": {},
+
+  "size" : "Size",
+  "@size": {},
+
+  "helperPrice" : "Helper Price",
+  "@helperPrice": {},
+
+  "availableBMCats" : "Available Building Material Categories",
+  "@availableBMCats": {},
+
+  "availableFMCats" : "Available Finishing Material Categories",
+  "@availableFMCats": {},
+
+  "available" : "Available",
+  "@available": {},
+
+  "products" : "Products",
+  "@products": {},
+
+  "addBuildingMaterial" : "Add Building Material",
+  "@addBuildingMaterial": {},
+
+  "twelveYardPrice" : "12 Yard Price",
+  "@twelveYardPrice": {},
+
+  "twentyFourYardPrice" : "24 Yard Price",
+  "@twentyFourYardPrice": {},
+
+  "addFinishingMaterial" : "Add Finishing Material",
+  "@addFinishingMaterial": {},
+
+  "multipleVariantCheck" : "This product has multiple variants",
+  "@multipleVariantCheck": {},
+
+  "options" : "Options",
+  "@options": {},
+
+  "addOptions" : "Add Options",
+  "@addOptions": {},
+
+  "account" : "Account",
+  "@account": {},
+
+  "editProfile" : "Edit Profile",
+  "@editProfile": {},
+
+  "changePassword" : "Change Password",
+  "@changePassword": {},
+
+  "email" : "Email",
+  "@email": {},
+
+  "oldPassword" : "Old Password",
+  "@oldPassword": {},
+
+  "newPassword" : "New Password",
+  "@newPassword": {},
+
+  "confirmPassword" : "Confirm Password",
+  "@confirmPassword": {},
+
+  "passwordUpdated" : "Your password has been updated successfully!",
+  "@passwordUpdated": {},
+
+  "enterOldPassword" : "Please Enter Old Password",
+  "@enterOldPassword": {},
+
+  "atLeastEight" : "Password must be at least 8 characters",
+  "@atLeastEight": {},
+
+  "enterNewPassword" : "Please Enter New Password",
+  "@enterNewPassword": {},
+
+  "confirmNewPassword" : "Please Confirm New Password",
+  "@confirmNewPassword": {},
+
+  "passwordNotMatched" : "New and Confirm Passwords not matched",
+  "@passwordNotMatched": {},
+
+  "changingPassword" : "Changing Password",
+  "@changingPassword": {}
 }

@@ -443,6 +443,213 @@ abstract class AppLocalizations {
 
   // No description provided in @quantity
   String get quantity;
+
+  // No description provided in @inputValidPhone
+  String get inputValidPhone;
+
+  // No description provided in @notifications
+  String get notifications;
+
+  // No description provided in @loadingNotifications
+  String get loadingNotifications;
+
+  // No description provided in @noNotifications
+  String get noNotifications;
+
+  // No description provided in @loadingAcceptedOrders
+  String get loadingAcceptedOrders;
+
+  // No description provided in @dropOffAddress
+  String get dropOffAddress;
+
+  // No description provided in @yearsAgo
+  String get yearsAgo;
+
+  // No description provided in @oneYearAgo
+  String get oneYearAgo;
+
+  // No description provided in @lastYear
+  String get lastYear;
+
+  // No description provided in @monthsAgo
+  String get monthsAgo;
+
+  // No description provided in @oneMonthAgo
+  String get oneMonthAgo;
+
+  // No description provided in @lastMonth
+  String get lastMonth;
+
+  // No description provided in @weeksAgo
+  String get weeksAgo;
+
+  // No description provided in @oneWeekAgo
+  String get oneWeekAgo;
+
+  // No description provided in @lastWeek
+  String get lastWeek;
+
+  // No description provided in @daysAgo
+  String get daysAgo;
+
+  // No description provided in @oneDayAgo
+  String get oneDayAgo;
+
+  // No description provided in @yesterday
+  String get yesterday;
+
+  // No description provided in @hoursAgo
+  String get hoursAgo;
+
+  // No description provided in @oneHourAgo
+  String get oneHourAgo;
+
+  // No description provided in @anHourAgo
+  String get anHourAgo;
+
+  // No description provided in @minutesAgo
+  String get minutesAgo;
+
+  // No description provided in @aMinuteAgo
+  String get aMinuteAgo;
+
+  // No description provided in @oneMinuteAgo
+  String get oneMinuteAgo;
+
+  // No description provided in @secondsAgo
+  String get secondsAgo;
+
+  // No description provided in @justNow
+  String get justNow;
+
+  // No description provided in @needHelp
+  String get needHelp;
+
+  // No description provided in @availableForCall
+  String get availableForCall;
+
+  // No description provided in @getHelp
+  String get getHelp;
+
+  // No description provided in @not
+  String get not;
+
+  // No description provided in @availableServices
+  String get availableServices;
+
+  // No description provided in @availableDumpsters
+  String get availableDumpsters;
+
+  // No description provided in @scaffoldingRequest
+  String get scaffoldingRequest;
+
+  // No description provided in @pricing
+  String get pricing;
+
+  // No description provided in @days
+  String get days;
+
+  // No description provided in @rent
+  String get rent;
+
+  // No description provided in @extraDayRent
+  String get extraDayRent;
+
+  // No description provided in @note
+  String get note;
+
+  // No description provided in @description
+  String get description;
+
+  // No description provided in @noLocationPicked
+  String get noLocationPicked;
+
+  // No description provided in @submittingRequest
+  String get submittingRequest;
+
+  // No description provided in @requestSubmitted
+  String get requestSubmitted;
+
+  // No description provided in @addDumpster
+  String get addDumpster;
+
+  // No description provided in @size
+  String get size;
+
+  // No description provided in @helperPrice
+  String get helperPrice;
+
+  // No description provided in @availableBMCats
+  String get availableBMCats;
+
+  // No description provided in @availableFMCats
+  String get availableFMCats;
+
+  // No description provided in @available
+  String get available;
+
+  // No description provided in @products
+  String get products;
+
+  // No description provided in @addBuildingMaterial
+  String get addBuildingMaterial;
+
+  // No description provided in @twelveYardPrice
+  String get twelveYardPrice;
+
+  // No description provided in @twentyFourYardPrice
+  String get twentyFourYardPrice;
+
+  // No description provided in @addFinishingMaterial
+  String get addFinishingMaterial;
+
+  // No description provided in @multipleVariantCheck
+  String get multipleVariantCheck;
+
+  // No description provided in @options
+  String get options;
+
+  // No description provided in @addOptions
+  String get addOptions;
+
+  // No description provided in @account
+  String get account;
+
+  // No description provided in @editProfile
+  String get editProfile;
+
+  // No description provided in @email
+  String get email;
+
+  // No description provided in @oldPassword
+  String get oldPassword;
+
+  // No description provided in @newPassword
+  String get newPassword;
+
+  // No description provided in @confirmPassword
+  String get confirmPassword;
+
+  // No description provided in @passwordUpdated
+  String get passwordUpdated;
+
+  // No description provided in @enterOldPassword
+  String get enterOldPassword;
+
+  // No description provided in @atLeastEight
+  String get atLeastEight;
+
+  // No description provided in @enterNewPassword
+  String get enterNewPassword;
+
+  // No description provided in @confirmNewPassword
+  String get confirmNewPassword;
+
+  // No description provided in @passwordNotMatched
+  String get passwordNotMatched;
+
+  // No description provided in @changingPassword
+  String get changingPassword;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

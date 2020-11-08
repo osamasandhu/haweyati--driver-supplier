@@ -11,6 +11,7 @@ const CartIcon = '$_icon/cart.png';
 const CustomerCareIcon = '$_icon/customer-care.png';
 const GiftIcon = '$_icon/gift.png';
 const HomeIcon = '$_icon/home.png';
+const DeliveryVehicleIcon = '$_icon/bottomtruck.png';
 const LocationIcon = '$_icon/location.png';
 const LogoutIcon = '$_icon/logout.png';
 const MenuIcon = '$_icon/menu.png';

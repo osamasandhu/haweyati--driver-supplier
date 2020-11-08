@@ -226,6 +226,7 @@ class _SupplierItemSelectorState extends State<SupplierItemSelector> {
 
                     });
                     Navigator.pop(context);
+                    Navigator.pop(context);
                   },
                 ),
               ),

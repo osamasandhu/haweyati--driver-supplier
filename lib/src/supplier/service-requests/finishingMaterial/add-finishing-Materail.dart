@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:haweyati_supplier_driver_app/model/models/finishing-material_category.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/message-dialog.dart';
@@ -46,112 +47,115 @@ class _FinishingMaterialRequestState extends State<FinishingMaterialRequest> {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleForm(
-      key: _key,
-      onSubmit: () async {
-        if (_file == null) {
-          showSimpleSnackbar(scaffoldKey, "No image picked",true);
-          return null;
-        }
+    return LocalizedView(
+      builder: (context,lang) =>
+       SimpleForm(
+        key: _key,
+        onSubmit: () async {
+          if (_file == null) {
+            showSimpleSnackbar(scaffoldKey, lang.noImageSelected,true);
+            return null;
+          }
 
-        openLoadingDialog(context, "Submitting Request");
-        FormData data = FormData.fromMap({
-          'parentId' : widget.parent.sId,
-          'parent' : widget.parent.name,
-          'suppliers': AppData.supplier.id,
-          'title': _title.text,
-          'type': 'Finishing Material',
-          'price' : _price.text,
-          'description' : _description.text,
-          'note' : _note.text
-        });
+          openLoadingDialog(context, lang.submittingRequest);
+          FormData data = FormData.fromMap({
+            'parentId' : widget.parent.sId,
+            'parent' : widget.parent.name,
+            'suppliers': AppData.supplier.id,
+            'title': _title.text,
+            'type': 'Finishing Material',
+            'price' : _price.text,
+            'description' : _description.text,
+            'note' : _note.text
+          });
 
-        data.files.add(MapEntry(
-            'image', await MultipartFile.fromFile(_file.path)
-        ));
+          data.files.add(MapEntry(
+              'image', await MultipartFile.fromFile(_file.path)
+          ));
 
-        var response =  await HaweyatiService.post('service-requests', data);
-        Navigator.pop(context);
+          var response =  await HaweyatiService.post('service-requests', data);
+          Navigator.pop(context);
 
-        openMessageDialog(context, "Request submitted successfully! Request No : ${response.data['requestNo']}",2);
-      },
-      child: ScrollableView(
-        key: scaffoldKey,
-        padding: EdgeInsets.only(left: 8,right:8,top: 20,bottom: 100),
-        bottom: RaisedActionButton(
-          label: 'Submit',
-          onPressed: (){
-            _key.currentState.submit();
-          },
-        ),
-        appBar: HaweyatiAppBar(),
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom : 15.0),
-            child: Text(
-                "Add Finishing Material",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold
-                )
+          openMessageDialog(context, "${lang.requestSubmitted} ${response.data['requestNo']}",2);
+        },
+        child: ScrollableView(
+          key: scaffoldKey,
+          padding: EdgeInsets.only(left: 8,right:8,top: 20,bottom: 100),
+          bottom: RaisedActionButton(
+            label: lang.submit,
+            onPressed: (){
+              _key.currentState.submit();
+            },
+          ),
+          appBar: HaweyatiAppBar(),
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom : 15.0),
+              child: Text(
+                  lang.addFinishingMaterial,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold
+                  )
+              ),
             ),
-          ),
-          HaweyatiTextField(label: "Title", controller: _title,
-            validator: (value)=> emptyValidator(value, 'Title'),),
-          SizedBox(height: 10),
-          HaweyatiTextField(maxLength: null, label: 'Description', controller: _description,
-            validator: (value)=> emptyValidator(value, 'Description'),),
-          SizedBox(height: 15),
-          Text('Pricing', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          CheckboxListTile(
-            controlAffinity: ListTileControlAffinity.leading,
-            activeColor: Theme.of(context).accentColor,
-            value: multipleVariants,
-            title: Text('This product has multiple variants'),
-            onChanged: (bool val){
-              setState(() {
-                multipleVariants = val;
-              });
-            },
+            HaweyatiTextField(label: lang.name, controller: _title,
+              validator: (value)=> emptyValidator(value, lang.name),),
+            SizedBox(height: 10),
+            HaweyatiTextField(maxLength: null, label: lang.description, controller: _description,
+              validator: (value)=> emptyValidator(value, lang.description),),
+            SizedBox(height: 15),
+            Text(lang.pricing, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              activeColor: Theme.of(context).accentColor,
+              value: multipleVariants,
+              title: Text(lang.multipleVariantCheck),
+              onChanged: (bool val){
+                setState(() {
+                  multipleVariants = val;
+                });
+              },
 
-          ),
+            ),
 
-         multipleVariants ? Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text("Options",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
-              FlatButton(
-                textColor: Colors.white,
-                color: Theme.of(context).accentColor,
-                  child: Text('Add Options'), onPressed:(){
+           multipleVariants ? Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text("Options",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
+                FlatButton(
+                  textColor: Colors.white,
+                  color: Theme.of(context).accentColor,
+                    child: Text('Add Options'), onPressed:(){
 
-                  CustomNavigator.navigateTo(context, AddVariants());
+                    CustomNavigator.navigateTo(context, AddVariants());
 
-                   })
-            ],
-          ) : SizedBox(),
-          SizedBox(height: 15),
+                     })
+              ],
+            ) : SizedBox(),
+            SizedBox(height: 15),
 
-         !multipleVariants ? Column(
-            children: [
-              HaweyatiTextField(label: 'Price', controller: _price, keyboardType: TextInputType.number,
-                  validator: (value)=> emptyValidator(value, 'Price')),
+           !multipleVariants ? Column(
+              children: [
+                HaweyatiTextField(label: lang.price, controller: _price, keyboardType: TextInputType.number,
+                    validator: (value)=> emptyValidator(value, lang.price)),
 
-              SizedBox(height: 25),
-            ],
-          ) : SizedBox(),
+                SizedBox(height: 25),
+              ],
+            ) : SizedBox(),
 
 
-          ImagePickerWidget(
-            onImagePicked: (PickedFile image){
-              _file = image;
-            },
-          ),
-          SizedBox(height: 10),
-          HaweyatiTextField(maxLength: null, label: 'Note', controller: _note),
-        ],
+            ImagePickerWidget(
+              onImagePicked: (PickedFile image){
+                _file = image;
+              },
+            ),
+            SizedBox(height: 10),
+            HaweyatiTextField(maxLength: null, label: lang.note, controller: _note),
+          ],
 
+        ),
       ),
     );
   }

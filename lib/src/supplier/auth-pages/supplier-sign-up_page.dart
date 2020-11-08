@@ -221,7 +221,7 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
             //   keyboardType: TextInputType.text,
             //   validator: (value) => value.isEmpty ? lang.validateAddress : null,
             // ),
-            SizedBox(height: 15),
+            // SizedBox(heqight: 15),
             widget.person == null ? HaweyatiPasswordField(
               context: context,
               label: lang.yourPassword,

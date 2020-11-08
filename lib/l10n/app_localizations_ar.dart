@@ -100,7 +100,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rateApp => 'قيم البرنامج';
 
   @override
-  String get logout => 'Sign out';
+  String get logout => 'تسجيل الخروج';
 
   @override
   String get signIn => 'تسجيل الدخول';
@@ -308,7 +308,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get myProfile => 'ملفي';
 
   @override
-  String get changePassword => 'تغيير كلمة المرور';
+  String get changePassword => 'غير كلمة السر';
 
   @override
   String get verification => 'التحقق';
@@ -369,4 +369,211 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get quantity => 'كمية';
+
+  @override
+  String get inputValidPhone => 'الرجاء إدخال رقم هاتف صالح.';
+
+  @override
+  String get notifications => 'إشعارات';
+
+  @override
+  String get loadingNotifications => 'تحميل الإخطار';
+
+  @override
+  String get noNotifications => 'لا إخطارات حتى الآن';
+
+  @override
+  String get loadingAcceptedOrders => 'تحميل الطلبات المقبولة';
+
+  @override
+  String get dropOffAddress => 'عنوان التسليم';
+
+  @override
+  String get yearsAgo => 'سنين مضت';
+
+  @override
+  String get oneYearAgo => 'منذ عام واحد';
+
+  @override
+  String get lastYear => 'العام الماضي';
+
+  @override
+  String get monthsAgo => 'منذ اشهر';
+
+  @override
+  String get oneMonthAgo => 'قبل شهر';
+
+  @override
+  String get lastMonth => 'الشهر الماضي';
+
+  @override
+  String get weeksAgo => 'منذ أسابيع';
+
+  @override
+  String get oneWeekAgo => 'منذ أسبوع';
+
+  @override
+  String get lastWeek => 'الاسبوع الماضي';
+
+  @override
+  String get daysAgo => 'أيام مضت';
+
+  @override
+  String get oneDayAgo => 'قبل يوم واحد';
+
+  @override
+  String get yesterday => 'في الامس';
+
+  @override
+  String get hoursAgo => 'منذ ساعات';
+
+  @override
+  String get oneHourAgo => 'منذ ساعة واحدة';
+
+  @override
+  String get anHourAgo => 'قبل ساعة';
+
+  @override
+  String get minutesAgo => 'دقائق مضت';
+
+  @override
+  String get aMinuteAgo => 'قبل دقيقة';
+
+  @override
+  String get oneMinuteAgo => 'قبل دقيقة واحدة';
+
+  @override
+  String get secondsAgo => 'منذ ثوانى';
+
+  @override
+  String get justNow => 'في هذة اللحظة';
+
+  @override
+  String get needHelp => 'تحتاج مساعدة؟';
+
+  @override
+  String get availableForCall => 'متاح للاتصال';
+
+  @override
+  String get getHelp => 'احصل على مساعدة';
+
+  @override
+  String get not => 'ليس';
+
+  @override
+  String get availableServices => 'الخدمات المتاحة';
+
+  @override
+  String get availableDumpsters => 'القلاب المتاح';
+
+  @override
+  String get scaffoldingRequest => 'طلب سقالات';
+
+  @override
+  String get pricing => 'التسعير';
+
+  @override
+  String get days => 'أيام';
+
+  @override
+  String get rent => 'تأجير';
+
+  @override
+  String get extraDayRent => 'إيجار يوم إضافي';
+
+  @override
+  String get note => 'ملحوظة';
+
+  @override
+  String get description => 'وصف';
+
+  @override
+  String get noLocationPicked => 'لم يتم اختيار الموقع';
+
+  @override
+  String get submittingRequest => 'تقديم الطلب';
+
+  @override
+  String get requestSubmitted => 'تم تقديم الطلب بنجاح! رقم الطلب :';
+
+  @override
+  String get addDumpster => 'أضف القمامة';
+
+  @override
+  String get size => 'بحجم';
+
+  @override
+  String get helperPrice => 'سعر المساعد';
+
+  @override
+  String get availableBMCats => 'فئات مواد البناء المتوفرة';
+
+  @override
+  String get availableFMCats => 'فئات مواد التشطيب المتاحة';
+
+  @override
+  String get available => 'متاح';
+
+  @override
+  String get products => 'منتجات';
+
+  @override
+  String get addBuildingMaterial => 'أضف مواد البناء';
+
+  @override
+  String get twelveYardPrice => 'سعر 12 ياردة';
+
+  @override
+  String get twentyFourYardPrice => 'سعر 24 ياردة';
+
+  @override
+  String get addFinishingMaterial => 'أضف مواد التشطيب';
+
+  @override
+  String get multipleVariantCheck => 'هذا المنتج له متغيرات متعددة';
+
+  @override
+  String get options => 'خيارات';
+
+  @override
+  String get addOptions => 'إضافة خيارات';
+
+  @override
+  String get account => 'الحساب';
+
+  @override
+  String get editProfile => 'تعديل الملف الشخصي';
+
+  @override
+  String get email => 'البريد الإلكتروني';
+
+  @override
+  String get oldPassword => 'كلمة المرور القديمة';
+
+  @override
+  String get newPassword => 'كلمة سر جديدة';
+
+  @override
+  String get confirmPassword => 'تأكيد كلمة المرور';
+
+  @override
+  String get passwordUpdated => 'لقد تم تحديث كلمة السر الخاصة بك بنجاح!';
+
+  @override
+  String get enterOldPassword => 'الرجاء إدخال كلمة المرور القديمة';
+
+  @override
+  String get atLeastEight => 'يجب أن تكون كلمة المرور 8 أحرف على الأقل';
+
+  @override
+  String get enterNewPassword => 'الرجاء إدخال كلمة مرور جديدة';
+
+  @override
+  String get confirmNewPassword => 'الرجاء تأكيد كلمة المرور الجديدة';
+
+  @override
+  String get passwordNotMatched => 'جديد وتأكيد كلمات المرور غير متطابقة';
+
+  @override
+  String get changingPassword => 'تغيير كلمة المرور';
 }

@@ -163,34 +163,36 @@ class OrderDetailHeader extends StatelessWidget {
   OrderDetailHeader(this.status);
 
   Widget build(BuildContext context) {
-    return Container(
-        width: 500,
-        height: 65,
-        child: Stack(
-          children: [
-            CustomPaint(painter: _OrderStatusPainter(status)),
-            Positioned(
-                left: 30, top: 10,
-                child: Icon(Icons.done_all, size: 20, color: Colors.white)
-            ),
-            Positioned(
-                top: 9,
-                left: 109,
-                child: Image.asset(CartIcon, width: 22,)
-            ),
-            Positioned(left: 185,top: 5, child: Image.asset(SettingsIcon, width: 30)),
-            Positioned(
-                top: 9,
-                right: 85,
-                child: Image.asset(HomeIcon, width: 20,color: Colors.white,)
-            ),
-            Positioned(
-                top: 9,
-                right: 4,
-                child: Image.asset(HomeIcon, width: 20,color: Colors.white,)
-            ),
-          ],
-        )
+    return Center(
+      child: Container(
+          width: 500,
+          height: 65,
+          child: Stack(
+            children: [
+              CustomPaint(painter: _OrderStatusPainter(status)),
+              Positioned(
+                  left: 30, top: 10,
+                  child: Icon(Icons.done_all, size: 20, color: Colors.white)
+              ),
+              Positioned(
+                  top: 9,
+                  left: 109,
+                  child: Image.asset(CartIcon, width: 22,)
+              ),
+              Positioned(right: 165,top: 9, child: Image.asset(SettingsIcon, width: 20)),
+              Positioned(
+                  top: 9,
+                  right: 85,
+                  child: Image.asset(DeliveryVehicleIcon, width: 20,color: Colors.white,)
+              ),
+              Positioned(
+                  top: 9,
+                  right: 4,
+                  child: Image.asset(HomeIcon, width: 20,color: Colors.white,)
+              ),
+            ],
+          )
+      ),
     );
   }
 }

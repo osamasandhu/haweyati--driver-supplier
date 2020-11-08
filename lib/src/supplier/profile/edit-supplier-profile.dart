@@ -60,7 +60,7 @@ class _EditSupplierProfileState extends State<EditSupplierProfile> {
               ),
               SizedBox(height: 15,),
               HaweyatiTextField(
-                label: "Email",
+                label: lang.email,
                 icon: Icons.mail,
                 controller: _email,
                 keyboardType: TextInputType.emailAddress,
