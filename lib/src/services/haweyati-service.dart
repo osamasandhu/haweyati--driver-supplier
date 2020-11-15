@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
  // const apiUrl = "http://192.168.100.100:4000";
+ // const apiUrl = "http://192.168.100.103:4000";
  const apiUrl = "http://178.128.16.246:4000";
 
 abstract class HaweyatiService<T> {

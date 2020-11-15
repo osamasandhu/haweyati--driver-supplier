@@ -8,6 +8,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dar
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/drawer-item.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/widgits/localization-selector.dart';
+import 'package:haweyati_supplier_driver_app/widgits/rating-bar.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import '../../web-sockets-testing.dart';
 import 'supplier-profile_page.dart';
@@ -31,13 +32,19 @@ class SupplierDrawer extends StatelessWidget {
               NetworkImage(HaweyatiService.resolveImage(AppData.supplier.person.image.name)),
             ),
           ),
-          SizedBox(height: 15),
+          SizedBox(height: 10),
           Center(child: Text(AppData.supplier?.person?.name ?? '', style: TextStyle(
               fontSize: 18,
               color: Colors.white,
               fontWeight: FontWeight.bold
           ))),
-
+          StarRating(
+            padding: EdgeInsets.symmetric(vertical: 5),
+            color: Colors.yellow,
+            rating: 0,
+            size: 20,
+            // onRatingChanged: (rating) => setState(() => this.rating = rating),
+          ),
           SizedBox(height: 10),
 
           Expanded(child: SingleChildScrollView(child: Column(children: <Widget>[

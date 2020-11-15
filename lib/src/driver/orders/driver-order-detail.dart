@@ -98,10 +98,12 @@ class DriverOrderDetailPage extends StatelessWidget {
           appBar: HaweyatiAppBar(actions: [],),
           children: [
             SliverPadding(
-              padding: const EdgeInsets.fromLTRB(5, 20, 5, 40),
-              sliver: SliverToBoxAdapter(child: OrderDetailHeader(order.status.index)),
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 40),
+              sliver: SliverToBoxAdapter(child: Center(child: SizedBox(
+                  width: 384,
+                  child: OrderDetailHeader(order.status.index))
+              )),
             ),
-
             SliverToBoxAdapter(child: OrderMeta(order)),
 
             SliverPadding(
@@ -158,7 +160,7 @@ class DriverOrderDetailPage extends StatelessWidget {
                   ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
                   Table(children: [
                     TableRow(children: [
-                      Text("Payment Type", style: TextStyle(
+                      Text(lang.paymentType, style: TextStyle(
                         height: 2,
                         fontSize: 13,
                         fontFamily: 'Lato',

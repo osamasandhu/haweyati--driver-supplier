@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/building-material/order-item_model.dart';
@@ -163,36 +165,44 @@ class OrderDetailHeader extends StatelessWidget {
   OrderDetailHeader(this.status);
 
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-          width: 500,
-          height: 65,
-          child: Stack(
-            children: [
-              CustomPaint(painter: _OrderStatusPainter(status)),
-              Positioned(
-                  left: 30, top: 10,
-                  child: Icon(Icons.done_all, size: 20, color: Colors.white)
-              ),
-              Positioned(
-                  top: 9,
-                  left: 109,
-                  child: Image.asset(CartIcon, width: 22,)
-              ),
-              Positioned(right: 165,top: 9, child: Image.asset(SettingsIcon, width: 20)),
-              Positioned(
-                  top: 9,
-                  right: 85,
-                  child: Image.asset(DeliveryVehicleIcon, width: 20,color: Colors.white,)
-              ),
-              Positioned(
-                  top: 9,
-                  right: 4,
-                  child: Image.asset(HomeIcon, width: 20,color: Colors.white,)
-              ),
-            ],
-          )
-      ),
+    return OrientationBuilder(
+        builder: (context, orientation) {
+          print(orientation);
+          return Container(
+              width: 500,
+              height: 65,
+              child: Stack(
+                children: [
+                  CustomPaint(painter: _OrderStatusPainter(status)),
+                  Positioned(
+                      left:  30, top: 10,
+                      child: Icon(Icons.done_all, size: 20, color: Colors.white)
+                  ),
+                  Positioned(
+                      top: 9,
+                      left: 108,
+                      child: Image.asset(CartIcon, width: 23,)
+                  ),
+                  Positioned(
+                      right: 174,
+                      top: 10,
+                      child: Image.asset(SettingsIcon, width: 20)),
+                  Positioned(
+                      top: 10,
+                      right: 93,
+                      child: Image.asset(
+                        DeliveryVehicleIcon, width: 20, color: Colors.white,)
+                  ),
+                  Positioned(
+                      top: 9,
+                      right: 14,
+                      child: Image.asset(
+                        HomeIcon, width: 20, color: Colors.white,)
+                  ),
+                ],
+              )
+          );
+        }
     );
   }
 }

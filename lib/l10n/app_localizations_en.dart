@@ -133,6 +133,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scaffoldings => 'Scaffoldings';
 
   @override
+  String get deliveryVehicles => 'Delivery Vehicles';
+
+  @override
   String get buildingMaterials => 'Building Materials';
 
   @override
@@ -380,7 +383,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadingNotifications => 'Loading Notifications';
 
   @override
-  String get noNotifications => 'لا إخطارات حتى الآن';
+  String get noNotifications => 'No Notifications';
 
   @override
   String get loadingAcceptedOrders => 'Loading Accepted Orders';
@@ -576,4 +579,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changingPassword => 'Changing Password';
+
+  @override
+  String get noAcceptedOrders => 'No Accepted Orders';
+
+  @override
+  String get loadingCompletedOrders => 'Loading Completed Orders';
+
+  @override
+  String get noCompletedOrders => 'No Completed Orders';
+
+  @override
+  String get loadingDispatchedOrders => 'Loading Dispatched Orders';
+
+  @override
+  String get noDispatchedOrders => 'No Dispatched Orders';
+
+  @override
+  String get loadingAvailableOrders => 'Loading Available Orders';
+
+  @override
+  String get noAvailableOrders => 'No Available Orders';
+
+  @override
+  String get paymentType => 'Payment Type';
+
+  @override
+  String get changedVehicleInfo => 'You have changed vehicle\'s information. Your account will be on hold until verification process is completed!';
+
+  @override
+  String get proceed => 'Proceed';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get warning => 'Warning';
 }

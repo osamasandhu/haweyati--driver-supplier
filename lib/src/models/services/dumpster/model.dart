@@ -31,7 +31,7 @@ class Dumpster extends Orderable {
   Dumpster.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
     size = json['size'];
-    suppliers = json['suppliers'].cast<String>();
+    // suppliers = json['suppliers'].cast<String>();
     description = json['description'];
     image = ImageModel.fromJson(json['image']);
 

@@ -9,6 +9,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/pages/change-password.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
+import 'package:haweyati_supplier_driver_app/widgits/rating-bar.dart';
 
 class DriverDrawer extends StatelessWidget {
   @override
@@ -38,11 +39,14 @@ class DriverDrawer extends StatelessWidget {
                     color: Colors.white,
                     fontWeight: FontWeight.bold
                 ))),
-                Center(child: FlatButton.icon(
-                    onPressed: null,
-                    icon:Image.asset("assets/images/star.png", width: 20, height: 20),
-                    label: Text("Rated 5.0", style: TextStyle(color: Colors.white))
-                )),
+                StarRating(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  color: Colors.yellow,
+                  rating: 0,
+                  size: 20,
+                  // onRatingChanged: (rating) => setState(() => this.rating = rating),
+                  // onRatingChanged: (rating) => setState(() => this.rating = rating),
+                ),
               ])),
             ),
 

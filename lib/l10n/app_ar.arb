@@ -564,5 +564,45 @@
   "@passwordNotMatched": {},
 
   "changingPassword" : "تغيير كلمة المرور",
-  "@changingPassword": {}
+  "@changingPassword": {},
+
+  "loadingAcceptedOrders" : "تحميل الطلبات المقبولة",
+  "@loadingAcceptedOrders": {},
+
+  "noAcceptedOrders" : "لا توجد أوامر مقبولة",
+  "@noAcceptedOrders": {},
+
+  "noCompletedOrders" : "لا توجد أوامر مكتملة",
+  "@noCompletedOrders": {},
+
+  "loadingDispatchedOrders" : "تحميل الطلبات المرسلة",
+  "@loadingDispatchedOrders": {},
+
+  "noDispatchedOrders" : "لا توجد أوامر مرسلة",
+  "@noDispatchedOrders": {},
+
+  "loadingAvailableOrders" : "تحميل الطلبات المتاحة",
+  "@loadingAvailableOrders": {},
+
+  "noAvailableOrders" : "لا توجد أوامر متاحة",
+  "@noAvailableOrders": {},
+
+  "paymentType" : "نوع الدفع",
+  "@paymentType": {},
+
+  "changedVehicleInfo" : "لقد قمت بتغيير معلومات السيارة. سيكون حسابك معلقًا حتى تكتمل عملية التحقق!",
+  "@changedVehicleInfo" : {},
+
+
+  "proceed" : "تقدم",
+  "@proceed": {},
+
+  "cancel" : "إلغاء",
+  "@cancel": {},
+
+  "warning" : "تحذير",
+  "@warning": {},
+
+  "deliveryVehicles": "سيارات التوزيع",
+  "@deliveryVehicles": {}
 }

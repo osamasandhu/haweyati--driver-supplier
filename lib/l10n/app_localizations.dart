@@ -219,6 +219,9 @@ abstract class AppLocalizations {
   // No description provided in @scaffoldings
   String get scaffoldings;
 
+  // No description provided in @deliveryVehicles
+  String get deliveryVehicles;
+
   // No description provided in @buildingMaterials
   String get buildingMaterials;
 
@@ -650,6 +653,42 @@ abstract class AppLocalizations {
 
   // No description provided in @changingPassword
   String get changingPassword;
+
+  // No description provided in @noAcceptedOrders
+  String get noAcceptedOrders;
+
+  // No description provided in @loadingCompletedOrders
+  String get loadingCompletedOrders;
+
+  // No description provided in @noCompletedOrders
+  String get noCompletedOrders;
+
+  // No description provided in @loadingDispatchedOrders
+  String get loadingDispatchedOrders;
+
+  // No description provided in @noDispatchedOrders
+  String get noDispatchedOrders;
+
+  // No description provided in @loadingAvailableOrders
+  String get loadingAvailableOrders;
+
+  // No description provided in @noAvailableOrders
+  String get noAvailableOrders;
+
+  // No description provided in @paymentType
+  String get paymentType;
+
+  // No description provided in @changedVehicleInfo
+  String get changedVehicleInfo;
+
+  // No description provided in @proceed
+  String get proceed;
+
+  // No description provided in @cancel
+  String get cancel;
+
+  // No description provided in @warning
+  String get warning;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

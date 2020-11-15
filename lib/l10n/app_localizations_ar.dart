@@ -133,6 +133,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get scaffoldings => 'سقالات';
 
   @override
+  String get deliveryVehicles => 'سيارات التوزيع';
+
+  @override
   String get buildingMaterials => 'مواد بناء';
 
   @override
@@ -576,4 +579,40 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get changingPassword => 'تغيير كلمة المرور';
+
+  @override
+  String get noAcceptedOrders => 'لا توجد أوامر مقبولة';
+
+  @override
+  String get loadingCompletedOrders => 'Loading Completed Orders';
+
+  @override
+  String get noCompletedOrders => 'لا توجد أوامر مكتملة';
+
+  @override
+  String get loadingDispatchedOrders => 'تحميل الطلبات المرسلة';
+
+  @override
+  String get noDispatchedOrders => 'لا توجد أوامر مرسلة';
+
+  @override
+  String get loadingAvailableOrders => 'تحميل الطلبات المتاحة';
+
+  @override
+  String get noAvailableOrders => 'لا توجد أوامر متاحة';
+
+  @override
+  String get paymentType => 'نوع الدفع';
+
+  @override
+  String get changedVehicleInfo => 'لقد قمت بتغيير معلومات السيارة. سيكون حسابك معلقًا حتى تكتمل عملية التحقق!';
+
+  @override
+  String get proceed => 'تقدم';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get warning => 'تحذير';
 }

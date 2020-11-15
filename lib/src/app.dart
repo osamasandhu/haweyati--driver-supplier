@@ -14,6 +14,12 @@ class HaweyatiBusinessApp extends Theme {
         color: Color(0xff313f53),
         brightness: Brightness.dark
       ),
+        pageTransitionsTheme: PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            }
+        ),
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.resolveWith((states) {
@@ -42,6 +48,7 @@ class HaweyatiBusinessApp extends Theme {
         builder: (context, value, _) {
           return CupertinoApp(
               locale: value,
+
               routes: routes,
               title: 'Haweyati Supplier/Driver',
               debugShowCheckedModeBanner: false,

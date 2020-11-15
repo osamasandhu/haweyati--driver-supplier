@@ -22,9 +22,9 @@ class _DriverAcceptedOrdersListingState extends State<DriverAcceptedOrdersListin
       builder: (context,lang) =>
        LiveScrollableView<Order>(
         key: _key,
-        loadingMessage: 'Loading Accepted Orders',
+        loadingMessage: lang.loadingAcceptedOrders,
         loader: ()=> OrdersService().driverAcceptedOrders(),
-        noDataMessage: 'No Accepted Orders',
+        noDataMessage: lang.noAcceptedOrders,
         builder: (context,data){
           return Padding(
             padding: const EdgeInsets.all(8.0),

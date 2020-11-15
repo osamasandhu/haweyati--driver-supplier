@@ -40,6 +40,7 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
   var _service2 = false;
   var _service3 = false;
   var _service4 = false;
+  var _service5 = false;
 
   final _name = TextEditingController();
   final _email = TextEditingController();
@@ -98,6 +99,9 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
             }
             if(_service4){
               services.add('Finishing Material');
+            }
+            if(_service4){
+              services.add('Delivery Vehicle');
             }
 
             if(services.isEmpty){
@@ -279,6 +283,19 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
                 value: _service4,
                 onChanged: (val) => setState(() => _service4 = val)
               ),
+            ),
+
+            ListTile(
+              dense: true,
+              leading: Text(lang.deliveryVehicles),
+              trailing: Switch(
+                  value: _service5,
+                  onChanged: (val) => setState(() => _service5 = val)
+              ),
+            ),
+
+            ListTile(
+              title: Text("Delivery Vehicles"),
             ),
 
             Padding(

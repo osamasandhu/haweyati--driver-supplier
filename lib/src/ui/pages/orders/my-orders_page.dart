@@ -15,7 +15,6 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart'
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/live-scrollable_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/rich-price-text.dart';
 import 'package:intl/intl.dart';
-
 import 'supplier-order-detail.dart';
 
 class MyOrdersPage extends StatefulWidget {

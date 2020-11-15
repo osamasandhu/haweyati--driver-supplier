@@ -108,6 +108,10 @@
 
   "scaffoldings": "Scaffoldings",
   "@scaffoldings": {},
+
+  "deliveryVehicles": "Delivery Vehicles",
+  "@deliveryVehicles": {},
+
   "buildingMaterials": "Building Materials",
   "@buildingMaterials": {},
   "finishingMaterials": "Finishing Materials",
@@ -366,7 +370,7 @@
   "loadingNotifications" : "Loading Notifications",
   "@loadingNotifications": {},
 
-  "noNotifications" : "لا إخطارات حتى الآن",
+  "noNotifications" : "No Notifications",
   "@noNotifications": {},
 
   "loadingAcceptedOrders" : "Loading Accepted Orders",
@@ -577,5 +581,44 @@
   "@passwordNotMatched": {},
 
   "changingPassword" : "Changing Password",
-  "@changingPassword": {}
+  "@changingPassword": {},
+
+  "loadingAcceptedOrders" : "Loading Accepted Orders",
+  "@loadingAcceptedOrders": {},
+
+  "noAcceptedOrders" : "No Accepted Orders",
+  "@noAcceptedOrders": {},
+
+  "loadingCompletedOrders" : "Loading Completed Orders",
+  "@loadingCompletedOrders": {},
+
+  "noCompletedOrders" : "No Completed Orders",
+  "@noCompletedOrders": {},
+
+  "loadingDispatchedOrders" : "Loading Dispatched Orders",
+  "@loadingDispatchedOrders": {},
+
+  "noDispatchedOrders" : "No Dispatched Orders",
+  "@noDispatchedOrders": {},
+
+  "loadingAvailableOrders" : "Loading Available Orders",
+  "@loadingAvailableOrders": {},
+
+  "noAvailableOrders" : "No Available Orders",
+  "@noAvailableOrders": {},
+
+  "paymentType" : "Payment Type",
+  "@paymentType": {},
+
+  "changedVehicleInfo" : "You have changed vehicle's information. Your account will be on hold until verification process is completed!",
+  "@changedVehicleInfo" : {},
+
+  "proceed" : "Proceed",
+  "@proceed": {},
+
+  "cancel" : "Cancel",
+  "@cancel": {},
+
+  "warning" : "Warning",
+  "@warning": {}
 }

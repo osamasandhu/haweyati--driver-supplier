@@ -36,6 +36,7 @@ class _EditSupplierProfileState extends State<EditSupplierProfile> {
   var _service2 = AppData.supplier.services.contains('Scaffolding');
   var _service3 = AppData.supplier.services.contains('Building Material');
   var _service4 = AppData.supplier.services.contains('Finishing Material');
+  var _service5 = AppData.supplier.services.contains('Delivery Vehicle');
 
 
 
@@ -117,6 +118,15 @@ class _EditSupplierProfileState extends State<EditSupplierProfile> {
                 trailing: Switch(
                     value: _service4,
                     onChanged: (val) => setState(() => _service4 = val)
+                ),
+              ),
+
+              ListTile(
+                dense: true,
+                leading: Text(lang.deliveryVehicles),
+                trailing: Switch(
+                    value: _service5,
+                    onChanged: (val) => setState(() => _service5 = val)
                 ),
               ),
 
