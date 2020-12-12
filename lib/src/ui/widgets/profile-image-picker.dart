@@ -1,8 +1,8 @@
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileImagePicker extends StatefulWidget {
   final String previousImage;
@@ -13,7 +13,7 @@ class ProfileImagePicker extends StatefulWidget {
 }
 
 class _ProfileImagePickerState extends State<ProfileImagePicker> {
-  File _image;
+  PickedFile _image;
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +34,13 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
                 borderRadius: BorderRadius.circular(100),
                 child: _image == null
                     ? widget.previousImage!=null
-                    ? Image.network(HaweyatiService.convertImgUrl(widget.previousImage))
+                    ? Image.network(HaweyatiService.convertImgUrl(widget.previousImage),fit: BoxFit.cover,)
                     : Icon(
                   CupertinoIcons.person_solid,
                   color: Theme.of(context).primaryColor,
                   size: 55,
                 )
-                    : Image.file(_image),
+                    : Image.file(File(_image.path)),
               ),
             ),
           ],
@@ -52,21 +52,11 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
               children: <Widget>[
                 InkWell(
                   onTap: () async {
-                    File tempImage;
-                    try {
-                      tempImage = await FilePicker.getFile(
-                        type: FileType.image,
-                      );
-                      print(tempImage);
-                      if(tempImage!=null){
-                        setState(() {
-                          _image = tempImage;
-                          widget.onImagePicked(tempImage.path);
-                        });
-                      }
-
-                    } catch (e) {
-                      print(e.message);
+                    var image = await ImagePicker().getImage(source: ImageSource.gallery);
+                    if(image !=null){
+                      setState(() {
+                        _image = image;
+                      });
                     }
                   },
                   child: Container(

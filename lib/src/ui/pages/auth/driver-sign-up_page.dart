@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/model/vehicle-type.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/services/supplier-Services.dart';
+import 'package:haweyati_supplier_driver_app/src/services/vehicle-type-service.dart';
 import 'package:haweyati_supplier_driver_app/src/supplier/auth-pages/waiting-approval_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
@@ -18,6 +20,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-future-builde
 import 'package:haweyati_supplier_driver_app/utils/fcm-token.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/utils/haweyati-utils.dart';
+import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
 import 'package:haweyati_supplier_driver_app/utils/validators.dart';
 import 'package:haweyati_supplier_driver_app/widgits/round-drop-down-button.dart';
 import 'package:image_picker/image_picker.dart';
@@ -37,14 +40,10 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
   PickedFile _image;
   Location _userLocation;
 
-  List<String> vehicleTypes = [
-    "Small Truck",
-    "Big Truck",
-    "Pick up",
-    "Car"
-  ];
 
-  String selectedType = null;
+  Future<List<VehicleType>> vehicleTypes;
+
+  VehicleType selectedType;
 
   final _name = new TextEditingController();
   final _phone = new TextEditingController();
@@ -66,6 +65,7 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
   void initState() {
     super.initState();
     suppliers = SupplierServices().getSupplier();
+    vehicleTypes = VehicleTypesService().vehicleTypes();
     // initMap();
   }
 
@@ -99,6 +99,12 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
               ));
               return;
             }
+            if (selectedType == null) {
+              scaffoldKey.currentState.showSnackBar(SnackBar(
+                content: Text("Please select your vehicle type"),
+              ));
+              return;
+            }
 
             openLoadingDialog(context, lang.signingUp);
             final map = Map<String, dynamic>.from({
@@ -113,7 +119,7 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
               "supplier" : shopParentId,
               "vehicleName" : _vehicleName.text,
               "model" : _model.text,
-              "type" : selectedType,
+              "type" : selectedType.toJson(),
               "identificationNo" : _identification.text,
               // "city" : _userLocation.city,
               "address" : _userLocation.address
@@ -130,9 +136,7 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
                driver = Driver.fromJson(res.data);
             } catch (e) {
               Navigator.pop(context);
-              scaffoldKey.currentState.showSnackBar(SnackBar(
-                content: Text(res.toString()),
-              ));
+              showSimpleSnackbar(scaffoldKey, res.toString(),true);
               return;
             }
             print(res);
@@ -250,18 +254,45 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
                 )),
               ),
 
-            RoundDropDownButton<String>(
-              hint: Text(lang.vehicleType),
-              items: vehicleTypes
-                  .map((i) => DropdownMenuItem<String>(
-                  child: Text(i), value: i))
-                  .toList(),
-              value: selectedType,
-              onChanged: (item) => setState(() {
-                this.selectedType = item;
-                FocusScope.of(context).requestFocus(new FocusNode());
-              }),
-            ),
+            SimpleFutureBuilder.simpler(
+                context: context,
+                future: vehicleTypes,
+                builder: (List<VehicleType> snapshot) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                      itemCount: snapshot.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.only(bottom: 30),
+                      itemBuilder: (context, index) {
+                        VehicleType _type = snapshot[index];
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: _type?.image !=null ? NetworkImage(
+                                HaweyatiService.resolveImage(_type?.image?.name)
+                            ) : AssetImage("assets/images/icon.png"),
+                          ),
+                          title: Text(_type.name),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Volume: " + _type.maxVolume.toString()),
+                              Text("Weight: " + _type.maxWeight.toString()),
+                            ],
+                          ),
+                          trailing: Radio(
+                              value: _type,
+                              groupValue: selectedType,
+                              onChanged: (val) {
+                                print("Changed");
+                                setState(() {
+                                  selectedType = val;
+                                });
+                                // print(selectedType);
+                              }),
+                        );
+                      });
+                }),
 
               HaweyatiTextField(
                 keyboardType: TextInputType.emailAddress,
@@ -298,12 +329,13 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
               Text(lang.selectSupplier)
             ]),
             _isSub ?  Container(
-              height: 300,
               child: SimpleFutureBuilder.simpler(
                   context: context,
                   future: suppliers,
                   builder: (List<SupplierModel> snapshot) {
                     return ListView.builder(
+                      shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         itemCount: snapshot.length,
                         padding: EdgeInsets.only(bottom: 30),
                         itemBuilder: (context, index) {
@@ -331,6 +363,7 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
                         });
                   }),
             ) : SizedBox(),
+              SizedBox(height: 50,),
 
               // Padding(
               //   padding: const EdgeInsets.only(bottom: 15, top: 30),

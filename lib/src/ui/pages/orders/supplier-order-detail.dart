@@ -10,7 +10,9 @@ import 'package:haweyati_supplier_driver_app/src/models/order/dumpster/order-ite
 import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
+import 'package:haweyati_supplier_driver_app/src/supplier/orders/select-driver_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
@@ -212,6 +214,39 @@ class _SupplierItemSelectorState extends State<SupplierItemSelector> {
                         return;
                       }
                     }
+
+                    if(value && widget.order.type == OrderType.dumpster){
+                     Driver _driver = await CustomNavigator.navigateTo(context, SelectDriverPage());
+                     if(_driver!=null){
+                       openLoadingDialog(context, "Submitting");
+                       await HaweyatiService.patch('orders/add-supplier', {
+                         'item': widget.index,
+                         'supplier': AppData.supplier.toJson(),
+                         '_id': widget.orderId,
+                         'flag': value,
+                         'reason': reason
+                       });
+
+                       var res = await HaweyatiService.patch('orders/add-driver', {
+                         'driver' : _driver.serialize(),
+                         '_id' :  widget.order.id,
+                         'flag' : true
+                       });
+
+                       if(value){
+                         item.supplier = AppData.supplier;
+                       } else {
+                         item.supplier = null;
+                       }
+                       setState(() {
+
+                       });
+                       Navigator.pop(context);
+                       Navigator.pop(context);
+                       return;
+                     }
+                    }
+                    return;
                     openLoadingDialog(context, "Submitting");
                     await HaweyatiService.patch('orders/add-supplier', {
                       'item': widget.index,

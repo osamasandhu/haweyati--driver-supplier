@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:haweyati_supplier_driver_app/model/models/images_model.dart';
+import 'package:haweyati_supplier_driver_app/model/vehicle-type.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
@@ -54,12 +56,16 @@ abstract class AppData {
     Hive.registerAdapter<Profile>(ProfileAdapter());
     Hive.registerAdapter<Vehicle>(VehicleAdapter());
     Hive.registerAdapter<Location>(LocationAdapter());
-    Hive.registerAdapter<Driver>(DriverModelAdapter());
+    Hive.registerAdapter<Driver>(DriverAdapter());
     Hive.registerAdapter<ImageModel>(ImageModelAdapter());
+    Hive.registerAdapter<Images>(ImagesAdapter());
+    Hive.registerAdapter<VehicleType>(VehicleTypeAdapter());
     Hive.registerAdapter<SupplierModel>(SupplierModelAdapter());
 
     _supplier = await Hive.openBox('supplier');
     _driver = await Hive.openBox('driver');
+
+    // _clearData();
 
     _initiated = true;
     _instance = _AppDataImpl();

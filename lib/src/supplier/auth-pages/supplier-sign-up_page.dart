@@ -294,10 +294,6 @@ class _SupplierSignUpPageState extends State<SupplierSignUpPage> {
               ),
             ),
 
-            ListTile(
-              title: Text("Delivery Vehicles"),
-            ),
-
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: ImagePickerWidget(onImagePicked: (file) {

@@ -57,6 +57,6 @@ final routes = <String, Widget Function(BuildContext)>{
   '/supplier-sign-in': (context) => HaweyatiSignIn(true),
   '/supplier-sign-up': (context) => SupplierSignUpPage(),
 
-  '/select-location' : (context) => Location(),
+  // '/select-location' : (context) => Location(),
   '/add-finishing-material': (context) => FinishingMaterialRequest(),
 };

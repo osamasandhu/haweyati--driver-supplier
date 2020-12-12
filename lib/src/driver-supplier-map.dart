@@ -41,8 +41,7 @@ class MyLocationMapPageState extends State<DriverRouteMapPage> {
 
   void _initalizeMap([bool animateCamera = false]) async {
     setMarkers();
-    final position = await Geolocator()
-      .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    final position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
     setState(() => this.driverLocation = LatLng(
       position.latitude,

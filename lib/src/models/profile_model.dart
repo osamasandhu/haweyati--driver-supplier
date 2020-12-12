@@ -1,4 +1,5 @@
 import 'package:haweyati_supplier_driver_app/model/json_serializable.dart';
+import 'package:haweyati_supplier_driver_app/model/models/images_model.dart';
 import 'package:hive/hive.dart';
 
 import 'image_model.dart';

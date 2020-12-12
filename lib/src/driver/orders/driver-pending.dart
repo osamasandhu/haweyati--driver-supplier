@@ -26,6 +26,7 @@ class _DriverPendingOrdersListingState extends State<DriverPendingOrdersListing>
         loader: ()=> OrdersService().driverAllOrders(),
         noDataMessage: lang.noAvailableOrders,
         builder: (context,data){
+          return SizedBox();
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: OrderTile(

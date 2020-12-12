@@ -152,6 +152,7 @@ class _HaweyatiSignInState extends State<HaweyatiSignIn> {
                 ),
                 ContactInputField((value, status) {
                   _username.text = value;
+
                   if(status!=isPhoneValid){
                     isPhoneValid = status;
                     setState(() {
@@ -162,7 +163,6 @@ class _HaweyatiSignInState extends State<HaweyatiSignIn> {
                 // HaweyatiPhoneField(
                 //     controller: _username,
                 //     label: lang.yourPhone,
-                //     //todo: uncomment validator on production
                 //     validator: (value) => phoneValidator(value),
                 //   ),
                   SizedBox(height: 20),

@@ -27,9 +27,9 @@ dependencies:
   location:
   google_maps_webservice:
   flutter_google_places:
-  app_settings: 4.0.1+1
+#  app_settings: 4.0.1+1
   shared_preferences:
-  file_picker:
+#  file_picker: 2.1.0
   intl:
   hive:
   hive_flutter:
@@ -51,7 +51,7 @@ dependencies:
 
 
 dev_dependencies:
-  build_runner:
+  build_runner: 1.10.9
   flutter_test:
     sdk: flutter
 

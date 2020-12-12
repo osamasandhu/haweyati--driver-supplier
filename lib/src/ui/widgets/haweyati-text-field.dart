@@ -147,7 +147,6 @@ class _HaweyatiPasswordFieldState extends State<HaweyatiPasswordField> {
 //       textInputAction: TextInputAction.next,
 //       scrollPadding: EdgeInsets.all(180),
 //       inputFormatters: [
-//         //Todo: Add on production
 //         FilteringTextInputFormatter.digitsOnly
 //       ],
 //       decoration: InputDecoration(

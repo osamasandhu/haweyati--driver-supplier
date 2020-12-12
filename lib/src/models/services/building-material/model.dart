@@ -1,3 +1,4 @@
+import 'package:haweyati_supplier_driver_app/model/models/bm-pricing.dart';
 import 'package:haweyati_supplier_driver_app/src/models/image_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:hive/hive.dart';
@@ -13,7 +14,7 @@ class BuildingMaterial extends HiveObject implements Orderable {
   @HiveField(2) String parent;
   @HiveField(3) ImageModel image;
   @HiveField(4) String description;
-  @HiveField(5) List<BuildingMaterialPricing> pricing;
+  @HiveField(5) List<BMPricing> pricing;
 
   BuildingMaterial({
     this.id,
@@ -30,10 +31,10 @@ class BuildingMaterial extends HiveObject implements Orderable {
     parent = json['parent'];
 
     if (json['pricing'] != null) {
-      pricing = List<BuildingMaterialPricing>();
+      pricing = List<BMPricing>();
 
       json['pricing'].forEach((v) {
-        pricing.add(BuildingMaterialPricing.fromJson(v));
+        pricing.add(BMPricing.fromJson(v));
       });
     }
 

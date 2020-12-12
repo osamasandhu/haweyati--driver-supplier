@@ -1,22 +1,23 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/model/vehicle-type.dart';
+import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
+import 'package:haweyati_supplier_driver_app/src/services/vehicle-type-service.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/haweyati-text-field.dart';
+import 'package:haweyati_supplier_driver_app/utils/validators.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
-import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/supplier/auth-pages/waiting-approval_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/widgets/haweyati-text-field.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/location-picker-widget.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/profile-image-picker.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-form.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-future-builder.dart';
 import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
-import 'package:haweyati_supplier_driver_app/utils/validators.dart';
-import 'package:haweyati_supplier_driver_app/widgits/locations-map_page.dart';
-import 'package:haweyati_supplier_driver_app/widgits/round-drop-down-button.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditDriverProfile extends StatefulWidget {
@@ -30,14 +31,9 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
   Location _userLocation;
   bool isVehicleInfoChanged = false;
 
-  List<String> vehicleTypes = [
-    "Small Truck",
-    "Big Truck",
-    "Pick up",
-    "Car"
-  ];
+  Future<List<VehicleType>> vehicleTypes;
 
-  String selectedType = AppData.driver.vehicle.type;
+  VehicleType selectedType = AppData.driver.vehicle.type;
 
   String imagePath;
   Location location = AppData.driver.location;
@@ -70,6 +66,13 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
       return true;
     }
     return false;
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    vehicleTypes = VehicleTypesService().vehicleTypes();
   }
 
   @override
@@ -110,7 +113,7 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                   "longitude" : _userLocation.longitude,
                   "vehicleName" : _vehicleName.text,
                   "model" : _model.text,
-                  "type" : selectedType,
+                  "type" : selectedType.toJson(),
                   "identificationNo" : _identification.text,
                   // "city" : _userLocation.city,
                   "address" : _userLocation.address,
@@ -206,18 +209,44 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                 )),
               ),
 
-              RoundDropDownButton<String>(
-                hint: Text(lang.vehicleType),
-                items: vehicleTypes
-                    .map((i) => DropdownMenuItem<String>(
-                    child: Text(i), value: i))
-                    .toList(),
-                value: selectedType,
-                onChanged: (item) => setState(() {
-                  this.selectedType = item;
-                  FocusScope.of(context).requestFocus(new FocusNode());
-                }),
-              ),
+              SimpleFutureBuilder.simpler(
+                  context: context,
+                  future: vehicleTypes,
+                  builder: (List<VehicleType> snapshot) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.length,
+                        padding: EdgeInsets.only(bottom: 30),
+                        itemBuilder: (context, index) {
+                          VehicleType _type = snapshot[index];
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              backgroundImage: _type?.image !=null ? NetworkImage(
+                                  HaweyatiService.resolveImage(_type?.image?.name)
+                              ) : AssetImage("assets/images/icon.png"),
+                            ),
+                            title: Text(_type.name),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Volume: " + _type.maxVolume.toString()),
+                                Text("Weight: " + _type.maxWeight.toString()),
+                              ],
+                            ),
+                            trailing: Radio(
+                                value: _type.id,
+                                groupValue: selectedType.id,
+                                onChanged: (val) {
+                                  setState(() {
+                                    selectedType = val;
+                                  });
+                                  // print(selectedType);
+                                }),
+                          );
+                        });
+                  }),
 
               HaweyatiTextField(
                 keyboardType: TextInputType.emailAddress,

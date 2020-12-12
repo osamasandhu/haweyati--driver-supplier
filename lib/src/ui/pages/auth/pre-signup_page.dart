@@ -28,8 +28,7 @@ class PreSignUpPage extends StatelessWidget {
                 Spacer(flex: 2),
                 _buildButton(
                   onTap: () async {
-                    // Todo: For Testing
-                    // String verifiedPhoneNumber = "+966535551047";
+                    // String verifiedPhoneNumber = "+92312345";
 
                     // String verifiedPhoneNumber = DateTime.now().toIso8601String();
                     //
@@ -70,8 +69,7 @@ class PreSignUpPage extends StatelessWidget {
 
                 _buildButton(
                   onTap: () async {
-                    // Todo: For Testing
-                    // String verifiedPhoneNumber = "+966535551047";
+                    // String verifiedPhoneNumber = "+96651551047";
 
                     String verifiedPhoneNumber = await CustomNavigator.navigateTo(context, PreSignUpPhoneVerifier());
 
