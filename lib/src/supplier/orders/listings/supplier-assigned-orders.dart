@@ -4,14 +4,13 @@ import 'package:haweyati_supplier_driver_app/src/services/order-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/live-scrollable_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/order-tile.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-future-builder.dart';
 
-class SupplierSelectedOrdersListing extends StatefulWidget {
+class SupplierAssignedOrdersListing extends StatefulWidget {
   @override
-  _SupplierSelectedOrdersListingState createState() => _SupplierSelectedOrdersListingState();
+  _SupplierAssignedOrdersListingState createState() => _SupplierAssignedOrdersListingState();
 }
 
-class _SupplierSelectedOrdersListingState extends State<SupplierSelectedOrdersListing> {
+class _SupplierAssignedOrdersListingState extends State<SupplierAssignedOrdersListing> {
 
   Future<List<Order>> orders;
   final GlobalKey<LiveScrollableViewState> _key = GlobalKey<LiveScrollableViewState>();
@@ -27,23 +26,23 @@ class _SupplierSelectedOrdersListingState extends State<SupplierSelectedOrdersLi
   Widget build(BuildContext context) {
     return LocalizedView(
       builder: (context,lang) =>
-       LiveScrollableView<Order>(
-        key: _key,
-        loadingMessage: lang.loadingAcceptedOrders,
-        noDataMessage: lang.noAcceptedOrders,
-        loader: ()=> OrdersService().ordersByStatus(OrderStatus.accepted),
-        builder: (context,data){
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: OrderTile(
-              order: data,
-              refresh: (){
-                _key.currentState.loadDataAgain();
-              },
-            ),
-          );
-        },
-      ),
+          LiveScrollableView<Order>(
+            key: _key,
+            loadingMessage: lang.loadingAcceptedOrders,
+            noDataMessage: "No Assigned Orders",
+            loader: ()=> OrdersService().ordersByStatus(OrderStatus.preparing),
+            builder: (context,data){
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: OrderTile(
+                  order: data,
+                  refresh: (){
+                    _key.currentState.loadDataAgain();
+                  },
+                ),
+              );
+            },
+          ),
     );
   }
 }

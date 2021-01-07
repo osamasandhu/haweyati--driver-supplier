@@ -23,8 +23,8 @@ class _DriverAcceptedOrdersListingState extends State<DriverAcceptedOrdersListin
        LiveScrollableView<Order>(
         key: _key,
         loadingMessage: lang.loadingAcceptedOrders,
-        loader: ()=> OrdersService().driverAcceptedOrders(),
-        noDataMessage: lang.noAcceptedOrders,
+        loader: ()=> OrdersService().ordersByStatus(OrderStatus.preparing),
+        noDataMessage: "No Assigned Drivers",
         builder: (context,data){
           return Padding(
             padding: const EdgeInsets.all(8.0),

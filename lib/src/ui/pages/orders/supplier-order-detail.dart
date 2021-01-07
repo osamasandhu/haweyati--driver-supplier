@@ -13,6 +13,7 @@ import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/supplier/orders/select-driver_page.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/supplier-order-utils.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
@@ -28,6 +29,7 @@ import 'package:haweyati_supplier_driver_app/widgits/dispatch-order.dart';
 import 'package:haweyati_supplier_driver_app/widgits/order-location-picker.dart';
 import 'my-orders_page.dart';
 import 'order-mutual-widgets.dart';
+import 'supplier-order-action-buttons.dart';
 
 
 class SupplierOrderDetailPage extends StatelessWidget {
@@ -40,12 +42,7 @@ class SupplierOrderDetailPage extends StatelessWidget {
     return LocalizedView(
       builder: (context,lang) =>
       ScrollableView.sliver(
-        bottom: order.status == OrderStatus.preparing ?  RaisedActionButton(
-          label: "Dispatch Order",
-          onPressed: () async {
-            CustomNavigator.navigateTo(context, DispatchOrder(orderId: order.id,));
-          },
-        ) : SizedBox(),
+        bottom: SupplierOrderActionButton(order: order,),
           showBackground: true,
           padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
           appBar: HaweyatiAppBar(actions: [
@@ -70,15 +67,19 @@ class SupplierOrderDetailPage extends StatelessWidget {
               sliver: SliverToBoxAdapter(child: LocationPicker(initialValue: order.location,edit: false,)),
             ),
 
-            SliverList(delegate: SliverChildBuilderDelegate(
-                    (context, index) => SupplierItemSelector(
-                      index: index,
-                      order: order,
-                      orderId: order.id,
-                      widget: OrderItemWidget(order.items[index]),
-                    ),
+          SupplierUtils.canAcceptAllOrder(order) ? SliverList(delegate: SliverChildBuilderDelegate(
+                    (context, index) => OrderItemWidget(order.items[index]),
                 childCount: order.items.length
-            )),
+            )) :
+          SliverList(delegate: SliverChildBuilderDelegate(
+                  (context, index) => SupplierItemSelector(
+                index: index,
+                order: order,
+                orderId: order.id,
+                widget: OrderItemWidget(order.items[index]),
+              ),
+              childCount: order.items.length
+          )),
 
             SliverToBoxAdapter(
               child: Table(
@@ -169,6 +170,7 @@ class _SupplierItemSelectorState extends State<SupplierItemSelector> {
 
   @override
   Widget build(BuildContext context) {
+    return SizedBox();
     return ClipRRect(
       child: Stack(
         children: [
@@ -194,7 +196,7 @@ class _SupplierItemSelectorState extends State<SupplierItemSelector> {
                 )
             ),
           if (item.supplier == null || AppData.supplier.id == item.supplier?.id && widget.order.status.index !=4 &&
-              (widget.order.status == OrderStatus.accepted || widget.order.status == OrderStatus.approved) )
+              (widget.order.status == OrderStatus.accepted) )
             Positioned(
               top: 8,
               right: 0,
@@ -226,7 +228,6 @@ class _SupplierItemSelectorState extends State<SupplierItemSelector> {
                          'flag': value,
                          'reason': reason
                        });
-
                        var res = await HaweyatiService.patch('orders/add-driver', {
                          'driver' : _driver.serialize(),
                          '_id' :  widget.order.id,

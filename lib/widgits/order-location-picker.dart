@@ -112,8 +112,9 @@ class LocationPicker extends StatefulWidget {
   final Location initialValue;
   final Function(Location location) onChanged;
   final bool edit;
-
+  final String title;
   LocationPicker({
+    this.title = 'Drop Off Location',
     this.initialValue,
     @required this.onChanged,this.edit=true
   });
@@ -138,7 +139,7 @@ class _LocationPickerState extends State<LocationPicker> {
       padding: const EdgeInsets.fromLTRB(18, 20, 18, 15),
       child: Wrap(children: [
         Row(children: [
-          Text('Drop Off Location', style: TextStyle(
+          Text(widget.title, style: TextStyle(
               color: Color(0xFF313F53),
               fontWeight: FontWeight.bold
           )),

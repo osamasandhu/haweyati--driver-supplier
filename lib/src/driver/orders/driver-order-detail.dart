@@ -7,10 +7,12 @@ import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/src/driver-supplier-map.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/building-material/order-item_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/delivery-vehicle/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/dumpster/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/scaffoldings/single-scaffolding/single-scaffolding_orderable.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/my-orders_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/order-mutual-widgets.dart';
@@ -64,11 +66,9 @@ class DriverOrderDetailPage extends StatelessWidget {
               wayPoints: wayPoints,
               destination: LatLng(order.location.latitude,order.location.longitude),
             ));
-
-
           },
         ),
-        bottom:  order.status == OrderStatus.accepted ? RaisedActionButton(
+        bottom:  order.status == OrderStatus.accepted || (order.type == OrderType.deliveryVehicle && order.status == OrderStatus.pending) ? RaisedActionButton(
           label: lang.acceptOrder,
           onPressed: () async {
             bool confirm =  await showDialog(context: context,
@@ -87,7 +87,7 @@ class DriverOrderDetailPage extends StatelessWidget {
               Navigator.pop(context);
             }
           },
-        ) : order.status == OrderStatus.dispatched ?  RaisedActionButton(
+        ) : order.status == OrderStatus.dispatched || (order.type == OrderType.deliveryVehicle && order.status == OrderStatus.preparing) ? RaisedActionButton(
           label: lang.markCompleted,
           onPressed: () async {
            CustomNavigator.navigateTo(context, MarkOrderCompleted(orderId: order.id,));
@@ -108,11 +108,18 @@ class DriverOrderDetailPage extends StatelessWidget {
 
             SliverPadding(
               padding: const EdgeInsets.only(bottom: 15, top: 25),
-              sliver: SliverToBoxAdapter(child: LocationPicker(initialValue: order.location,edit: false,)),
+              sliver: SliverToBoxAdapter(child: LocationPicker(
+                initialValue: order.location,edit: false,)),
             ),
-
+           if(order.type == OrderType.deliveryVehicle) SliverPadding(
+              padding: const EdgeInsets.only(bottom: 15, top: 0),
+              sliver: SliverToBoxAdapter(child: LocationPicker(
+                title: 'Pick Up Location',
+                initialValue: (order.items.first.item as dynamic).pickUp,
+                edit: false,)),
+            ),
             SliverList(delegate: SliverChildBuilderDelegate(
-                    (context, index) =>_OrderItemWidget(order.items[index]),
+                    (context, index) =>OrderItemWidget(order.items[index]),
                 childCount: order.items.length
             )),
 
@@ -286,7 +293,14 @@ class OrderItemTile extends StatelessWidget {
       title = product.name;
       imageUrl = product.images.name;
     }
-
+    else if (item.item is DeliveryVehicleOrderItem) {
+      title = product.name;
+      imageUrl = product.image.name;
+    }
+    else if (item.item is SingleScaffoldingOrderable) {
+      title = product.type;
+      imageUrl = product.image.name;
+    }
     return ListTile(
       contentPadding: const EdgeInsets.only(bottom: 15),
       leading: Container(

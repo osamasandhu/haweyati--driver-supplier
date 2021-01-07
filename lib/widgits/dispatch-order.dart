@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/flat-action-button.dart';
@@ -14,7 +15,7 @@ import 'package:image_picker/image_picker.dart';
 
 class DispatchOrder extends StatefulWidget {
   final String orderId;
-  DispatchOrder({this.orderId});
+  DispatchOrder(@required this.orderId);
   @override
   _DispatchOrderState createState() => _DispatchOrderState();
 }
@@ -39,12 +40,12 @@ class _DispatchOrderState extends State<DispatchOrder> {
         key: _key,
         onSubmit: () async {
           if(image==null){
-            showSimpleSnackbar(scaffoldKey, "Please select an image");
+            showSimpleSnackbar(scaffoldKey, "Please select an image.");
           } else {
             openLoadingDialog(context, "Marking order as dispatched");
-            await HaweyatiService.patch("orders/pickup-update", {
+            await HaweyatiService.patch("orders/update-order-status", {
               '_id' : widget.orderId,
-              'supplierId' : AppData.supplier.id
+              'status' : OrderStatus.dispatched.index
             });
             await HaweyatiService.patch('orders/add-image', FormData.fromMap({
               'id': widget.orderId,

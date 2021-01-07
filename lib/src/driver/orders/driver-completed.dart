@@ -23,7 +23,7 @@ class _DriverCompletedOrdersListingState extends State<DriverCompletedOrdersList
        LiveScrollableView<Order>(
         key: _key,
         loadingMessage: lang.loadingCompletedOrders,
-        loader: ()=> OrdersService().driverCompletedOrders(),
+        loader: ()=> OrdersService().ordersByStatus(OrderStatus.delivered),
         noDataMessage: lang.noCompletedOrders,
         builder: (context,data){
           return Padding(

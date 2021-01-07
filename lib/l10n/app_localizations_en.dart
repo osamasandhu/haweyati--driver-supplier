@@ -287,7 +287,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcome => 'Welcome';
 
   @override
-  String get newOrders => 'New Orders';
+  String get newOrders => 'New';
 
   @override
   String get acceptedOrders => 'Accepted';

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
@@ -42,7 +43,10 @@ class _MarkOrderCompletedState extends State<MarkOrderCompleted> {
             showSimpleSnackbar(scaffoldKey, "Please select an image");
           } else {
             openLoadingDialog(context, "Marking order as completed");
-            await HaweyatiService.patch("orders/getclosed/${widget.orderId}", '');
+            await HaweyatiService.patch("orders/update-order-status", {
+              '_id' : widget.orderId,
+              'status' : OrderStatus.delivered.index
+            });
             await HaweyatiService.patch('orders/add-image', FormData.fromMap({
               'id': widget.orderId,
               'image' :  await MultipartFile.fromFile(image.path),

@@ -48,7 +48,6 @@ class HaweyatiBusinessApp extends Theme {
         builder: (context, value, _) {
           return CupertinoApp(
               locale: value,
-
               routes: routes,
               title: 'Haweyati Supplier/Driver',
               debugShowCheckedModeBanner: false,

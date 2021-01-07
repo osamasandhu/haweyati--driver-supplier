@@ -23,7 +23,7 @@ class _DriverDispatchedOrdersListingState extends State<DriverDispatchedOrdersLi
        LiveScrollableView<Order>(
         key: _key,
         loadingMessage: lang.loadingDispatchedOrders,
-        loader: ()=> OrdersService().driverDispatchedOrders(),
+        loader: ()=> OrdersService().ordersByStatus(OrderStatus.dispatched),
         noDataMessage: lang.noDispatchedOrders,
         builder: (context,data){
           return Padding(

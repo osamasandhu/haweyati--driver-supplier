@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/src/const.dart';
 import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/persons-service.dart';
 import 'package:haweyati_supplier_driver_app/src/supplier/auth-pages/supplier-sign-up_page.dart';
@@ -28,13 +31,12 @@ class PreSignUpPage extends StatelessWidget {
                 Spacer(flex: 2),
                 _buildButton(
                   onTap: () async {
-                    // String verifiedPhoneNumber = "+92312345";
-
-                    // String verifiedPhoneNumber = DateTime.now().toIso8601String();
-                    //
-                    String verifiedPhoneNumber = await CustomNavigator.navigateTo(context, PreSignUpPhoneVerifier());
-
-                  if(verifiedPhoneNumber!=null){
+                    String verifiedPhoneNumber;
+                    if(kIsDebugMode)
+                      verifiedPhoneNumber = "+9231347${Random().nextInt(9).toString() + Random().nextInt(9).toString() + Random().nextInt(9).toString() + Random().nextInt(5).toString() + Random().nextInt(5).toString()}";
+                    else
+                      verifiedPhoneNumber = await CustomNavigator.navigateTo(context, PreSignUpPhoneVerifier());
+                    if(verifiedPhoneNumber!=null){
                     openLoadingDialog(context, lang.processing);
                     try {
                       Profile person = await PersonsService().getPersonByContact(
@@ -69,9 +71,11 @@ class PreSignUpPage extends StatelessWidget {
 
                 _buildButton(
                   onTap: () async {
-                    // String verifiedPhoneNumber = "+96651551047";
-
-                    String verifiedPhoneNumber = await CustomNavigator.navigateTo(context, PreSignUpPhoneVerifier());
+                    String verifiedPhoneNumber;
+                    if(kIsDebugMode)
+                      verifiedPhoneNumber = "+9231347${Random().nextInt(9).toString() + Random().nextInt(9).toString() + Random().nextInt(9).toString() + Random().nextInt(5).toString() + Random().nextInt(5).toString()}";
+                    else
+                      verifiedPhoneNumber = await CustomNavigator.navigateTo(context, PreSignUpPhoneVerifier());
 
                     if(verifiedPhoneNumber!=null){
                       openLoadingDialog(context, lang.processing);

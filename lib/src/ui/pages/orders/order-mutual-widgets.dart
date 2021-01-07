@@ -6,6 +6,7 @@ import 'package:haweyati_supplier_driver_app/src/models/order/building-material/
 import 'package:haweyati_supplier_driver_app/src/models/order/dumpster/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/scaffoldings/single-scaffolding/single-scaffolding_orderable.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart';
@@ -28,7 +29,67 @@ class OrderItemWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 35),
             child: Column(children: [
               OrderItemTile(holder),
+              if (holder.item is SingleScaffoldingOrderable)
+                Table(children: [
+                  TableRow(children: [
+                    Text("Days", style: TextStyle(
+                      height: 1.6,
+                      fontSize: 13,
+                      color: Colors.grey,
+                    )),
 
+                    Text('${(holder.item as SingleScaffoldingOrderable).days}',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(color: Color(0xFF313F53)),
+                    )
+                  ]),
+                  TableRow(children: [
+                    Text("Wheels (Set of 4)", style: TextStyle(
+                      height: 1.6,
+                      fontSize: 13,
+                      color: Colors.grey,
+                    )),
+
+                    Text('${(holder.item as SingleScaffoldingOrderable).wheels}',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(color: Color(0xFF313F53)),
+                    )
+                  ]),
+                  TableRow(children: [
+                    Text("Connections (Set of 4)", style: TextStyle(
+                      height: 1.6,
+                      fontSize: 13,
+                      color: Colors.grey,
+                    )),
+
+                    Text('${(holder.item as SingleScaffoldingOrderable).connections}',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(color: Color(0xFF313F53)),
+                    )
+                  ]),
+                 if( (holder.item as dynamic).mesh !=null) TableRow(children: [
+                    Text("Mesh (Quantity: ${(holder.item as SingleScaffoldingOrderable).meshQty})", style: TextStyle(
+                      height: 1.6,
+                      fontSize: 13,
+                      color: Colors.grey,
+                    )),
+
+                    Text('${(holder.item as SingleScaffoldingOrderable).mesh}',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(color: Color(0xFF313F53)),
+                    )
+                  ]),
+                  // TableRow(children: [
+                  //   Text(lang.price, style: TextStyle(
+                  //     height: 1.6,
+                  //     fontSize: 13,
+                  //     color: Colors.grey,
+                  //   )),
+                  //
+                  //   RichPriceText(price: (holder.item as SingleScaffoldingOrderable))
+                  // ]),
+
+                ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
               if (holder.item is FinishingMaterialOrderItem)
                 Table(children: [
                   ..._buildVariants((holder.item as FinishingMaterialOrderItem).variants),
@@ -111,11 +172,15 @@ class OrderItemTile extends StatelessWidget {
       title = '${product.size} Yards';
       imageUrl = product.image.name;
     } else if (item.item is BuildingMaterialOrderItem) {
-      title = product.name;
+      title = product.name + " (${(item.item as dynamic).price.unit})";
       imageUrl = product.image.name;
     } else if (item.item is FinishingMaterialOrderItem) {
       title = product.name;
       imageUrl = product.images.name;
+    }
+    else if (item.item is SingleScaffoldingOrderable) {
+      title = product.type;
+      imageUrl = "6af31fbbec4b8a614867f206833cd21a";
     }
 
     return ListTile(
@@ -167,7 +232,6 @@ class OrderDetailHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return OrientationBuilder(
         builder: (context, orientation) {
-          print(orientation);
           return Container(
               width: 500,
               height: 65,
@@ -221,7 +285,7 @@ class _OrderStatusPainter extends CustomPainter {
                 color: Colors.grey.shade700
             )
         ),
-        textDirection: TextDirection.ltr
+        textDirection: TextDirection.ltr,
     );
   }
 
@@ -258,11 +322,11 @@ class _OrderStatusPainter extends CustomPainter {
     canvas.drawLine(Offset(xOffset3, 20), Offset(xOffset4, 20), progress > 4 ? _donePainter : _unDonePainter);
     canvas.drawLine(Offset(xOffset4, 20), Offset(xOffset5, 20), progress > 5 ? _donePainter : _unDonePainter);
 
-    canvas.drawCircle(Offset(xOffset1, 20), 20, progress > 0 ? _donePainter : _unDonePainter);
-    canvas.drawCircle(Offset(xOffset2, 20), 20, progress > 1 ? _donePainter : _unDonePainter);
-    canvas.drawCircle(Offset(xOffset3, 20), 20, progress > 2 ? _donePainter : _unDonePainter);
-    canvas.drawCircle(Offset(xOffset4, 20), 20, progress > 3 ? _donePainter : _unDonePainter);
-    canvas.drawCircle(Offset(xOffset5, 20), 20, progress > 4 ? _donePainter : _unDonePainter);
+    canvas.drawCircle(Offset(xOffset1, 20), 20, progress >= 0 ? _donePainter : _unDonePainter);
+    canvas.drawCircle(Offset(xOffset2, 20), 20, progress >= 1 ? _donePainter : _unDonePainter);
+    canvas.drawCircle(Offset(xOffset3, 20), 20, progress >= 2 ? _donePainter : _unDonePainter);
+    canvas.drawCircle(Offset(xOffset4, 20), 20, progress >= 3 ? _donePainter : _unDonePainter);
+    canvas.drawCircle(Offset(xOffset5, 20), 20, progress >= 4 ? _donePainter : _unDonePainter);
   }
 
   @override

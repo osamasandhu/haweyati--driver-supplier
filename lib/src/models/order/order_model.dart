@@ -1,14 +1,15 @@
 import 'package:haweyati_supplier_driver_app/model/json_serializable.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/building-material/order-item_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/delivery-vehicle/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/dumpster/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-location_model.dart';
-import 'package:haweyati_supplier_driver_app/src/models/order/scaffoldings/order-item_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/scaffoldings/single-scaffolding/single-scaffolding_orderable.dart';
 import 'package:haweyati_supplier_driver_app/src/models/payment_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/customer_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
 import 'package:hive/hive.dart';
-
 import 'order-item_model.dart';
 
 class OrderImage implements JsonSerializable {
@@ -47,6 +48,7 @@ class Order extends HiveObject implements JsonSerializable {
 
   DateTime createdAt;
   DateTime updatedAt;
+  Driver driver;
 
   Order(this.type, {
     this.id,
@@ -62,7 +64,8 @@ class Order extends HiveObject implements JsonSerializable {
     this.customer,
     this.createdAt,
     this.updatedAt,
-    this.deliveryFee = 50
+    this.deliveryFee = 50,
+    this.driver
   });
 
   factory Order.fromJson(Map<String, dynamic> json) {
@@ -74,13 +77,16 @@ class Order extends HiveObject implements JsonSerializable {
         _parser = DumpsterOrderItem.fromJson;
         break;
       case OrderType.scaffolding:
-        _parser = ScaffoldingOrderItem.fromJson;
+        _parser = SingleScaffoldingOrderable.fromJson;
         break;
       case OrderType.buildingMaterial:
         _parser = BuildingMaterialOrderItem.fromJson;
         break;
       case OrderType.finishingMaterial:
         _parser = FinishingMaterialOrderItem.fromJson;
+        break;
+      case OrderType.deliveryVehicle:
+        _parser = DeliveryVehicleOrderItem.fromJson;
         break;
     }
 
@@ -90,21 +96,18 @@ class Order extends HiveObject implements JsonSerializable {
         status = OrderStatus.pending;
         break;
       case 1:
-        status = OrderStatus.approved;
-        break;
-      case 2:
         status = OrderStatus.accepted;
         break;
-      case 3:
+      case 2:
         status = OrderStatus.preparing;
         break;
-      case 4:
+      case 3:
         status = OrderStatus.dispatched;
         break;
-      case 5:
+      case 4:
         status = OrderStatus.delivered;
         break;
-      case 6:
+      case 5:
         status = OrderStatus.rejected;
         break;
     }
@@ -121,7 +124,7 @@ class Order extends HiveObject implements JsonSerializable {
       payment: Payment.fromJson(/*json['payment'] ?? */json),
 
       customer: Customer.fromJson(json['customer']),
-
+      driver: json['driver'] !=null ? Driver.fromJson(json['driver']) : null,
       location: OrderLocation.fromJson(json['dropoff']),
 
       items: (json['items'] as List)
@@ -174,6 +177,7 @@ class Order extends HiveObject implements JsonSerializable {
       case OrderType.scaffolding: return 'Scaffolding';
       case OrderType.buildingMaterial: return 'Building Material';
       case OrderType.finishingMaterial: return 'Finishing Material';
+      case OrderType.deliveryVehicle: return 'Delivery Vehicle';
     }
 
     throw 'Unknown type found $type';
@@ -184,6 +188,7 @@ class Order extends HiveObject implements JsonSerializable {
       case 'Building Material': return OrderType.buildingMaterial;
       case 'Finishing Material': return OrderType.finishingMaterial;
       case 'Construction Dumpster': return OrderType.dumpster;
+      case 'Delivery Vehicle': return OrderType.deliveryVehicle;
     }
 
     throw 'Unknown type found $type';
@@ -192,16 +197,20 @@ class Order extends HiveObject implements JsonSerializable {
 
 enum OrderStatus {
   pending,
-  approved,
+  // approved,
   accepted,
   preparing,
   dispatched,
   delivered,
   rejected,
 }
+
+
+
 enum OrderType {
   dumpster,
   scaffolding,
   buildingMaterial,
-  finishingMaterial
+  finishingMaterial,
+  deliveryVehicle
 }

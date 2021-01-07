@@ -162,6 +162,8 @@ class OtpPageState extends State<OtpPage> {
                       maxLengthEnforced: true,
                       focusNode: _node,
                       controller: _controller,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       onChanged: (val) {
                         final codes = val.split('');
 

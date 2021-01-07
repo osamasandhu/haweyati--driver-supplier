@@ -23,6 +23,18 @@ class OrdersService extends HaweyatiService<Order> {
     return this.getAll('orders/selected-supplier/${AppData.supplier.id}');
   }
 
+  Future<List<Order>> ordersByStatus(OrderStatus status){
+    if(AppData.isDriver){
+      return this.getAll('orders/driver-status/${AppData.driver.sId}/${status.index}');
+    } else {
+      return this.getAll('orders/supplier-status/${AppData.supplier.id}/${status.index}');
+    }
+  }
+
+  Future<List<Order>> supplierAssignedOrders() async {
+    return this.getAll('orders/assigned-supplier/${AppData.supplier.id}');
+  }
+
   Future<List<Order>> supplierCompletedOrders() async {
     return this.getAll('orders/completed-supplier/${AppData.supplier.id}');
   }
@@ -32,8 +44,7 @@ class OrdersService extends HaweyatiService<Order> {
   }
 
   Future<List<Order>> driverAllOrders() async {
-    print("called");
-    return this.getAll('orders/getactive');
+    return this.getAll('orders/driver/new/${AppData.driver.city}');
   }
 
   Future<List<Order>> driverDispatchedOrders() async {

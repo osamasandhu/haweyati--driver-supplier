@@ -19,4 +19,8 @@ class DriverService extends HaweyatiService<Driver> {
     return this.getAll('drivers/supplier/${AppData.supplier.id}');
   }
 
+  // Future<List<Driver>> checkSupplierDrivers(){
+  //   return this.getAll('drivers/dumpster/supplier/${AppData.supplier.id}');
+  // }
+
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/dotted-background_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
@@ -8,10 +7,8 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dar
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/no-scroll_page.dart';
 import 'package:haweyati_supplier_driver_app/utils/const.dart';
 import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
-import 'package:haweyati_supplier_driver_app/utils/validators.dart';
 import 'ui/pages/otp-page.dart';
 import 'ui/widgets/contact-input-field.dart';
-import 'ui/widgets/haweyati-text-field.dart';
 
 class PreSignUpPhoneVerifier extends StatefulWidget {
   final bool forgotPassword;

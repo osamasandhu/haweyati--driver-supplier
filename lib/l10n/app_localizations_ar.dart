@@ -287,7 +287,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get welcome => 'أهلا بك';
 
   @override
-  String get newOrders => 'طلبات جديدة';
+  String get newOrders => 'جديد';
 
   @override
   String get acceptedOrders => 'قبلت';

@@ -28,7 +28,7 @@ class _SupplierCompletedOrdersListingState extends State<SupplierCompletedOrders
        LiveScrollableView<Order>(
         key: _key,
         loadingMessage: lang.loadingCompletedOrders,
-        loader: ()=> OrdersService().supplierCompletedOrders(),
+        loader: ()=> OrdersService().ordersByStatus(OrderStatus.delivered),
         noDataMessage: lang.noCompletedOrders,
         builder: (context,data){
           return Padding(

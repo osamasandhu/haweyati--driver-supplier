@@ -23,7 +23,7 @@ class _SupplierDispatchedOrdersListingState extends State<SupplierDispatchedOrde
        LiveScrollableView<Order>(
         key: _key,
         loadingMessage: lang.loadingDispatchedOrders,
-        loader: ()=> OrdersService().supplierDispatchedOrders(),
+        loader: ()=> OrdersService().ordersByStatus(OrderStatus.dispatched),
         noDataMessage: lang.noDispatchedOrders,
         builder: (context,data){
           return Padding(

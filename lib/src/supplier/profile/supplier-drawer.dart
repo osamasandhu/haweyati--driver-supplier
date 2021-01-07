@@ -51,8 +51,7 @@ class SupplierDrawer extends StatelessWidget {
             // DrawerItem(icon: CupertinoIcons.home, text: 'Home', onTap: () => Navigator.of(context).pop()),
             DrawerItem(icon: CupertinoIcons.person, text: lang.settings, onTap: () {
               CustomNavigator.navigateTo(context, SupplierProfile());
-            }
-            ),
+            }),
             // DrawerItem(icon: Icons.monetization_on, text: 'Completed Orders', onTap: () => Navigator.of(context).pop()),
 
             DrawerItem(
@@ -64,6 +63,7 @@ class SupplierDrawer extends StatelessWidget {
                   Navigator.of(context).pushNamed('/supplier-services');
                 }
             ),
+
             DrawerItem(icon: Icons.star, text: lang.rateApp, onTap: () => Navigator.of(context).pop()),
 
             // DrawerItem(icon: CupertinoIcons.news, text: 'Reports', onTap: () => Navigator.of(context).pop()),

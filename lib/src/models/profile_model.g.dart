@@ -19,7 +19,7 @@ class ProfileAdapter extends TypeAdapter<Profile> {
     return Profile(
       id: fields[0] as String,
       name: fields[1] as String,
-      image: fields[7] as dynamic,
+      image: fields[7] as ImageModel,
       scope: (fields[8] as List)?.cast<String>(),
       email: fields[2] as String,
       contact: fields[3] as String,

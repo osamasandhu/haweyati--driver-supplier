@@ -1,14 +1,14 @@
+import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/driver/orders/driver-completed.dart';
 import 'package:haweyati_supplier_driver_app/src/driver/orders/driver-accepted.dart';
 import 'package:haweyati_supplier_driver_app/src/driver/orders/driver-dispatched.dart';
-import 'package:haweyati_supplier_driver_app/src/services/drivers_service.dart';
-import 'package:haweyati_supplier_driver_app/src/services/order-service.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/orders-listing.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/utils/exit-application-dialog.dart';
+import 'package:haweyati_supplier_driver_app/utils/notification-service.dart';
+import 'package:haweyati_supplier_driver_app/widgits/notification-dialog.dart';
 
 import 'orders/driver-pending.dart';
 import 'profile/driver-drawer.dart';
@@ -36,10 +36,35 @@ class _DriverHomePageState extends State<DriverHomePage> {
     DriverCompletedOrdersListing(),
   ];
 
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+
   @override
   void initState() {
     super.initState();
     FirebaseMessaging().subscribeToTopic('drivers');
+    firebaseCloudMessaging_Listeners();
+  }
+
+  void firebaseCloudMessaging_Listeners() {
+    if (Platform.isIOS) NotificationService.iOS_Permission();
+
+    _firebaseMessaging.configure(
+//      onBackgroundMessage: myBackgroundMessageHandler,
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+        openNotificationDialog(context, NotificationService.transformNotificationMessage(message));
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+        openNotificationDialog(context,NotificationService.transformNotificationMessage(message));
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+        openNotificationDialog(context, NotificationService.transformNotificationMessage(message));
+      },
+//
+    );
   }
 
   @override
@@ -89,7 +114,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.view_list_rounded),
-                label: lang.acceptedOrders
+                label: "Assigned"
               ),
               BottomNavigationBarItem(
                   icon: Icon(Icons.view_list_rounded),

@@ -6,7 +6,7 @@ part of 'driver_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class DriverModelAdapter extends TypeAdapter<Driver> {
+class DriverAdapter extends TypeAdapter<Driver> {
   @override
   final int typeId = 1;
 
@@ -56,7 +56,7 @@ class DriverModelAdapter extends TypeAdapter<Driver> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DriverModelAdapter &&
+      other is DriverAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

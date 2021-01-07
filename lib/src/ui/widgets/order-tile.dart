@@ -122,9 +122,6 @@ class OrderTile extends StatelessWidget {
       case OrderStatus.preparing:
         return Colors.amber.shade800;
         break;
-      case OrderStatus.approved:
-        return Colors.red[300];
-        break;
       default:
         return Colors.red[300];
     }

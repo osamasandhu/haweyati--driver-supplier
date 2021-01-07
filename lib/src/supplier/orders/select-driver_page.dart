@@ -38,8 +38,7 @@ class _SelectDriverPageState extends State<SelectDriverPage> {
         appBar: AppBar(
           title: Text("Select Driver"),
         ),
-        children: [
-          SimpleFutureBuilder.simpler(
+        child: SimpleFutureBuilder.simpler(
               context: context,
               future: drivers,
               builder: (List<Driver> snapshot) {
@@ -58,8 +57,14 @@ class _SelectDriverPageState extends State<SelectDriverPage> {
                           ) : AssetImage("assets/images/icon.png"),
                         ),
                         title: Text(_driver.profile.name),
-                        subtitle: Text(_driver.location.address ??
-                            'Address not specified'),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Vehicle Type : " + _driver.vehicle.type.name),
+                            Text(_driver.location.address ??
+                                'Address not specified'),
+                          ],
+                        ),
                         trailing: Radio(
                             value: _driver,
                             groupValue: selectedDriver,
@@ -72,7 +77,6 @@ class _SelectDriverPageState extends State<SelectDriverPage> {
                       );
                     });
               }),
-        ],
       ),
     );
   }

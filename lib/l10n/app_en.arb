@@ -262,7 +262,7 @@
   "welcome" : "Welcome",
   "@welcome": {},
 
-  "newOrders" : "New Orders",
+  "newOrders" : "New",
   "@newOrders": {},
 
   "acceptedOrders" : "Accepted",
