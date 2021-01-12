@@ -97,10 +97,7 @@ class SimpleFutureBuilder<T> extends FutureBuilder<T> {
     activeChild: SliverToBoxAdapter(child: Center(child: CircularProgressIndicator())),
     waitingChild: SliverToBoxAdapter(child: Center(child: CircularProgressIndicator())),
 
-    errorBuilder: (String error) => SliverToBoxAdapter(child: Center(child: Container(child: Text(error)
-    )
-    )
-    ),
+    errorBuilder: (String error) => SliverToBoxAdapter(child: Center(child: Container(child: Text(error)))),
     builder: builder,
   );
 }

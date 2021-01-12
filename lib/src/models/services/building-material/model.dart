@@ -1,3 +1,4 @@
+import 'package:haweyati_client_data_models/models/image_model.dart';
 import 'package:haweyati_supplier_driver_app/model/models/bm-pricing.dart';
 import 'package:haweyati_supplier_driver_app/src/models/image_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
@@ -44,7 +45,7 @@ class BuildingMaterial extends HiveObject implements Orderable {
 
   Map<String, dynamic> toJson() => {
     'name': this.name,
-    'image': this.image.serialize(),
+    'image': this.image.toJson(),
     'parent': this.parent,
 
     'pricing': pricing

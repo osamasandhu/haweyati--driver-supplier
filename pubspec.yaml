@@ -40,9 +40,9 @@ dependencies:
   firebase_messaging: 7.0.3
   firebase_auth: 0.18.2
   json_annotation:
-  # Application packages
-#  haweyati_client_data_models:
-#    path: ../haweyati-client_data-models
+#   Application packages
+  haweyati_client_data_models:
+    path: ../haweyati-client_data-models
 
 
 

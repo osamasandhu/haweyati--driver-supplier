@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/driver/orders/driver-completed.dart';
 import 'package:haweyati_supplier_driver_app/src/driver/orders/driver-accepted.dart';
@@ -20,6 +21,9 @@ class DriverHomePage extends StatefulWidget {
 
 class _DriverHomePageState extends State<DriverHomePage> {
   int _currentIndex = 0;
+  var _scrollToTop = false;
+  final _controller = ScrollController();
+
 
   final _drawerKey = GlobalKey<ScaffoldState>();
 
@@ -101,7 +105,29 @@ class _DriverHomePageState extends State<DriverHomePage> {
               )
             ],
           ),
-          body: tabPages[_currentIndex],
+          body: NotificationListener<ScrollEndNotification>(
+            onNotification: (ScrollEndNotification notification) {
+              if (notification.metrics.pixels > 500) {
+                if (!_scrollToTop) setState(() => _scrollToTop = true);
+              } else {
+                if (_scrollToTop) setState(() => _scrollToTop = false);
+              }
+
+              return true;
+            },
+
+            child: tabPages[_currentIndex],
+          ),
+          floatingActionButton: _scrollToTop ? FloatingActionButton(
+            elevation: 8,
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.grey.shade600,
+            child: Icon(Icons.arrow_upward),
+            onPressed: () async {
+              setState(() => _scrollToTop = false);
+              await _controller.animateTo(0, duration: Duration(seconds: 1), curve: Curves.ease);
+            },
+          ) : null,
           drawer: DriverDrawer(),
           bottomNavigationBar: BottomNavigationBar(
             elevation: 10,

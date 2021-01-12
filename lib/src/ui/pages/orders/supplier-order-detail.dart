@@ -38,7 +38,6 @@ class SupplierOrderDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print(order.toJson());
     return LocalizedView(
       builder: (context,lang) =>
       ScrollableView.sliver(
@@ -119,10 +118,10 @@ class SupplierOrderDetailPage extends StatelessWidget {
                         color: Colors.grey.shade600,
                       )),
 
-                      RichPriceText(price: order.total-order.deliveryFee, fontWeight: FontWeight.bold, fontSize: 18)
+                      RichPriceText(price: order.total, fontWeight: FontWeight.bold, fontSize: 18)
                     ])
                   ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
-                  Table(children: [
+                 if(order.payment.type !=null) Table(children: [
                     TableRow(children: [
                       Text(lang.paymentType, style: TextStyle(
                         height: 2,
@@ -134,9 +133,94 @@ class SupplierOrderDetailPage extends StatelessWidget {
                       Text(order.payment.type, textAlign: TextAlign.right, style: TextStyle(
                           fontSize: 13
                       ))
-                    ])
+                    ]),
+                  if(order.deliveryFee != null) TableRow(children: [
+                     Text(lang.deliveryFee, style: TextStyle(
+                       height: 2,
+                       fontSize: 13,
+                       fontFamily: 'Lato',
+                       color: Colors.grey.shade600,
+                     )),
+
+                     RichPriceText(price: order.deliveryFee)
+                   ])
                   ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
                 ],
+              ),
+            ),
+          if(order.driver !=null)  SliverToBoxAdapter(
+              child: DarkContainer(
+                margin: const EdgeInsets.only(bottom: 15,top: 15),
+                padding: const EdgeInsets.only(left: 15,right: 15,top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  Text("Driver",style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14
+                  ),),
+                  ListTile(
+                    contentPadding: const EdgeInsets.only(bottom: 15),
+                    leading: Container(
+                      width: 60,
+                      decoration: BoxDecoration(
+                          color: Color(0xEEFFFFFF),
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                                blurRadius: 5,
+                                spreadRadius: 1,
+                                color: Colors.grey.shade500
+                            )
+                          ],
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: order.driver.profile.image !=null? NetworkImage(HaweyatiService.resolveImage(order.driver.profile.image.name)) 
+                                  : AssetImage("assets/icons/avatar.png")
+                          )
+                      ),
+                    ),
+                    title: Text(order.driver.profile.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: Text(order.driver.profile.contact, style: TextStyle(fontWeight: FontWeight.bold)),
+                  )
+                ],),
+              ),
+            ),
+            if(order.customer !=null)  SliverToBoxAdapter(
+              child: DarkContainer(
+                padding: const EdgeInsets.only(left: 15,right: 15,top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  Text("Customer",style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14
+                  ),),
+                  ListTile(
+                    contentPadding: const EdgeInsets.only(bottom: 15),
+                    leading: Container(
+                      width: 60,
+                      decoration: BoxDecoration(
+                          color: Color(0xEEFFFFFF),
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                                blurRadius: 5,
+                                spreadRadius: 1,
+                                color: Colors.grey.shade500
+                            )
+                          ],
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: order.customer.profile.image !=null? NetworkImage(HaweyatiService.resolveImage(order.customer.profile.image.name))
+                                  : AssetImage("assets/icons/avatar.png")
+                          )
+                      ),
+                    ),
+                    title: Text(order.customer.profile.name, style: TextStyle()),
+                    subtitle: Text(order.customer.profile.contact, style: TextStyle()),
+                  )
+                ],),
               ),
             )
           ]

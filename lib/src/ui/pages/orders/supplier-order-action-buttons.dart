@@ -7,6 +7,7 @@ import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart'
 import 'package:haweyati_supplier_driver_app/src/supplier/orders/select-driver_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/supplier-order-utils.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/flat-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/message-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/raised-action-button.dart';
@@ -26,7 +27,6 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
   static Order order;
 
   static Widget generateActionBtn(BuildContext context){
-    print(order.status);
     switch(order.status){
       case OrderStatus.pending:
         return acceptOrder(context);
@@ -35,17 +35,24 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-           if(order.driver !=null)  dispatchOrder(context) else assignDriver(context),
+           if(order.driver !=null)  dispatchOrder(context) else if(order.type == OrderType.dumpster) assignDriver(context),
             if(order.driver==null) cancelOrder(context),
           ],
         );
         break;
       case OrderStatus.accepted:
-        return  order.driver !=null ? dispatchOrder(context) : Column(
+        return order.driver !=null && order.payment.type!=null ?
+        dispatchOrder(context) : Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            assignDriver(context),
+            if(order.driver==null && order.type == OrderType.dumpster)  assignDriver(context),
             if(order.driver==null) cancelOrder(context),
+            if(order.payment.type == null && order.driver !=null) Padding(
+              padding: const EdgeInsets.only(bottom: 40.0),
+              child: Text("Order is awaiting payment confirmation from customer.",style: TextStyle(
+                color: Colors.red
+              ),),
+            )
           ],
         );
         break;
@@ -81,27 +88,28 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
     SizedBox();
   }
 
-  static Widget dispatchOrder(BuildContext context)=> RaisedActionButton(
+  static Widget dispatchOrder(BuildContext context)=> FlatActionButton(
     label: "Dispatch Order",
-    padding: EdgeInsets.only(top: 0),
     icon: Icon(CupertinoIcons.checkmark_circle),
     onPressed: () {
       CustomNavigator.navigateTo(context, DispatchOrder(order.id));
     },
   );
 
-  static Widget acceptOrder(BuildContext context) => RaisedActionButton(
+  static Widget acceptOrder(BuildContext context) => FlatActionButton(
     label: "Accept Order",
     icon: Icon(CupertinoIcons.checkmark_circle),
     onPressed: () async {
-      openLoadingDialog(context, "Processing");
-      List<Driver> drivers = await DriverService().getDriversBySupplier();
-      if(drivers.isEmpty){
-        Navigator.pop(context);
-        openMessageDialog(context, "You don't have any driver linked to your supplier account, therefore you cannot accept the order.");
-        return;
-      } else {
-        Navigator.pop(context);
+      if(order.type == OrderType.dumpster){
+        openLoadingDialog(context, "Processing");
+        List<Driver> drivers = await DriverService().getDriversBySupplier();
+        if(drivers.isEmpty){
+          Navigator.pop(context);
+          openMessageDialog(context, "You don't have any driver linked to your supplier account, therefore you cannot accept the order.");
+          return;
+        } else {
+          Navigator.pop(context);
+        }
       }
       openLoadingDialog(context, "Accepting Order");
       await HaweyatiService.patch("orders/add-supplier-all", {
@@ -137,7 +145,7 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
     },
   );
 
-  static Widget assignDriver(BuildContext context) =>RaisedActionButton(
+  static Widget assignDriver(BuildContext context) => RaisedActionButton(
     label: "Assign Driver",
     padding: EdgeInsets.only(top: 0),
     icon: Icon(CupertinoIcons.checkmark_circle),

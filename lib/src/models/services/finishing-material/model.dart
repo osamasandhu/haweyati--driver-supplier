@@ -1,3 +1,4 @@
+import 'package:haweyati_client_data_models/models/image_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/image_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/services/finishing-material/options_model.dart';
@@ -67,7 +68,7 @@ class FinishingMaterial extends Orderable {
   Map<String, dynamic> toJson() => {
     '_id': this.id,
     'name': this.name,
-    'image': this.images?.serialize(),
+    'image': this.images?.toJson(),
     'parent': this.parent,
     'varient': this.variants,
     'options': this.options?.map((v) => v.toJson())?.toList(),

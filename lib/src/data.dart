@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:haweyati_client_data_models/models/image_model.dart';
+import 'package:haweyati_client_data_models/models/order/vehicle-type.dart';
 import 'package:haweyati_supplier_driver_app/model/models/images_model.dart';
-import 'package:haweyati_supplier_driver_app/model/vehicle-type.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
@@ -9,11 +10,11 @@ import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart'
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../utils/fcm-token.dart';
 import 'models/image_model.dart';
 import 'models/profile_model.dart';
 import 'models/users/vehicle_model.dart';
+import 'package:haweyati_client_data_models/models/image_model.dart' as img;
 
 abstract class AppData {
   /// Localization Specific Data
@@ -54,13 +55,13 @@ abstract class AppData {
   static Future initiate() async {
     await Hive.initFlutter();
     Hive.registerAdapter<Profile>(ProfileAdapter());
-    Hive.registerAdapter<Vehicle>(VehicleAdapter());
     Hive.registerAdapter<Location>(LocationAdapter());
-    Hive.registerAdapter<Driver>(DriverAdapter());
-    Hive.registerAdapter<ImageModel>(ImageModelAdapter());
     Hive.registerAdapter<Images>(ImagesAdapter());
-    Hive.registerAdapter<VehicleType>(VehicleTypeAdapter());
+    Hive.registerAdapter<img.ImageModel>(img.ImageModelAdapter());
     Hive.registerAdapter<SupplierModel>(SupplierModelAdapter());
+    Hive.registerAdapter<Driver>(DriverAdapter());
+    Hive.registerAdapter<Vehicle>(VehicleAdapter());
+    Hive.registerAdapter<VehicleType>(VehicleTypeAdapter());
 
     _supplier = await Hive.openBox('supplier');
     _driver = await Hive.openBox('driver');
@@ -71,15 +72,15 @@ abstract class AppData {
     _instance = _AppDataImpl();
     await _instance._loadCache();
 
-    print("Supplier: ${(AppData.isSignedIn && AppData.isSupplier)
-        ? _supplier?.values?.first?.toJson() : _supplier.values}");
-    print("Driver: ${(AppData.isSignedIn && AppData.isDriver)
-        ? _driver?.values?.first?.serialize() : _driver.values}");
+    // print("Supplier: ${(AppData.isSignedIn && AppData.isSupplier)
+    //     ? _supplier?.values?.first?.toJson() : _supplier.values}");
+    // print("Driver: ${(AppData.isSignedIn && AppData.isDriver)
+    //     ? _driver?.values?.first?.serialize() : _driver.values}");
   }
 
   static void _clearData() async {
-     await Hive.deleteBoxFromDisk('supplier');
-     await Hive.deleteBoxFromDisk('driver');
+     await Hive.box('supplier').clear();
+     await Hive.box('driver').clear();
   }
 
   static Future signIn (dynamic user) async {

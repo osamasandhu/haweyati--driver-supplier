@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:haweyati_client_data_models/models/order/products/delivery-vehicle_orderable.dart';
 import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/building-material/order-item_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/delivery-vehicle/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/dumpster/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
@@ -68,13 +70,13 @@ class OrderItemWidget extends StatelessWidget {
                     )
                   ]),
                  if( (holder.item as dynamic).mesh !=null) TableRow(children: [
-                    Text("Mesh (Quantity: ${(holder.item as SingleScaffoldingOrderable).meshQty})", style: TextStyle(
+                    Text("Mesh", style: TextStyle(
                       height: 1.6,
                       fontSize: 13,
                       color: Colors.grey,
                     )),
 
-                    Text('${(holder.item as SingleScaffoldingOrderable).mesh}',
+                    Text('${(holder.item as SingleScaffoldingOrderable).mesh} (Quantity: ${(holder.item as SingleScaffoldingOrderable).meshQty})',
                       textAlign: TextAlign.right,
                       style: TextStyle(color: Color(0xFF313F53)),
                     )
@@ -181,6 +183,10 @@ class OrderItemTile extends StatelessWidget {
     else if (item.item is SingleScaffoldingOrderable) {
       title = product.type;
       imageUrl = "6af31fbbec4b8a614867f206833cd21a";
+    }
+    else if (item.item is DeliveryVehicleOrderItem) {
+      title = product.name;
+      imageUrl = product.image.name;
     }
 
     return ListTile(

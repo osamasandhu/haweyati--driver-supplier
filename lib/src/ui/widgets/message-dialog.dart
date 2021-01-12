@@ -7,7 +7,6 @@ openMessageDialog(BuildContext context, String text,[int popLength]) {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-
         content: Column(children: <Widget>[
           Text(text),
           Align(

@@ -43,8 +43,12 @@ class OrdersService extends HaweyatiService<Order> {
     return this.getAll('orders/dispatched-supplier/${AppData.supplier.id}');
   }
 
+  // Future<List<Order>> driverAllOrders() async {
+  //   return this.getAll('orders/driver/new/${AppData.driver.city}');
+  // }
+
   Future<List<Order>> driverAllOrders() async {
-    return this.getAll('orders/driver/new/${AppData.driver.city}');
+    return this.getAll('orders/driver/volumetric-weight/${AppData.driver.city}/${AppData.driver.sId}');
   }
 
   Future<List<Order>> driverDispatchedOrders() async {

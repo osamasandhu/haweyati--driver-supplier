@@ -14,12 +14,14 @@ import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.d
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/scaffoldings/single-scaffolding/single-scaffolding_orderable.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
+import 'package:haweyati_supplier_driver_app/src/services/order-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/my-orders_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/order-mutual-widgets.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/flat-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/raised-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/rich-price-text.dart';
@@ -68,31 +70,32 @@ class DriverOrderDetailPage extends StatelessWidget {
             ));
           },
         ),
-        bottom:  order.status == OrderStatus.accepted || (order.type == OrderType.deliveryVehicle && order.status == OrderStatus.pending) ? RaisedActionButton(
-          label: lang.acceptOrder,
-          onPressed: () async {
-            bool confirm =  await showDialog(context: context,
-                builder: (context){
-                  return ConfirmationDialog(title: Text(lang.sureAcceptOrder),
-                  );
-                });
-            if(confirm!=null && confirm){
-              openLoadingDialog(context, lang.acceptingOrder);
-              var res = await HaweyatiService.patch('orders/add-driver', {
-                'driver' : AppData.driver.serialize(),
-                '_id' :order.id,
-                'flag' : true
-              });
-              Navigator.pop(context);
-              Navigator.pop(context);
-            }
-          },
-        ) : order.status == OrderStatus.dispatched || (order.type == OrderType.deliveryVehicle && order.status == OrderStatus.preparing) ? RaisedActionButton(
-          label: lang.markCompleted,
-          onPressed: () async {
-           CustomNavigator.navigateTo(context, MarkOrderCompleted(orderId: order.id,));
-          },
-        ) : SizedBox(),
+        bottom: DriverBottomWidget(order: order,),
+        // bottom:  order.status == OrderStatus.accepted || (order.type == OrderType.deliveryVehicle && order.status == OrderStatus.pending) ? RaisedActionButton(
+        //   label: lang.acceptOrder,
+        //   onPressed: () async {
+        //     bool confirm =  await showDialog(context: context,
+        //         builder: (context){
+        //           return ConfirmationDialog(title: Text(lang.sureAcceptOrder),
+        //           );
+        //         });
+        //     if(confirm!=null && confirm){
+        //       openLoadingDialog(context, lang.acceptingOrder);
+        //       var res = await HaweyatiService.patch('orders/add-driver', {
+        //         'driver' : AppData.driver.serialize(),
+        //         '_id' :order.id,
+        //         'flag' : true
+        //       });
+        //       Navigator.pop(context);
+        //       Navigator.pop(context);
+        //     }
+        //   },
+        // ) : order.status == OrderStatus.dispatched || (order.type == OrderType.deliveryVehicle && order.status == OrderStatus.preparing) ? RaisedActionButton(
+        //   label: lang.markCompleted,
+        //   onPressed: () async {
+        //    CustomNavigator.navigateTo(context, MarkOrderCompleted(orderId: order.id,));
+        //   },
+        // ) : SizedBox(),
           showBackground: true,
           padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
           appBar: HaweyatiAppBar(actions: [],),
@@ -136,7 +139,7 @@ class DriverOrderDetailPage extends StatelessWidget {
                   //
                   //   RichPriceText(price: order.total - order.deliveryFee, fontSize: 13)
                   // ]),
-                  order.payment.type == 'COD' ?
+                  if(order.payment.type == 'COD')
                   TableRow(children: [
                     Text(lang.deliveryFee, style: TextStyle(
                       height: 2, fontSize: 13,
@@ -145,7 +148,7 @@ class DriverOrderDetailPage extends StatelessWidget {
                     )),
 
                     RichPriceText(price: order.deliveryFee, fontSize: 13)
-                  ]) : SizedBox()
+                  ])
                 ],
               ),
             ),
@@ -154,7 +157,7 @@ class DriverOrderDetailPage extends StatelessWidget {
               child: Column(
                 children: [
                   Table(children: [
-                    order.payment.type == 'COD' ?   TableRow(children: [
+                    if(order.payment.type == 'COD') TableRow(children: [
                       Text(lang.total, style: TextStyle(
                         height: 2,
                         fontSize: 13,
@@ -163,9 +166,10 @@ class DriverOrderDetailPage extends StatelessWidget {
                       )),
 
                       RichPriceText(price: order.total, fontWeight: FontWeight.bold, fontSize: 18)
-                    ]) : SizedBox()
+                    ])
                   ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
-                  Table(children: [
+
+               if(order.payment.type !=null) Table(children: [
                     TableRow(children: [
                       Text(lang.paymentType, style: TextStyle(
                         height: 2,
@@ -176,7 +180,7 @@ class DriverOrderDetailPage extends StatelessWidget {
 
                       Text(order.payment.type, textAlign: TextAlign.right, style: TextStyle(
                           fontSize: 13
-                      ))                    ])
+                      ))])
                   ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
                 ],
               ),
@@ -188,160 +192,6 @@ class DriverOrderDetailPage extends StatelessWidget {
   }
 }
 
-class _OrderItemWidget extends StatelessWidget {
-  final OrderItemHolder holder;
-  _OrderItemWidget(this.holder);
-
-  @override
-  Widget build(BuildContext context) {
-    final qty = _qty(holder);
-
-    return LocalizedView(
-      builder: (context,lang) =>
-       DarkContainer(
-        margin: const EdgeInsets.only(bottom: 15),
-        padding: const EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 35),
-        child: Column(children: [
-          OrderItemTile(holder),
-
-          if (holder.item is FinishingMaterialOrderItem)
-            Table(children: [
-              ..._buildVariants((holder.item as FinishingMaterialOrderItem).variants),
-
-              TableRow(children: [
-                Text(lang.quantity, style: TextStyle(
-                  height: 1.6,
-                  fontSize: 13,
-                  color: Colors.grey,
-                )),
-
-                Text('${(holder.item as FinishingMaterialOrderItem).qty} ${(holder.item as FinishingMaterialOrderItem).qty == 1 ? 'Piece' : 'Pieces'}',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(color: Color(0xFF313F53)),
-                )
-              ]),
-              // TableRow(children: [
-              //   Text(lang.price, style: TextStyle(
-              //     height: 1.6,
-              //     fontSize: 13,
-              //     color: Colors.grey,
-              //   )),
-              //
-              //   RichPriceText(price: (holder.item as FinishingMaterialOrderItem).price)
-              // ]),
-              TableRow(children: [
-                Text(lang.total, style: TextStyle(
-                  height: 2.5,
-                  fontSize: 13,
-                  color: Colors.grey,
-                )),
-
-                RichPriceText(price: holder.subtotal, fontWeight: FontWeight.bold)
-
-              ])
-            ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline)
-          else
-            Table(children: [
-              TableRow(children: [
-                Text(lang.quantity, style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 2)),
-                Text(AppLocalizations.of(context).nProducts(qty), textAlign: TextAlign.right, style: TextStyle(
-                    fontSize: 13
-                ))
-              ]),
-              // TableRow(children: [
-              //   Text(lang.price, style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 2)),
-              //   RichPriceText(price: holder.subtotal / qty, fontSize: 13)
-              // ]),
-
-              // TableRow(children: [
-              //   Text(lang.total, style: TextStyle(color: Colors.grey.shade600, fontSize: 13, height: 3)),
-              //   RichPriceText(price: holder.subtotal, fontWeight: FontWeight.bold)
-              // ]),
-            ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline)
-        ]),
-
-      ),
-    );
-  }
-
-  static int _qty(OrderItemHolder holder) {
-    if (holder.item is BuildingMaterialOrderItem) {
-      return (holder.item as BuildingMaterialOrderItem).qty;
-    }
-
-    return 1;
-  }
-}
-
-class OrderItemTile extends StatelessWidget {
-  final OrderItemHolder item;
-  OrderItemTile(this.item);
-
-  @override
-  Widget build(BuildContext context) {
-    String title;
-    String imageUrl;
-    dynamic product = item.item.product;
-
-    if (item.item is DumpsterOrderItem) {
-      title = '${product.size} Yards';
-      imageUrl = product.image.name;
-    } else if (item.item is BuildingMaterialOrderItem) {
-      title = product.name;
-      imageUrl = product.image.name;
-    } else if (item.item is FinishingMaterialOrderItem) {
-      title = product.name;
-      imageUrl = product.images.name;
-    }
-    else if (item.item is DeliveryVehicleOrderItem) {
-      title = product.name;
-      imageUrl = product.image.name;
-    }
-    else if (item.item is SingleScaffoldingOrderable) {
-      title = product.type;
-      imageUrl = product.image.name;
-    }
-    return ListTile(
-      contentPadding: const EdgeInsets.only(bottom: 15),
-      leading: Container(
-        width: 60,
-        decoration: BoxDecoration(
-            color: Color(0xEEFFFFFF),
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: [
-              BoxShadow(
-                  blurRadius: 5,
-                  spreadRadius: 1,
-                  color: Colors.grey.shade500
-              )
-            ],
-            image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(HaweyatiService.resolveImage(imageUrl))
-            )
-        ),
-      ),
-      title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-    );
-  }
-}
-_buildVariants(Map<String, dynamic> variants) {
-  final list = [];
-
-  variants?.forEach((key, value) {
-    list.add(TableRow(children: [
-      Text(key, style: TextStyle(
-        height: 1.6,
-        fontSize: 13,
-        color: Colors.grey,
-      )),
-
-      Text(value, style: TextStyle(color: Color(0xFF313F53)), textAlign: TextAlign.right)
-    ]));
-  });
-
-  return list;
-}
 
 class DriverBottomWidget extends StatefulWidget {
   final Order order;
@@ -351,40 +201,88 @@ class DriverBottomWidget extends StatefulWidget {
 }
 
 class _DriverBottomWidgetState extends State<DriverBottomWidget> {
+  static Order order;
   bool completed = false;
   bool accepted = false;
 
+  static Widget generateActionBtn(BuildContext context){
+    print(order.status);
+    switch(order.status){
+      case OrderStatus.pending:
+        return acceptOrder(context);
+        break;
+      case OrderStatus.accepted:
+        return acceptOrder(context);
+        break;
+      case OrderStatus.dispatched:
+       return completeOrder(context);
+        break;
+      case OrderStatus.preparing:
+        if(order.type == OrderType.deliveryVehicle)
+         return dispatchDeliveryVehicleOrder(context);
+        else
+          return SizedBox();
+        break;
+      default:
+        return SizedBox();
+        break;
+    }
+  }
 
 
   @override
+  void initState() {
+    super.initState();
+    order = widget.order;
+  }
+
+  static Widget acceptOrder(BuildContext context) => FlatActionButton(
+    label: "Accept Order",
+    icon: Icon(CupertinoIcons.checkmark_circle),
+    onPressed: () async {
+      bool confirm =  await showDialog(context: context,
+          builder: (context){
+            return ConfirmationDialog(title: Text('Are you sure you want to accept this order?'),
+            );
+          });
+      if(confirm!=null && confirm){
+        openLoadingDialog(context, "Accepting order");
+        var res = await HaweyatiService.patch('orders/add-driver', {
+          'driver' : AppData.driver.serialize(),
+          '_id' : order.id,
+          'flag' : true
+        });
+        Navigator.pop(context);
+        Navigator.pop(context);
+      }
+    },
+  );
+
+  static Widget completeOrder(BuildContext context) => FlatActionButton(
+    label: "Complete Order",
+    icon: Icon(CupertinoIcons.checkmark_circle),
+    onPressed: () {
+      CustomNavigator.navigateTo(context, MarkOrderCompleted(orderId: order.id,));
+    },
+  );
+
+
+  static Widget dispatchDeliveryVehicleOrder(BuildContext context) => FlatActionButton(
+    label: "Dispatch Order",
+    icon: Icon(CupertinoIcons.checkmark_circle),
+    onPressed: () async {
+        openLoadingDialog(context, "Dispatching order");
+        var res = await HaweyatiService.patch('orders/update-order-status', {
+          '_id' : order.id,
+          'status' : OrderStatus.dispatched.index
+        });
+        Navigator.pop(context);
+        Navigator.pop(context);
+    },
+  );
+
+  @override
   Widget build(BuildContext context) {
-    return widget.order.status == OrderStatus.accepted && !accepted ? RaisedActionButton(
-      label: "Accept Order",
-      onPressed: () async {
-        bool confirm =  await showDialog(context: context,
-            builder: (context){
-              return ConfirmationDialog(title: Text('Are you sure you want to accept this order?'),
-              );
-            });
-        if(confirm!=null && confirm){
-          openLoadingDialog(context, "Accepting order");
-          var res = await HaweyatiService.patch('orders/add-driver', {
-            'driver' : AppData.driver.serialize(),
-            '_id' :widget.order.id,
-            'flag' : true
-          });
-          // Navigator.pop(context);
-          Navigator.pop(context);
-          setState(() {
-            accepted=true;
-          });
-        }
-      },
-    ) : widget.order.status == OrderStatus.dispatched ?  RaisedActionButton(
-      label: "Mark as Completed",
-      onPressed: () async {
-        CustomNavigator.navigateTo(context, MarkOrderCompleted(orderId: widget.order.id,));
-      },
-    ) : SizedBox();
+    return generateActionBtn(context);
   }
 }

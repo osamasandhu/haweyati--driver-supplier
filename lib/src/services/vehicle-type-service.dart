@@ -1,4 +1,4 @@
-import 'package:haweyati_supplier_driver_app/model/vehicle-type.dart';
+import 'package:haweyati_client_data_models/models/order/vehicle-type.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 
 class VehicleTypesService extends HaweyatiService<VehicleType> {

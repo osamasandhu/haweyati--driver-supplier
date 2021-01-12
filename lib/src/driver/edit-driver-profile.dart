@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/model/vehicle-type.dart';
+import 'package:haweyati_client_data_models/models/order/vehicle-type.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/services/vehicle-type-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/haweyati-text-field.dart';
@@ -228,13 +228,7 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                               ) : AssetImage("assets/images/icon.png"),
                             ),
                             title: Text(_type.name),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Volume: " + _type.maxVolume.toString()),
-                                Text("Weight: " + _type.maxWeight.toString()),
-                              ],
-                            ),
+                            subtitle: Text("Volumetric Weight: " + _type.volumetricWeight.toString()),
                             trailing: Radio(
                                 value: _type.id,
                                 groupValue: selectedType.id,

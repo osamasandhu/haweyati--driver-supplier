@@ -111,7 +111,10 @@ class OrderTile extends StatelessWidget {
         return Colors.red[300];
         break;
       case OrderStatus.accepted:
-        return Colors.green;
+        if(order.payment.type == null)
+          return Colors.orangeAccent;
+        else
+          return Colors.green;
         break;
       case OrderStatus.dispatched:
         return Colors.deepOrangeAccent;

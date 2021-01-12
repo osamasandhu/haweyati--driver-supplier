@@ -64,7 +64,7 @@ class _DispatchOrderState extends State<DispatchOrder> {
               Padding(
                 padding: const EdgeInsets.only(bottom : 15.0),
                 child: Text(
-                    "Complete Order",
+                    "Dispatch Order",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,
@@ -75,7 +75,7 @@ class _DispatchOrderState extends State<DispatchOrder> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text("Please attach a photo confirming order completion."),
+                child: Text("Please attach a photo confirming order dispatching process."),
               ),
               ImagePickerWidget(
                 onImagePicked: (PickedFile file){

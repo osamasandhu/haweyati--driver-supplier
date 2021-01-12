@@ -1,4 +1,5 @@
 
+import 'package:haweyati_client_data_models/models/image_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/image_model.dart';
 
 class FinishingMaterialCategory {

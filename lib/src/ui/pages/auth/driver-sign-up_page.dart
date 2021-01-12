@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:haweyati_client_data_models/models/order/vehicle-type.dart';
 import 'package:haweyati_supplier_driver_app/model/vehicle-type.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
@@ -105,6 +106,8 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
               ));
               return;
             }
+
+            print(selectedType.toJson());
 
             openLoadingDialog(context, lang.signingUp);
             final map = Map<String, dynamic>.from({
@@ -273,13 +276,7 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
                             ) : AssetImage("assets/images/icon.png"),
                           ),
                           title: Text(_type.name),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Volume: " + _type.maxVolume.toString()),
-                              Text("Weight: " + _type.maxWeight.toString()),
-                            ],
-                          ),
+                          subtitle: Text("Volumetric Weight: " + _type.volumetricWeight.toString()),
                           trailing: Radio(
                               value: _type,
                               groupValue: selectedType,

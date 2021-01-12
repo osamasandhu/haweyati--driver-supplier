@@ -1,3 +1,4 @@
+import 'package:haweyati_client_data_models/models/image_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/image_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/rent_model.dart';
@@ -52,7 +53,7 @@ class Dumpster extends Orderable {
     'size': size,
     'suppliers': suppliers,
     'description': description,
-    'image': image.serialize(),
+    'image': image.toJson(),
     'pricing': pricing.map((e) => e.toJson()).toList()[0]
   };
 

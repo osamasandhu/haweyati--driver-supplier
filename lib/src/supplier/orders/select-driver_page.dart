@@ -21,7 +21,6 @@ class _SelectDriverPageState extends State<SelectDriverPage> {
   void initState() {
     super.initState();
     drivers = _service.getDriversBySupplier();
-    drivers.then((value) => print(value));
   }
 
   @override
@@ -72,7 +71,6 @@ class _SelectDriverPageState extends State<SelectDriverPage> {
                               setState(() {
                                 selectedDriver = val;
                               });
-                              print(selectedDriver);
                             }),
                       );
                     });

@@ -27,8 +27,10 @@ class SupplierHomePage extends StatefulWidget {
 class _SupplierHomePageState extends State<SupplierHomePage> {
   final _key = GlobalKey<ScaffoldState>();
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final _controller = ScrollController();
 
   var _selectedIndex = 0;
+  var _scrollToTop = false;
 
   List<Widget> _children = [
     SupplierPendingOrdersListing(),
@@ -135,7 +137,29 @@ class _SupplierHomePageState extends State<SupplierHomePage> {
             ): null
           ),
           key: _key,
-          body: _children[_selectedIndex],
+          body: NotificationListener<ScrollEndNotification>(
+            onNotification: (ScrollEndNotification notification) {
+              if (notification.metrics.pixels > 500) {
+                if (!_scrollToTop) setState(() => _scrollToTop = true);
+              } else {
+                if (_scrollToTop) setState(() => _scrollToTop = false);
+              }
+
+              return true;
+            },
+
+            child: _children[_selectedIndex],
+          ),
+          floatingActionButton: _scrollToTop ? FloatingActionButton(
+            elevation: 8,
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.grey.shade600,
+            child: Icon(Icons.arrow_upward),
+            onPressed: () async {
+              setState(() => _scrollToTop = false);
+              await _controller.animateTo(0, duration: Duration(seconds: 1), curve: Curves.ease);
+            },
+          ) : null,
           drawer: SupplierDrawer(),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,

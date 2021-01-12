@@ -1,3 +1,5 @@
+import 'package:haweyati_client_data_models/models/image_model.dart';
+
 import '../../image_model.dart';
 
 class BuildingMaterialCategory {
