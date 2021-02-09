@@ -168,6 +168,7 @@ class OrderItemTile extends StatelessWidget {
   Widget build(BuildContext context) {
     String title;
     String imageUrl;
+    String imagePath;
     dynamic product = item.item.product;
 
     if (item.item is DumpsterOrderItem) {
@@ -182,15 +183,14 @@ class OrderItemTile extends StatelessWidget {
     }
     else if (item.item is SingleScaffoldingOrderable) {
       title = product.type;
-      imageUrl = "6af31fbbec4b8a614867f206833cd21a";
+      imagePath = "assets/images/singleScaffolding.png";
     }
     else if (item.item is DeliveryVehicleOrderItem) {
       title = product.name;
       imageUrl = product.image.name;
     }
-
     return ListTile(
-      contentPadding: const EdgeInsets.only(bottom: 15),
+      contentPadding: const EdgeInsets.only(bottom: 10),
       leading: Container(
         width: 60,
         decoration: BoxDecoration(
@@ -205,7 +205,8 @@ class OrderItemTile extends StatelessWidget {
             ],
             image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(HaweyatiService.resolveImage(imageUrl))
+                image: imagePath == null ? NetworkImage(HaweyatiService.resolveImage(imageUrl))
+                    : AssetImage(imagePath)
             )
         ),
       ),
@@ -233,75 +234,67 @@ _buildVariants(Map<String, dynamic> variants) {
 
 class OrderDetailHeader extends StatelessWidget {
   final int status;
+
   OrderDetailHeader(this.status);
 
   Widget build(BuildContext context) {
-    return OrientationBuilder(
-        builder: (context, orientation) {
-          return Container(
-              width: 500,
-              height: 65,
-              child: Stack(
-                children: [
-                  CustomPaint(painter: _OrderStatusPainter(status)),
-                  Positioned(
-                      left:  30, top: 10,
-                      child: Icon(Icons.done_all, size: 20, color: Colors.white)
-                  ),
-                  Positioned(
-                      top: 9,
-                      left: 108,
-                      child: Image.asset(CartIcon, width: 23,)
-                  ),
-                  Positioned(
-                      right: 174,
-                      top: 10,
-                      child: Image.asset(SettingsIcon, width: 20)),
-                  Positioned(
-                      top: 10,
-                      right: 93,
-                      child: Image.asset(
-                        DeliveryVehicleIcon, width: 20, color: Colors.white,)
-                  ),
-                  Positioned(
-                      top: 9,
-                      right: 14,
-                      child: Image.asset(
-                        HomeIcon, width: 20, color: Colors.white,)
-                  ),
-                ],
-              )
-          );
-        }
+    return Container(
+      height: 65,
+      child: Stack(
+        children: [
+          CustomPaint(painter: OrderStatusPainter(status)),
+          Positioned(
+            left: 30,
+            top: 10,
+            child: Icon(Icons.done_all, size: 20, color: Colors.white),
+          ),
+          Positioned(
+            top: 7,
+            left: 95,
+            child: Image.asset(CartIcon, width: 28, color: Colors.white,),
+          ),
+          Positioned(
+            top: 9,
+            left: 169,
+            child: Image.asset(SettingsIcon, width: 22, color: Colors.white,),
+          ),
+          Positioned(
+            top: 7,
+            right: 95,
+            child: Image.asset(DeliveryVehicleIcon, width: 28, color: Colors.white,),
+          ),
+          Positioned(
+            right: 30,
+            top: 9,
+            child: Image.asset(HomeIcon, width: 20, color: Colors.white),
+          ),
+        ],
+      ),
     );
   }
 }
 
-
-class _OrderStatusPainter extends CustomPainter {
+class OrderStatusPainter extends CustomPainter {
   final int progress;
-  _OrderStatusPainter(this.progress);
+
+  OrderStatusPainter(this.progress);
 
   static TextPainter _genText(String text) {
     return TextPainter(
-        text: TextSpan(
-            text: text,
-            style: TextStyle(
-                fontSize: 10,
-                color: Colors.grey.shade700
-            )
-        ),
-        textDirection: TextDirection.ltr,
+      text: TextSpan(
+          text: text,
+          style: TextStyle(fontSize: 10, color: Colors.grey.shade700)),
+      textDirection: TextDirection.ltr,
     );
   }
 
   @override
   void paint(Canvas canvas, Size size) {
     final xOffset1 = 40.0;
-    final xOffset2 = 120.0;
-    final xOffset3 = 200.0;
-    final xOffset4 = 280.0;
-    final xOffset5 = 360.0;
+    final xOffset2 = 110.0;
+    final xOffset3 = 180.0;
+    final xOffset4 = 250.0;
+    final xOffset5 = 320.0;
 
     final txt1 = _genText('Order Placed')..layout();
     final txt2 = _genText('Accepted')..layout();
@@ -323,16 +316,25 @@ class _OrderStatusPainter extends CustomPainter {
     txt4.paint(canvas, Offset(xOffset4 - txt4.width / 2, 50));
     txt5.paint(canvas, Offset(xOffset5 - txt5.width / 2, 50));
 
-    canvas.drawLine(Offset(xOffset1, 20), Offset(xOffset2, 20), progress > 0 ? _donePainter : _unDonePainter);
-    canvas.drawLine(Offset(xOffset2, 20), Offset(xOffset3, 20), progress > 2 ? _donePainter : _unDonePainter);
-    canvas.drawLine(Offset(xOffset3, 20), Offset(xOffset4, 20), progress > 4 ? _donePainter : _unDonePainter);
-    canvas.drawLine(Offset(xOffset4, 20), Offset(xOffset5, 20), progress > 5 ? _donePainter : _unDonePainter);
+    canvas.drawLine(Offset(xOffset1, 20), Offset(xOffset2, 20),
+        progress > 0 ? _donePainter : _unDonePainter);
+    canvas.drawLine(Offset(xOffset2, 20), Offset(xOffset3, 20),
+        progress > 2 ? _donePainter : _unDonePainter);
+    canvas.drawLine(Offset(xOffset3, 20), Offset(xOffset4, 20),
+        progress > 4 ? _donePainter : _unDonePainter);
+    canvas.drawLine(Offset(xOffset4, 20), Offset(xOffset5, 20),
+        progress > 5 ? _donePainter : _unDonePainter);
 
-    canvas.drawCircle(Offset(xOffset1, 20), 20, progress >= 0 ? _donePainter : _unDonePainter);
-    canvas.drawCircle(Offset(xOffset2, 20), 20, progress >= 1 ? _donePainter : _unDonePainter);
-    canvas.drawCircle(Offset(xOffset3, 20), 20, progress >= 2 ? _donePainter : _unDonePainter);
-    canvas.drawCircle(Offset(xOffset4, 20), 20, progress >= 3 ? _donePainter : _unDonePainter);
-    canvas.drawCircle(Offset(xOffset5, 20), 20, progress >= 4 ? _donePainter : _unDonePainter);
+    canvas.drawCircle(Offset(xOffset1, 20), 20,
+        progress >= 0 ? _donePainter : _unDonePainter);
+    canvas.drawCircle(Offset(xOffset2, 20), 20,
+        progress >= 1 ? _donePainter : _unDonePainter);
+    canvas.drawCircle(Offset(xOffset3, 20), 20,
+        progress >= 2 ? _donePainter : _unDonePainter);
+    canvas.drawCircle(Offset(xOffset4, 20), 20,
+        progress >= 3 ? _donePainter : _unDonePainter);
+    canvas.drawCircle(Offset(xOffset5, 20), 20,
+        progress >= 4 ? _donePainter : _unDonePainter);
   }
 
   @override

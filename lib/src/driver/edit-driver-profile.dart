@@ -113,11 +113,11 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                   "longitude" : _userLocation.longitude,
                   "vehicleName" : _vehicleName.text,
                   "model" : _model.text,
-                  "type" : selectedType.toJson(),
+                  "type" : selectedType.id,
                   "identificationNo" : _identification.text,
                   // "city" : _userLocation.city,
                   "address" : _userLocation.address,
-                  'isVehicleInfoChanged' : isVehicleInfoModified()
+                  'isVehicleInfoChanged' : isVehicleInfoChanged
                 });
 
                 if(imagePath!=null){
@@ -220,6 +220,7 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                         padding: EdgeInsets.only(bottom: 30),
                         itemBuilder: (context, index) {
                           VehicleType _type = snapshot[index];
+                          print(_type.id);
                           return ListTile(
                             leading: CircleAvatar(
                               backgroundColor: Colors.transparent,
@@ -234,7 +235,7 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                                 groupValue: selectedType.id,
                                 onChanged: (val) {
                                   setState(() {
-                                    selectedType = val;
+                                    selectedType = snapshot.where((element) => element.id == val).first;
                                   });
                                   // print(selectedType);
                                 }),

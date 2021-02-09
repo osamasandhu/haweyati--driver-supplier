@@ -11,6 +11,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/message-dialog.dart'
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/raised-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/scroll_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-form.dart';
+import 'package:haweyati_supplier_driver_app/utils/lazy_task.dart';
 import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
 import 'package:image_picker/image_picker.dart';
 class MarkOrderCompleted extends StatefulWidget {
@@ -42,17 +43,17 @@ class _MarkOrderCompletedState extends State<MarkOrderCompleted> {
           if(image==null){
             showSimpleSnackbar(scaffoldKey, "Please select an image");
           } else {
-            openLoadingDialog(context, "Marking order as completed");
-            await HaweyatiService.patch("orders/update-order-status", {
-              '_id' : widget.orderId,
-              'status' : OrderStatus.delivered.index
-            });
-            await HaweyatiService.patch('orders/add-image', FormData.fromMap({
-              'id': widget.orderId,
-              'image' :  await MultipartFile.fromFile(image.path),
-              'sort' : 'driver'
-                }));
-            Navigator.pop(context);
+            await performLazyTask(context, () async {
+              await HaweyatiService.patch("orders/update-order-status", {
+                '_id' : widget.orderId,
+                'status' : OrderStatus.delivered.index
+              });
+              await HaweyatiService.patch('orders/add-image', FormData.fromMap({
+                'id': widget.orderId,
+                'image' :  await MultipartFile.fromFile(image.path),
+                'sort' : 'driver'
+              }));
+            },message: 'Marking order as completed');
             openMessageDialog(context, "Order completed successfully!",3);
           }
         },

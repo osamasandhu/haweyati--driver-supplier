@@ -55,6 +55,7 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
   String shopParentId;
   final _model = new TextEditingController();
   final _vehicleName = new TextEditingController();
+  final liveLocationLink = new TextEditingController();
   final _identification = new TextEditingController();
   Future<List<SupplierModel>> suppliers;
 
@@ -122,6 +123,8 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
               "supplier" : shopParentId,
               "vehicleName" : _vehicleName.text,
               "model" : _model.text,
+              "liveLocation" : liveLocationLink.text,
+              "lastUpdatedLocation" : DateTime.now().toIso8601String(),
               "type" : selectedType.toJson(),
               "identificationNo" : _identification.text,
               // "city" : _userLocation.city,
@@ -228,7 +231,6 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
                 validator: widget.person==null ? (value) => passwordValidator(value) : null,
                 context: context,
               ) : SizedBox(),
-
             LocationPickerWidget(
               onChanged: (location){
                 if(location!=null){
@@ -236,7 +238,16 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
                 }
               },
             ),
-
+            Padding(
+              padding: const EdgeInsets.only(top:10.0),
+              child: HaweyatiTextField(
+                label: "Live Location Link",
+                controller: liveLocationLink,
+                validator: (value) {
+                  return value.isEmpty ? "Please share your live location link" : null;
+                },
+              ),
+            ),
               // Padding(
               //   padding: const EdgeInsets.only(top: 15),
               //   child: DarkContainer(child: Container(height: 100)),

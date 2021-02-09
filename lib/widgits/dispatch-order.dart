@@ -10,6 +10,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart'
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/message-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/scroll_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-form.dart';
+import 'package:haweyati_supplier_driver_app/utils/lazy_task.dart';
 import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -42,17 +43,17 @@ class _DispatchOrderState extends State<DispatchOrder> {
           if(image==null){
             showSimpleSnackbar(scaffoldKey, "Please select an image.");
           } else {
-            openLoadingDialog(context, "Marking order as dispatched");
-            await HaweyatiService.patch("orders/update-order-status", {
-              '_id' : widget.orderId,
-              'status' : OrderStatus.dispatched.index
-            });
-            await HaweyatiService.patch('orders/add-image', FormData.fromMap({
-              'id': widget.orderId,
-              'image' :  await MultipartFile.fromFile(image.path),
-              'sort' : 'Supplier: ${AppData.supplier.person.name}'
-            }));
-            Navigator.pop(context);
+           await performLazyTask(context, () async {
+              await HaweyatiService.patch("orders/update-order-status", {
+                '_id' : widget.orderId,
+                'status' : OrderStatus.dispatched.index
+              });
+              await HaweyatiService.patch('orders/add-image', FormData.fromMap({
+                'id': widget.orderId,
+                'image' :  await MultipartFile.fromFile(image.path),
+                'sort' : 'Supplier: ${AppData.supplier.person.name}'
+              }));
+            },message: 'Marking order as dispatched');
             openMessageDialog(context, "Order dispatched successfully!",3);
           }
         },

@@ -23,6 +23,7 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dar
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/flat-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/message-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/raised-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/rich-price-text.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/scroll_view.dart';
@@ -97,13 +98,13 @@ class DriverOrderDetailPage extends StatelessWidget {
         //   },
         // ) : SizedBox(),
           showBackground: true,
-          padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
+           padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
           appBar: HaweyatiAppBar(actions: [],),
           children: [
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 40),
               sliver: SliverToBoxAdapter(child: Center(child: SizedBox(
-                  width: 384,
+                  width: 360,
                   child: OrderDetailHeader(order.status.index))
               )),
             ),
@@ -139,7 +140,7 @@ class DriverOrderDetailPage extends StatelessWidget {
                   //
                   //   RichPriceText(price: order.total - order.deliveryFee, fontSize: 13)
                   // ]),
-                  if(order.payment.type == 'COD')
+                  if(order.payment == 'COD')
                   TableRow(children: [
                     Text(lang.deliveryFee, style: TextStyle(
                       height: 2, fontSize: 13,
@@ -157,7 +158,7 @@ class DriverOrderDetailPage extends StatelessWidget {
               child: Column(
                 children: [
                   Table(children: [
-                    if(order.payment.type == 'COD') TableRow(children: [
+                    if(order.payment == 'COD') TableRow(children: [
                       Text(lang.total, style: TextStyle(
                         height: 2,
                         fontSize: 13,
@@ -169,7 +170,7 @@ class DriverOrderDetailPage extends StatelessWidget {
                     ])
                   ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
 
-               if(order.payment.type !=null) Table(children: [
+               if(order.payment !=null) Table(children: [
                     TableRow(children: [
                       Text(lang.paymentType, style: TextStyle(
                         height: 2,
@@ -178,10 +179,11 @@ class DriverOrderDetailPage extends StatelessWidget {
                         color: Colors.grey.shade600,
                       )),
 
-                      Text(order.payment.type, textAlign: TextAlign.right, style: TextStyle(
+                      Text(order.payment, textAlign: TextAlign.right, style: TextStyle(
                           fontSize: 13
                       ))])
                   ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
+                  SizedBox(height: 50,)
                 ],
               ),
             ),
@@ -247,11 +249,19 @@ class _DriverBottomWidgetState extends State<DriverBottomWidget> {
           });
       if(confirm!=null && confirm){
         openLoadingDialog(context, "Accepting order");
-        var res = await HaweyatiService.patch('orders/add-driver', {
-          'driver' : AppData.driver.serialize(),
-          '_id' : order.id,
-          'flag' : true
-        });
+        var res;
+        try {
+          res = await HaweyatiService.patch('orders/add-driver', {
+            'driver' : AppData.driver.serialize(),
+            '_id' : order.id,
+            'flag' : true
+          });
+        } catch (e){
+          print(e);
+          openMessageDialog(context, e.message);
+         return;
+        }
+
         Navigator.pop(context);
         Navigator.pop(context);
       }

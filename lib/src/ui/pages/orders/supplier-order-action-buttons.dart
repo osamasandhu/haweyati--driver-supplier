@@ -35,19 +35,19 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-           if(order.driver !=null)  dispatchOrder(context) else if(order.type == OrderType.dumpster) assignDriver(context),
+           if(order.driver !=null && order.payment!=null)  dispatchOrder(context) else if(order.type == OrderType.dumpster) assignDriver(context),
             if(order.driver==null) cancelOrder(context),
           ],
         );
         break;
       case OrderStatus.accepted:
-        return order.driver !=null && order.payment.type!=null ?
+        return order.driver !=null && order.payment!=null ?
         dispatchOrder(context) : Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             if(order.driver==null && order.type == OrderType.dumpster)  assignDriver(context),
             if(order.driver==null) cancelOrder(context),
-            if(order.payment.type == null && order.driver !=null) Padding(
+            if(order.payment == null && order.driver !=null) Padding(
               padding: const EdgeInsets.only(bottom: 40.0),
               child: Text("Order is awaiting payment confirmation from customer.",style: TextStyle(
                 color: Colors.red

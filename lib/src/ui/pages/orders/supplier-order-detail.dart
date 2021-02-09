@@ -43,7 +43,7 @@ class SupplierOrderDetailPage extends StatelessWidget {
       ScrollableView.sliver(
         bottom: SupplierOrderActionButton(order: order,),
           showBackground: true,
-          padding: const EdgeInsets.fromLTRB(15, 0, 15, 30),
+          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
           appBar: HaweyatiAppBar(actions: [
             IconButton(
                 icon: Image.asset(CustomerCareIcon, width: 20),
@@ -54,7 +54,7 @@ class SupplierOrderDetailPage extends StatelessWidget {
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 40),
               sliver: SliverToBoxAdapter(child: Center(child: SizedBox(
-                width: 384,
+                width: 360,
                 child: OrderDetailHeader(order.status.index))
               )),
             ),
@@ -121,7 +121,7 @@ class SupplierOrderDetailPage extends StatelessWidget {
                       RichPriceText(price: order.total, fontWeight: FontWeight.bold, fontSize: 18)
                     ])
                   ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
-                 if(order.payment.type !=null) Table(children: [
+                 if(order.payment !=null) Table(children: [
                     TableRow(children: [
                       Text(lang.paymentType, style: TextStyle(
                         height: 2,
@@ -130,7 +130,7 @@ class SupplierOrderDetailPage extends StatelessWidget {
                         color: Colors.grey.shade600,
                       )),
 
-                      Text(order.payment.type, textAlign: TextAlign.right, style: TextStyle(
+                      Text(order.payment, textAlign: TextAlign.right, style: TextStyle(
                           fontSize: 13
                       ))
                     ]),

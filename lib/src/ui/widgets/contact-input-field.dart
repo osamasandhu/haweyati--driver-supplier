@@ -57,7 +57,7 @@ class _ContactInputFieldState extends State<ContactInputField> {
               widget.onChanged(_code.code + value, false);
             }
           },
-          keyboardType: TextInputType.number,
+          keyboardType: TextInputType.phone,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly
           ],

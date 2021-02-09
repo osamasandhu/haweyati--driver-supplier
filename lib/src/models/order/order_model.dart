@@ -41,7 +41,7 @@ class Order extends HiveObject implements JsonSerializable {
 
   Customer customer;
 
-  Payment payment;
+  String payment;
   OrderLocation location;
   List<OrderImage> images;
   List<OrderItemHolder> items;
@@ -121,8 +121,7 @@ class Order extends HiveObject implements JsonSerializable {
       total: json['total']?.toDouble(),
       deliveryFee: json['deliveryFee']?.toDouble() ?? 0.0,
       createdAt: DateTime.parse(json['createdAt']),
-      payment: Payment.fromJson(/*json['payment'] ?? */json),
-
+      payment: json['paymentType'],
       customer: Customer.fromJson(json['customer']),
       driver: json['driver'] !=null ? Driver.fromJson(json['driver']) : null,
       location: OrderLocation.fromJson(json['dropoff']),
@@ -165,8 +164,8 @@ class Order extends HiveObject implements JsonSerializable {
     'location': location.serialize(),
 
     'customer': customer,
-    'paymentType': payment?.type,
-    'paymentIntentId': payment?.intentId,
+    // 'paymentType': payment?.type,
+    // 'paymentIntentId': payment?.intentId,
   };
 
   @override Map<String, dynamic> serialize() => toJson();

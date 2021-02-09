@@ -15,6 +15,7 @@ class Driver extends HiveObject {
   @HiveField(5) Location location;
   @HiveField(6) Profile profile;
   @HiveField(7) String message;
+  @HiveField(8) String liveLocation;
 
   Driver({
     this.sId,
@@ -25,6 +26,7 @@ class Driver extends HiveObject {
     this.vehicle,
     this.profile,
     this.location,
+    this.liveLocation,
   });
 
   Driver.fromJson(Map<String, dynamic> json) {
@@ -45,6 +47,7 @@ class Driver extends HiveObject {
         : null;
     city = json['city'];
     message = json['message'];
+    liveLocation = json['liveLocation'];
   }
 
   Map<String, dynamic> serialize() {
@@ -64,6 +67,7 @@ class Driver extends HiveObject {
     }
     data['city'] = this.city;
     data['message'] = this.message;
+    data['liveLocation'] = this.liveLocation;
 
     return data;
   }

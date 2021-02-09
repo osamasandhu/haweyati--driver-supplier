@@ -1,5 +1,6 @@
 
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/src/driver/edit-driver-profile.dart';
@@ -8,7 +9,12 @@ import 'package:haweyati_supplier_driver_app/src/ui/pages/auth/pre-sign-in_page.
 import 'package:haweyati_supplier_driver_app/src/ui/pages/change-password.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/flat-action-button.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/haweyati-text-field.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/raised-action-button.dart';
+import 'package:haweyati_supplier_driver_app/utils/lazy_task.dart';
+import 'package:haweyati_supplier_driver_app/utils/validators.dart';
 import 'package:haweyati_supplier_driver_app/widgits/rating-bar.dart';
 
 class DriverDrawer extends StatelessWidget {
@@ -83,6 +89,13 @@ class DriverDrawer extends StatelessWidget {
                     icon: Icons.lock
                 ),
                 _buildListTile(
+                    title: "Update Location Link",
+                    onTap: () async {
+                      showDialog(context: context,builder: (ctx)=> UpdateLocationDialog());
+                    },
+                    icon: Icons.location_on_rounded
+                ),
+                _buildListTile(
                     title: lang.logout,
                     onTap: () async {
                       openLoadingDialog(context, lang.signingOut);
@@ -104,6 +117,47 @@ class DriverDrawer extends StatelessWidget {
       onTap: onTap,
       leading: Icon(icon,color: Colors.white, size: 30),
       title: Text(title, style: TextStyle(color: Colors.white)),
+    );
+  }
+}
+
+
+class UpdateLocationDialog extends StatefulWidget {
+  @override
+  _UpdateLocationDialogState createState() => _UpdateLocationDialogState();
+}
+
+class _UpdateLocationDialogState extends State<UpdateLocationDialog> {
+  var link = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text("Update Location Link"),
+      content: HaweyatiTextField(
+        controller: link,
+        label: 'Link',
+        validator: (value)=> emptyValidator(value, 'Link'),
+        icon: CupertinoIcons.link,
+      ),
+      actions: [
+        FlatButton(
+          onPressed: () async {
+            if(link.text.isNotEmpty){
+             await performLazyTask(context, () async {
+               await HaweyatiService.patch('drivers/update-location', {
+                 '_id' : AppData.driver.sId,
+                 'liveLocation' : link.text,
+                 'lastUpdatedLocation' : DateTime.now().toIso8601String()
+               });
+             });
+             Navigator.of(context).pop();
+            }
+
+          },child: Text("Update"),
+          color: Theme.of(context).primaryColor,
+        )
+      ],
     );
   }
 }
