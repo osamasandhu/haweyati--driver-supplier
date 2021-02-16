@@ -9,12 +9,14 @@ class FinishingMaterialOrderItem extends OrderItem {
   @HiveField(1) int qty;
   @HiveField(2) double price;
   @HiveField(3) Map<String, dynamic> variants;
+  @HiveField(4) bool selected;
 
   FinishingMaterialOrderItem({
     FinishingMaterial product,
     this.qty = 0,
     this.price = 0.0,
     this.variants = const {},
+    this.selected = false,
   }): super(product);
 
   static FinishingMaterialOrderItem fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class FinishingMaterialOrderItem extends OrderItem {
       qty: json['qty'],
       price: json['price']?.toDouble(),
       variants: json['variants'],
+        selected: json['selected'] ?? false,
       product: FinishingMaterial.fromJson(json['product'])
     );
   }
@@ -33,6 +36,7 @@ class FinishingMaterialOrderItem extends OrderItem {
       ..addAll({
         'qty': qty,
         'price': price,
-        'variants': variants
+        'variants': variants,
+        'selected' : selected
       });
 }

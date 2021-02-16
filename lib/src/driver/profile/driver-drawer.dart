@@ -151,6 +151,8 @@ class _UpdateLocationDialogState extends State<UpdateLocationDialog> {
                  'lastUpdatedLocation' : DateTime.now().toIso8601String()
                });
              });
+             AppData.driver.liveLocation = link.text;
+             await AppData.driver.save();
              Navigator.of(context).pop();
             }
 

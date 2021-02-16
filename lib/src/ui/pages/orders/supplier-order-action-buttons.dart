@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/drivers_service.dart';
@@ -11,6 +12,8 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/flat-action-button.d
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/message-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/raised-action-button.dart';
+import 'package:haweyati_supplier_driver_app/utils/lazy_task.dart';
+import 'package:haweyati_supplier_driver_app/utils/toast_utils.dart';
 import 'package:haweyati_supplier_driver_app/widgits/cancel-order-supplier.dart';
 import 'package:haweyati_supplier_driver_app/widgits/dispatch-order.dart';
 
@@ -26,7 +29,9 @@ class SupplierOrderActionButton extends StatefulWidget {
 class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
   static Order order;
 
+
   static Widget generateActionBtn(BuildContext context){
+    bool hasSelectedItemsBefore = order.items.any((e) => (e.item as FinishingMaterialOrderItem).selected == true);
     switch(order.status){
       case OrderStatus.pending:
         return acceptOrder(context);
@@ -46,7 +51,8 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
           mainAxisSize: MainAxisSize.min,
           children: [
             if(order.driver==null && order.type == OrderType.dumpster)  assignDriver(context),
-            if(order.driver==null) cancelOrder(context),
+            if(order.driver==null && order.type == OrderType.finishingMaterial && !hasSelectedItemsBefore)  acceptItems(context),
+            if(order.driver==null && order.payment == null) cancelOrder(context),
             if(order.payment == null && order.driver !=null) Padding(
               padding: const EdgeInsets.only(bottom: 40.0),
               child: Text("Order is awaiting payment confirmation from customer.",style: TextStyle(
@@ -162,8 +168,30 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
         Navigator.pop(context);
         Navigator.pop(context);
         Navigator.pop(context);
-      }
-
-    },
+      }},
   );
+
+  static Widget acceptItems(BuildContext context) => RaisedActionButton(
+    label: "Accept Items",
+    padding: EdgeInsets.only(top: 0),
+    icon: Icon(CupertinoIcons.checkmark_circle),
+    onPressed: () async { var items = [];
+    for(int i=0; i<order.items.length;++i){
+      if((order.items[i].item as FinishingMaterialOrderItem).selected) items.add(i);
+    }
+    if(items.isEmpty){
+      showErrorToast("You must accept at least one item.");
+    } else {
+      Map<String,dynamic> data = {
+        '_id' : order.id,
+        'selected' : items
+      };
+      print(data);
+     await performLazyTask(context, ()async {
+        await HaweyatiService.patch('orders/select-items', data);
+      });
+     Navigator.pop(context);
+    }},
+  );
+
 }

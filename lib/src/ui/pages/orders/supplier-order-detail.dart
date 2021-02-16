@@ -67,18 +67,10 @@ class SupplierOrderDetailPage extends StatelessWidget {
             ),
 
           SupplierUtils.canAcceptAllOrder(order) ? SliverList(delegate: SliverChildBuilderDelegate(
-                    (context, index) => OrderItemWidget(order.items[index]),
-                childCount: order.items.length
-            )) :
-          SliverList(delegate: SliverChildBuilderDelegate(
-                  (context, index) => SupplierItemSelector(
-                index: index,
-                order: order,
-                orderId: order.id,
-                widget: OrderItemWidget(order.items[index]),
-              ),
-              childCount: order.items.length
-          )),
+                    (context, index) => OrderItemWidget(
+                        order.items[index],SupplierUtils.cannotAcceptFinishingItems(order)),
+                childCount: order.items.length,
+            )) : SliverToBoxAdapter(),
 
             SliverToBoxAdapter(
               child: Table(

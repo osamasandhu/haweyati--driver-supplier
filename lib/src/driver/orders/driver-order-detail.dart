@@ -72,31 +72,6 @@ class DriverOrderDetailPage extends StatelessWidget {
           },
         ),
         bottom: DriverBottomWidget(order: order,),
-        // bottom:  order.status == OrderStatus.accepted || (order.type == OrderType.deliveryVehicle && order.status == OrderStatus.pending) ? RaisedActionButton(
-        //   label: lang.acceptOrder,
-        //   onPressed: () async {
-        //     bool confirm =  await showDialog(context: context,
-        //         builder: (context){
-        //           return ConfirmationDialog(title: Text(lang.sureAcceptOrder),
-        //           );
-        //         });
-        //     if(confirm!=null && confirm){
-        //       openLoadingDialog(context, lang.acceptingOrder);
-        //       var res = await HaweyatiService.patch('orders/add-driver', {
-        //         'driver' : AppData.driver.serialize(),
-        //         '_id' :order.id,
-        //         'flag' : true
-        //       });
-        //       Navigator.pop(context);
-        //       Navigator.pop(context);
-        //     }
-        //   },
-        // ) : order.status == OrderStatus.dispatched || (order.type == OrderType.deliveryVehicle && order.status == OrderStatus.preparing) ? RaisedActionButton(
-        //   label: lang.markCompleted,
-        //   onPressed: () async {
-        //    CustomNavigator.navigateTo(context, MarkOrderCompleted(orderId: order.id,));
-        //   },
-        // ) : SizedBox(),
           showBackground: true,
            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
           appBar: HaweyatiAppBar(actions: [],),
@@ -122,8 +97,11 @@ class DriverOrderDetailPage extends StatelessWidget {
                 initialValue: (order.items.first.item as dynamic).pickUp,
                 edit: false,)),
             ),
+
             SliverList(delegate: SliverChildBuilderDelegate(
-                    (context, index) =>OrderItemWidget(order.items[index]),
+                    (context, index) =>OrderItemWidget(
+                        order.items[index]
+                    ),
                 childCount: order.items.length
             )),
 

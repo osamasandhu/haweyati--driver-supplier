@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:haweyati_client_data_models/models/order/products/delivery-vehicle_orderable.dart';
+import 'package:haweyati_client_data_models/widgets/variants-tablerow.dart';
 import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/building-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/delivery-vehicle/order-item_model.dart';
@@ -18,7 +19,8 @@ import 'package:haweyati_supplier_driver_app/utils/const.dart';
 
 class OrderItemWidget extends StatelessWidget {
   final OrderItemHolder holder;
-  OrderItemWidget(this.holder);
+  final bool cannotAcceptFinishingItems;
+  OrderItemWidget(this.holder,[this.cannotAcceptFinishingItems=true]);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class OrderItemWidget extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 15),
             padding: const EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 35),
             child: Column(children: [
-              OrderItemTile(holder),
+              OrderItemTile(holder,cannotAcceptFinishingItems),
               if (holder.item is SingleScaffoldingOrderable)
                 Table(children: [
                   TableRow(children: [
@@ -39,7 +41,6 @@ class OrderItemWidget extends StatelessWidget {
                       fontSize: 13,
                       color: Colors.grey,
                     )),
-
                     Text('${(holder.item as SingleScaffoldingOrderable).days}',
                       textAlign: TextAlign.right,
                       style: TextStyle(color: Color(0xFF313F53)),
@@ -51,7 +52,6 @@ class OrderItemWidget extends StatelessWidget {
                       fontSize: 13,
                       color: Colors.grey,
                     )),
-
                     Text('${(holder.item as SingleScaffoldingOrderable).wheels}',
                       textAlign: TextAlign.right,
                       style: TextStyle(color: Color(0xFF313F53)),
@@ -63,7 +63,6 @@ class OrderItemWidget extends StatelessWidget {
                       fontSize: 13,
                       color: Colors.grey,
                     )),
-
                     Text('${(holder.item as SingleScaffoldingOrderable).connections}',
                       textAlign: TextAlign.right,
                       style: TextStyle(color: Color(0xFF313F53)),
@@ -75,26 +74,15 @@ class OrderItemWidget extends StatelessWidget {
                       fontSize: 13,
                       color: Colors.grey,
                     )),
-
                     Text('${(holder.item as SingleScaffoldingOrderable).mesh} (Quantity: ${(holder.item as SingleScaffoldingOrderable).meshQty})',
                       textAlign: TextAlign.right,
                       style: TextStyle(color: Color(0xFF313F53)),
                     )
                   ]),
-                  // TableRow(children: [
-                  //   Text(lang.price, style: TextStyle(
-                  //     height: 1.6,
-                  //     fontSize: 13,
-                  //     color: Colors.grey,
-                  //   )),
-                  //
-                  //   RichPriceText(price: (holder.item as SingleScaffoldingOrderable))
-                  // ]),
-
                 ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
               if (holder.item is FinishingMaterialOrderItem)
                 Table(children: [
-                  ..._buildVariants((holder.item as FinishingMaterialOrderItem).variants),
+                  ...buildVariants((holder.item as FinishingMaterialOrderItem).variants),
 
                   TableRow(children: [
                     Text(lang.quantity, style: TextStyle(
@@ -160,32 +148,39 @@ class OrderItemWidget extends StatelessWidget {
   }
 }
 
-class OrderItemTile extends StatelessWidget {
+class OrderItemTile extends StatefulWidget {
   final OrderItemHolder item;
-  OrderItemTile(this.item);
+  final bool cannotAcceptFinishingItems;
+  OrderItemTile(this.item,this.cannotAcceptFinishingItems);
 
   @override
+  _OrderItemTileState createState() => _OrderItemTileState();
+}
+
+class _OrderItemTileState extends State<OrderItemTile> {
+  @override
   Widget build(BuildContext context) {
+    bool isFinishingMaterial = widget.item.item is FinishingMaterialOrderItem;
     String title;
     String imageUrl;
     String imagePath;
-    dynamic product = item.item.product;
+    dynamic product = widget.item.item.product;
 
-    if (item.item is DumpsterOrderItem) {
+    if (widget.item.item is DumpsterOrderItem) {
       title = '${product.size} Yards';
       imageUrl = product.image.name;
-    } else if (item.item is BuildingMaterialOrderItem) {
-      title = product.name + " (${(item.item as dynamic).price.unit})";
+    } else if (widget.item.item is BuildingMaterialOrderItem) {
+      title = product.name + " (${(widget.item.item as dynamic).price.unit})";
       imageUrl = product.image.name;
-    } else if (item.item is FinishingMaterialOrderItem) {
+    } else if (widget.item.item is FinishingMaterialOrderItem) {
       title = product.name;
       imageUrl = product.images.name;
     }
-    else if (item.item is SingleScaffoldingOrderable) {
+    else if (widget.item.item is SingleScaffoldingOrderable) {
       title = product.type;
       imagePath = "assets/images/singleScaffolding.png";
     }
-    else if (item.item is DeliveryVehicleOrderItem) {
+    else if (widget.item.item is DeliveryVehicleOrderItem) {
       title = product.name;
       imageUrl = product.image.name;
     }
@@ -204,32 +199,24 @@ class OrderItemTile extends StatelessWidget {
               )
             ],
             image: DecorationImage(
-                fit: BoxFit.cover,
-                image: imagePath == null ? NetworkImage(HaweyatiService.resolveImage(imageUrl))
+                fit: BoxFit.contain,
+                image: imagePath == null ?
+                NetworkImage(HaweyatiService.resolveImage(imageUrl))
                     : AssetImage(imagePath)
             )
         ),
       ),
+      trailing: isFinishingMaterial  ? Checkbox(
+        value: (widget.item.item as FinishingMaterialOrderItem).selected,
+        onChanged: widget.cannotAcceptFinishingItems ? null: (bool val){
+          setState(() {
+            (widget.item.item as FinishingMaterialOrderItem).selected = val;
+          });
+        },
+      ) : null,
       title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
     );
   }
-}
-_buildVariants(Map<String, dynamic> variants) {
-  final list = [];
-
-  variants?.forEach((key, value) {
-    list.add(TableRow(children: [
-      Text(key, style: TextStyle(
-        height: 1.6,
-        fontSize: 13,
-        color: Colors.grey,
-      )),
-
-      Text(value, style: TextStyle(color: Color(0xFF313F53)), textAlign: TextAlign.right)
-    ]));
-  });
-
-  return list;
 }
 
 class OrderDetailHeader extends StatelessWidget {

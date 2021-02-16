@@ -1,3 +1,4 @@
+import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 
 abstract class SupplierUtils {
@@ -15,5 +16,8 @@ abstract class SupplierUtils {
   static int orderTime (Order order) {
     return DateTime.now().difference(order.createdAt).inMinutes;
   }
+
+  static bool cannotAcceptFinishingItems (Order order) => order.items.any((e) => (e.item as FinishingMaterialOrderItem).selected == true);
+
 
 }
