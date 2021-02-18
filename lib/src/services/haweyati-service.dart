@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:haweyati_supplier_driver_app/utils/toast_utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,8 +15,6 @@ abstract class HaweyatiService<T> {
 
   Dio dio = Dio();
   SharedPreferences prefs;
-
-
 
   Future<List<T>> getAll(String route) async {
    // print(route);
@@ -124,6 +123,7 @@ abstract class HaweyatiService<T> {
         print(e.response.data);
         print(e.response.headers);
         print(e.response.request);
+        showErrorToast(e.response.data['message']);
       } else {
         // Something happened in setting up or sending the request that triggered an Error
         print(e.request);

@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:haweyati_client_data_models/models/image_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
-import '../../image_model.dart';
 part 'delivery-vehicle_model.g.dart';
 
 @JsonSerializable(includeIfNull: false)

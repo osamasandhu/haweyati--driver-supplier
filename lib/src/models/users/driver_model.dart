@@ -2,7 +2,6 @@ import 'package:hive/hive.dart';
 import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/vehicle_model.dart';
-
 part 'driver_model.g.dart';
 
 @HiveType(typeId: 1)

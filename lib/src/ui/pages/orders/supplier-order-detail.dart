@@ -1,16 +1,11 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
-import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
-import 'package:haweyati_supplier_driver_app/src/models/order/building-material/order-item_model.dart';
-import 'package:haweyati_supplier_driver_app/src/models/order/dumpster/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
-import 'package:haweyati_supplier_driver_app/src/models/services/finishing-material/model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/supplier/orders/select-driver_page.dart';
@@ -20,18 +15,14 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/widgets/raised-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/rich-price-text.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/scroll_view.dart';
 import 'package:haweyati_supplier_driver_app/utils/const.dart';
 import 'package:haweyati_supplier_driver_app/widgits/cancel-order-supplier.dart';
-import 'package:haweyati_supplier_driver_app/widgits/confirmation-dialog.dart';
-import 'package:haweyati_supplier_driver_app/widgits/dispatch-order.dart';
 import 'package:haweyati_supplier_driver_app/widgits/order-location-picker.dart';
 import 'my-orders_page.dart';
 import 'order-mutual-widgets.dart';
 import 'supplier-order-action-buttons.dart';
-
 
 class SupplierOrderDetailPage extends StatefulWidget {
   final Order order;
@@ -75,16 +66,16 @@ class _SupplierOrderDetailPageState extends State<SupplierOrderDetailPage> {
                 edit: false,)),
             ),
 
-            // if(widget.order.type == OrderType.finishingMaterial)  SliverPadding(
-            //   padding: const EdgeInsets.only(bottom: 0, top: 0),
-            //   sliver: SliverToBoxAdapter(child: CheckboxListTile(
-            //     onChanged: (bool value){
-            //       setState(() {widget.order.items.every((element) => (element.item as FinishingMaterialOrderItem).selected = value);});
-            //     },
-            //     title: Text("Accept All Items",style: TextStyle(color: Theme.of(context).primaryColor),),
-            //     value: widget.order.items.every((e) => (e.item as FinishingMaterialOrderItem).selected),
-            //   )),
-            // ),
+            if(widget.order.type == OrderType.finishingMaterial && widget.order.payment == null)  SliverPadding(
+              padding: const EdgeInsets.only(bottom: 0, top: 0),
+              sliver: SliverToBoxAdapter(child: CheckboxListTile(
+                onChanged: (bool value){
+                  setState(() {widget.order.items.every((element) => (element.item as FinishingMaterialOrderItem).selected = value);});
+                },
+                title: Text("Accept All Items",style: TextStyle(color: Theme.of(context).primaryColor),),
+                value: widget.order.items.every((e) => (e.item as FinishingMaterialOrderItem).selected),
+              )),
+            ),
 
           SliverList(delegate: SliverChildBuilderDelegate(
                     (context, index) => OrderItemWidget(

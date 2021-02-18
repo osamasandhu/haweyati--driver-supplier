@@ -1,4 +1,4 @@
-import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
+import 'package:haweyati_client_data_models/data.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:hive/hive.dart';
 import '../order-location_model.dart';

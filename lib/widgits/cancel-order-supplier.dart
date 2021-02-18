@@ -21,7 +21,7 @@ class _CancelOrderSupplierState extends State<CancelOrderSupplier> {
     return LocalizedView(
       builder: (context,lang) =>
       AlertDialog(
-          title: Text("Cancel Item",style: TextStyle(
+          title: Text("Cancel Order",style: TextStyle(
             fontWeight: FontWeight.bold
           ),),
           content: SimpleForm(
@@ -32,7 +32,7 @@ class _CancelOrderSupplierState extends State<CancelOrderSupplier> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("Please input reason for cancellation of this item."),
+                Text("Please input reason for cancellation of this order."),
                 SizedBox(height: 10,),
                 HaweyatiTextField(
                   icon: Icons.error,

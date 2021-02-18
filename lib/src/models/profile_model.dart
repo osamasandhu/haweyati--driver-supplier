@@ -1,10 +1,6 @@
 import 'package:haweyati_client_data_models/models/image_model.dart';
 import 'package:haweyati_supplier_driver_app/model/json_serializable.dart';
-import 'package:haweyati_supplier_driver_app/model/models/images_model.dart';
 import 'package:hive/hive.dart';
-
-import 'image_model.dart';
-
 part 'profile_model.g.dart';
 
 @HiveType(typeId: 101)

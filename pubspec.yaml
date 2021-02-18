@@ -41,7 +41,7 @@ dependencies:
   firebase_auth: 0.18.2
   firebase_core:
   json_annotation:
-  hypertrack_plugin:
+#  hypertrack_plugin:
   fluttertoast:
 #   Application packages
   haweyati_client_data_models:

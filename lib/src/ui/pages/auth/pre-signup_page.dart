@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/const.dart';
 import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
@@ -13,7 +12,6 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart'
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/message-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/no-scroll_page.dart';
 import 'package:haweyati_supplier_driver_app/widgits/confirmation-dialog.dart';
-
 import '../../../pre-sign-up-phone-verification.dart';
 
 class PreSignUpPage extends StatelessWidget {

@@ -6,5 +6,5 @@ showSuccessToast(String message){
 }
 
 showErrorToast(String message){
-  Fluttertoast.showToast(msg: message,backgroundColor: Colors.red,textColor: Colors.white,timeInSecForIosWeb: 200);
+  Fluttertoast.showToast(msg: message,backgroundColor: Colors.red,textColor: Colors.white,timeInSecForIosWeb: 10);
 }

@@ -4,9 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:haweyati_supplier_driver_app/src/common/map-utils/map-utils.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/widgets/localization-selector.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'localization-selector.dart';
 import 'no-scroll_page.dart';
 

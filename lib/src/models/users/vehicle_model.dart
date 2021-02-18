@@ -1,5 +1,4 @@
 import 'package:haweyati_client_data_models/models/order/vehicle-type.dart';
-import 'package:haweyati_supplier_driver_app/model/vehicle-type.dart';
 import 'package:hive/hive.dart';
 part 'vehicle_model.g.dart';
 

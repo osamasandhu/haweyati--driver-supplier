@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/dotted-background_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/widgets/localization-selector.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/no-scroll_page.dart';
 import 'package:haweyati_supplier_driver_app/utils/exit-application-dialog.dart';
 import 'package:haweyati_supplier_driver_app/widgits/localization-selector.dart';

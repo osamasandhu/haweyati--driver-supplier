@@ -7,7 +7,6 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/haweyati-text-field.
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
 import 'package:haweyati_supplier_driver_app/widgits/stackButton.dart';
-
 import 'auth/pre-sign-in_page.dart';
 
 class ResetPasswordPage extends StatefulWidget {
@@ -29,7 +28,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       key: key,
       appBar: HaweyatiAppBar(),
@@ -96,14 +94,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     key.currentState.hideCurrentSnackBar();
                     showSimpleSnackbar(key, res.toString(),true);
                   }
-
                 } else {
                   setState(() {
                     autoValidate=true;
                   });
                 }
-
-
               },),
             )
           ],

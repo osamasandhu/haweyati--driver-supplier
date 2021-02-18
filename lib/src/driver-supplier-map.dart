@@ -59,7 +59,7 @@ class MyLocationMapPageState extends State<DriverRouteMapPage> {
 
   void setMarkers(){
     BitmapDescriptor
-        .fromAssetImage(ImageConfiguration(size: Size(9, 9)), StoreMarkerIcon)
+        .fromAssetImage(ImageConfiguration(size: Size(2, 2)), StoreMarkerIcon)
         .then((onValue) {
       store = onValue;
       for(int i=0; i<widget.wayPoints.length; ++i){
@@ -71,7 +71,7 @@ class MyLocationMapPageState extends State<DriverRouteMapPage> {
       }
     });
     BitmapDescriptor
-        .fromAssetImage(ImageConfiguration(size: Size(9, 9)), PersonMarkerIcon)
+        .fromAssetImage(ImageConfiguration(size: Size(2, 2)), PersonMarkerIcon)
         .then((onValue) {
       customer = onValue;
       allMarkers.add(Marker(
@@ -82,7 +82,7 @@ class MyLocationMapPageState extends State<DriverRouteMapPage> {
     } );
 
     BitmapDescriptor
-        .fromAssetImage(ImageConfiguration(size: Size(9, 9)), VehicleMarkerIcon)
+        .fromAssetImage(ImageConfiguration(size: Size(2, 2)), VehicleMarkerIcon)
         .then((onValue) {driver = onValue;});
 
   }
@@ -138,7 +138,7 @@ class MyLocationMapPageState extends State<DriverRouteMapPage> {
     Prediction p = await PlacesAutocomplete.show(
       context: context,
       apiKey: apiKey,
-        components: [Component(Component.country, "sau")]
+        // components: [Component(Component.country, "sau")]
     );
     displayPrediction(p);
   }

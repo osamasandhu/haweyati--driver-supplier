@@ -9,8 +9,6 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/drawer-item.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/widgits/localization-selector.dart';
 import 'package:haweyati_supplier_driver_app/widgits/rating-bar.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
-import '../../web-sockets-testing.dart';
 import 'supplier-profile_page.dart';
 
 class SupplierDrawer extends StatelessWidget {

@@ -45,29 +45,27 @@ class DriverOrderDetailPage extends StatelessWidget {
           child: Icon(Icons.map,color: Colors.white,),
           onPressed: (){
 
-            // List<LatLng> wayPoints = [
-            //   // BZ Universityersity
-            //   LatLng(30.276798, 71.512020),
-            //   //Chowk Kumhara
-            //   LatLng(30.210255, 71.515635),
-            //   //Women University
-            //   LatLng(30.204883, 71.461753),
-            //   //BZ University
-            //   // LatLng(30.276798, 71.512020),
-            // ];
+            List<LatLng> wayPoints = [
+              // BZ Universityersity
+              LatLng(30.276798, 71.512020),
+              //Chowk Kumhara
+              LatLng(30.210255, 71.515635),
+              //Women University
+              LatLng(30.204883, 71.461753),
+              //BZ University
+              // LatLng(30.276798, 71.512020),
+            ];
             //
             // //Cant
-            // LatLng destination = LatLng(30.165381, 71.386373);
+            LatLng destination = LatLng(30.165381, 71.386373);
 
-            List<LatLng> wayPoints = [];
-
-              order.items.forEach((element) {
-                wayPoints.add(LatLng(element.supplier.location.latitude,element.supplier.location.longitude));
-              });
+            // List<LatLng> wayPoints = [];
+            // wayPoints.add(LatLng(order.supplier.location.latitude, order.supplier.location.longitude));
+            // wayPoints.add(LatLng(order.customer.location.latitude, order.customer.location.longitude));
 
             CustomNavigator.navigateTo(context, DriverRouteMapPage(
               wayPoints: wayPoints,
-              destination: LatLng(order.location.latitude,order.location.longitude),
+              destination: destination ?? LatLng(order.location.latitude,order.location.longitude),
             ));
           },
         ),

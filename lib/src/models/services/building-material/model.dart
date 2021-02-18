@@ -1,10 +1,7 @@
 import 'package:haweyati_client_data_models/models/image_model.dart';
 import 'package:haweyati_supplier_driver_app/model/models/bm-pricing.dart';
-import 'package:haweyati_supplier_driver_app/src/models/image_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:hive/hive.dart';
-
-import 'pricing_model.dart';
 
 part 'model.g.dart';
 

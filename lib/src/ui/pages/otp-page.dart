@@ -10,9 +10,6 @@ import 'package:haweyati_supplier_driver_app/src/ui/views/no-scroll_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/header-view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/waiting-dialog.dart';
-import 'package:haweyati_supplier_driver_app/utils/const.dart';
-import 'package:haweyati_supplier_driver_app/utils/validators.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class OtpPage extends StatefulWidget {
   final String phoneNumber;

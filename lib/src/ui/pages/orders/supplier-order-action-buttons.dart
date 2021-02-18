@@ -6,7 +6,6 @@ import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart'
 import 'package:haweyati_supplier_driver_app/src/services/drivers_service.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/supplier/orders/select-driver_page.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/supplier-order-utils.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/flat-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
@@ -35,8 +34,8 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
 
 
   static Widget generateActionBtn(BuildContext context){
-    print(hasDriver);
-    bool hasSelectedItemsBefore = order.items.any((e) => (e.item as FinishingMaterialOrderItem).selected == true);
+    print(noDriver);
+    bool hasSelectedItemsBefore = order.type == OrderType.finishingMaterial ? order.items.any((e) => (e.item as FinishingMaterialOrderItem).selected == true) : false;
     switch(order.status){
       case OrderStatus.pending:
         return acceptOrder(context);
@@ -45,7 +44,8 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-           if(hasDriver && hasSelectedPayment)  dispatchOrder(context) else if(order.type == OrderType.dumpster) assignDriver(context),
+           if(hasDriver && hasSelectedPayment)  dispatchOrder(context),
+           if(order.type == OrderType.dumpster && hasDriver) changeDriver(context),
             if(noDriver) cancelOrder(context),
           ],
         );
@@ -57,6 +57,7 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
           children: [
             if(noDriver && order.type == OrderType.dumpster)  assignDriver(context),
             if(noDriver && order.type == OrderType.finishingMaterial && !hasSelectedItemsBefore)  acceptItems(context),
+            if(noDriver && order.type == OrderType.dumpster) cancelOrder(context),
             if(noDriver && NoSelectedPayment) cancelOrder(context),
             if(NoSelectedPayment && hasDriver) Padding(
               padding: const EdgeInsets.only(bottom: 40.0),
@@ -143,9 +144,7 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
       String reason = await showDialog(context: context,builder: (context){
         return CancelOrderSupplier();
       });
-      if(reason==null){
-        return;
-      }
+      if(reason==null){return;}
       openLoadingDialog(context, "Cancelling Order");
       await HaweyatiService.patch("orders/add-supplier-all", {
         'supplier': AppData.supplier.toJson(),
@@ -156,6 +155,30 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
       Navigator.pop(context);
       Navigator.pop(context);
     },
+  );
+
+  static Widget changeDriver(BuildContext context) => RaisedActionButton(
+    label: "Change Driver",
+    padding: EdgeInsets.only(top: 0),
+    icon: Icon(CupertinoIcons.checkmark_circle),
+    onPressed: () async {
+      Driver _driver = await CustomNavigator.navigateTo(context, SelectDriverPage());
+      if(_driver!=null){
+        openLoadingDialog(context, "Changing Driver");
+        await HaweyatiService.patch('orders/add-driver', {
+          '_id' :  order.id,
+          'flag' : false
+        });
+        await HaweyatiService.patch('orders/add-driver', {
+          'driver' : _driver.serialize(),
+          '_id' :  order.id,
+          'flag' : true
+        });
+        openMessageDialog(context, "Order assigned successfully");
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pop(context);
+      }},
   );
 
   static Widget assignDriver(BuildContext context) => RaisedActionButton(

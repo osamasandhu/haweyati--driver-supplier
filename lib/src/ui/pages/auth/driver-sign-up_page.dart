@@ -1,13 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_client_data_models/models/order/vehicle-type.dart';
-import 'package:haweyati_supplier_driver_app/model/vehicle-type.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
-import 'package:haweyati_supplier_driver_app/src/services/hyper-track_service.dart';
 import 'package:haweyati_supplier_driver_app/src/services/supplier-Services.dart';
 import 'package:haweyati_supplier_driver_app/src/services/vehicle-type-service.dart';
 import 'package:haweyati_supplier_driver_app/src/supplier/auth-pages/waiting-approval_page.dart';

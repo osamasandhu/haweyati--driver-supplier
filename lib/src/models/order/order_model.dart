@@ -1,12 +1,12 @@
+import 'package:haweyati_client_data_models/data.dart';
+import 'package:haweyati_client_data_models/models/user/supplier_model.dart';
 import 'package:haweyati_supplier_driver_app/model/json_serializable.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/order-location_model.dart' as time;
 import 'package:haweyati_supplier_driver_app/src/models/order/building-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/delivery-vehicle/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/dumpster/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material/order-item_model.dart';
-import 'package:haweyati_supplier_driver_app/src/models/order/order-location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/scaffoldings/single-scaffolding/single-scaffolding_orderable.dart';
-import 'package:haweyati_supplier_driver_app/src/models/payment_model.dart';
-import 'package:haweyati_supplier_driver_app/src/models/users/customer_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
 import 'package:hive/hive.dart';
@@ -42,13 +42,14 @@ class Order extends HiveObject implements JsonSerializable {
   Customer customer;
 
   String payment;
-  OrderLocation location;
+  time.OrderLocation location;
   List<OrderImage> images;
   List<OrderItemHolder> items;
 
   DateTime createdAt;
   DateTime updatedAt;
   Driver driver;
+  Supplier supplier;
 
   Order(this.type, {
     this.id,
@@ -60,6 +61,7 @@ class Order extends HiveObject implements JsonSerializable {
     this.images = const [],
     this.status,
     this.payment,
+    this.supplier,
     this.location,
     this.customer,
     this.createdAt,
@@ -123,8 +125,9 @@ class Order extends HiveObject implements JsonSerializable {
       createdAt: DateTime.parse(json['createdAt']),
       payment: json['paymentType'],
       customer: Customer.fromJson(json['customer']),
+      supplier: json['supplier'] !=null ? Supplier.fromJson(json['supplier']) : null,
       driver: json['driver'] !=null ? Driver.fromJson(json['driver']) : null,
-      location: OrderLocation.fromJson(json['dropoff']),
+      location: time.OrderLocation.fromJson(json['dropoff']),
 
       items: (json['items'] as List)
         .map((item) {
@@ -156,14 +159,12 @@ class Order extends HiveObject implements JsonSerializable {
     'orderNo': number,
     'deliveryFee': deliveryFee,
     'service': typeToString(type),
-
     'items': items
         .map((e) => e.serialize())
         .toList(growable: false),
-
     'location': location.serialize(),
-
     'customer': customer,
+    'supplier' : supplier
     // 'paymentType': payment?.type,
     // 'paymentIntentId': payment?.intentId,
   };
