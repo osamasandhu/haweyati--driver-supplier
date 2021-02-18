@@ -7,6 +7,7 @@ import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/supplier_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
+import 'package:haweyati_supplier_driver_app/src/services/hyper-track_service.dart';
 import 'package:haweyati_supplier_driver_app/src/services/supplier-Services.dart';
 import 'package:haweyati_supplier_driver_app/src/services/vehicle-type-service.dart';
 import 'package:haweyati_supplier_driver_app/src/supplier/auth-pages/waiting-approval_page.dart';
@@ -24,6 +25,7 @@ import 'package:haweyati_supplier_driver_app/utils/haweyati-utils.dart';
 import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
 import 'package:haweyati_supplier_driver_app/utils/validators.dart';
 import 'package:haweyati_supplier_driver_app/widgits/round-drop-down-button.dart';
+import 'package:hypertrack_plugin/hypertrack.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-form.dart';
@@ -41,7 +43,6 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
   PickedFile _image;
   Location _userLocation;
 
-
   Future<List<VehicleType>> vehicleTypes;
 
   VehicleType selectedType;
@@ -55,7 +56,6 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
   String shopParentId;
   final _model = new TextEditingController();
   final _vehicleName = new TextEditingController();
-  final liveLocationLink = new TextEditingController();
   final _identification = new TextEditingController();
   Future<List<SupplierModel>> suppliers;
 
@@ -63,17 +63,22 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   SharedPreferences prefs;
+
   @override
   void initState() {
     super.initState();
     suppliers = SupplierServices().getSupplier();
     vehicleTypes = VehicleTypesService().vehicleTypes();
-    // initMap();
+    getPreferences();
   }
 
+  getPreferences () async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return LocalizedView(
       builder: (context, lang) => ScrollableView(
         key: scaffoldKey,
@@ -108,8 +113,6 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
               return;
             }
 
-            print(selectedType.toJson());
-
             openLoadingDialog(context, lang.signingUp);
             final map = Map<String, dynamic>.from({
               'profile' : widget?.person?.id,
@@ -123,12 +126,10 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
               "supplier" : shopParentId,
               "vehicleName" : _vehicleName.text,
               "model" : _model.text,
-              "liveLocation" : liveLocationLink.text,
-              "lastUpdatedLocation" : DateTime.now().toIso8601String(),
               "type" : selectedType.toJson(),
               "identificationNo" : _identification.text,
-              // "city" : _userLocation.city,
-              "address" : _userLocation.address
+              "address" : _userLocation.address,
+              "deviceId" : prefs.getString('deviceId')
             });
 
             if (_image != null) {
@@ -238,21 +239,6 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
                 }
               },
             ),
-            Padding(
-              padding: const EdgeInsets.only(top:10.0),
-              child: HaweyatiTextField(
-                label: "Live Location Link",
-                controller: liveLocationLink,
-                validator: (value) {
-                  return value.isEmpty ? "Please share your live location link" : null;
-                },
-              ),
-            ),
-              // Padding(
-              //   padding: const EdgeInsets.only(top: 15),
-              //   child: DarkContainer(child: Container(height: 100)),
-              // ),
-
               ImagePickerWidget(
                 onImagePicked: (PickedFile file){
                   _image = file;

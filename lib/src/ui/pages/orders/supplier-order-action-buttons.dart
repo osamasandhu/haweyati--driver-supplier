@@ -28,9 +28,14 @@ class SupplierOrderActionButton extends StatefulWidget {
 
 class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
   static Order order;
+  static bool hasDriver = order.driver!=null;
+  static bool noDriver = order.driver==null;
+  static bool hasSelectedPayment = order.payment!=null;
+  static bool NoSelectedPayment = order.payment==null;
 
 
   static Widget generateActionBtn(BuildContext context){
+    print(hasDriver);
     bool hasSelectedItemsBefore = order.items.any((e) => (e.item as FinishingMaterialOrderItem).selected == true);
     switch(order.status){
       case OrderStatus.pending:
@@ -40,20 +45,20 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-           if(order.driver !=null && order.payment!=null)  dispatchOrder(context) else if(order.type == OrderType.dumpster) assignDriver(context),
-            if(order.driver==null) cancelOrder(context),
+           if(hasDriver && hasSelectedPayment)  dispatchOrder(context) else if(order.type == OrderType.dumpster) assignDriver(context),
+            if(noDriver) cancelOrder(context),
           ],
         );
         break;
       case OrderStatus.accepted:
-        return order.driver !=null && order.payment!=null ?
+        return hasDriver && hasSelectedPayment ?
         dispatchOrder(context) : Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if(order.driver==null && order.type == OrderType.dumpster)  assignDriver(context),
-            if(order.driver==null && order.type == OrderType.finishingMaterial && !hasSelectedItemsBefore)  acceptItems(context),
-            if(order.driver==null && order.payment == null) cancelOrder(context),
-            if(order.payment == null && order.driver !=null) Padding(
+            if(noDriver && order.type == OrderType.dumpster)  assignDriver(context),
+            if(noDriver && order.type == OrderType.finishingMaterial && !hasSelectedItemsBefore)  acceptItems(context),
+            if(noDriver && NoSelectedPayment) cancelOrder(context),
+            if(NoSelectedPayment && hasDriver) Padding(
               padding: const EdgeInsets.only(bottom: 40.0),
               child: Text("Order is awaiting payment confirmation from customer.",style: TextStyle(
                 color: Colors.red
@@ -84,14 +89,16 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
   void initState() {
     super.initState();
     order = widget.order;
+    hasDriver = order.driver!=null;
+    noDriver = order.driver==null;
+    hasSelectedPayment = order.payment!=null;
+    NoSelectedPayment = order.payment==null;
   }
 
 
   @override
   Widget build(BuildContext context) {
-    return SupplierUtils.canAcceptAllOrder(order) ?
-    generateActionBtn(context) :
-    SizedBox();
+    return generateActionBtn(context) ;
   }
 
   static Widget dispatchOrder(BuildContext context)=> FlatActionButton(

@@ -99,6 +99,7 @@ class DriverDrawer extends StatelessWidget {
                     title: lang.logout,
                     onTap: () async {
                       openLoadingDialog(context, lang.signingOut);
+                      await AppData.clearDriverDeviceId();
                       await AppData.signOut();
                       CustomNavigator.pushReplacement(context, PreSignInPage());
                     },

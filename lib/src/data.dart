@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:haweyati_client_data_models/models/image_model.dart';
 import 'package:haweyati_client_data_models/models/order/vehicle-type.dart';
 import 'package:haweyati_supplier_driver_app/model/models/images_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
@@ -11,7 +10,6 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/fcm-token.dart';
-import 'models/image_model.dart';
 import 'models/profile_model.dart';
 import 'models/users/vehicle_model.dart';
 import 'package:haweyati_client_data_models/models/image_model.dart' as img;
@@ -78,11 +76,6 @@ abstract class AppData {
     //     ? _driver?.values?.first?.serialize() : _driver.values}");
   }
 
-  static void _clearData() async {
-     await Hive.box('supplier').clear();
-     await Hive.box('driver').clear();
-  }
-
   static Future signIn (dynamic user) async {
     if (user is SupplierModel) {
       await _supplier.clear();
@@ -111,6 +104,10 @@ abstract class AppData {
     await HaweyatiService.post('auth/sign-out', {});
     await _supplier.clear();
     await _driver.clear();
+  }
+
+  static Future clearDriverDeviceId() async {
+    await HaweyatiService.patch('drivers/remove-device-id/${AppData.driver.sId}', {});
   }
 
 }

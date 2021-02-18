@@ -27,6 +27,7 @@ class DeliveryVehicleOrderItem extends OrderItem {
       product: DeliveryVehicle.fromJson(json['product']),
       pickUp: Location.fromJson(json['pickUpLocation'])
     );
+
   }
 
 }

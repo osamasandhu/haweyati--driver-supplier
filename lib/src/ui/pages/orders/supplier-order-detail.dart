@@ -10,6 +10,7 @@ import 'package:haweyati_supplier_driver_app/src/models/order/dumpster/order-ite
 import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/services/finishing-material/model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/supplier/orders/select-driver_page.dart';
@@ -32,16 +33,21 @@ import 'order-mutual-widgets.dart';
 import 'supplier-order-action-buttons.dart';
 
 
-class SupplierOrderDetailPage extends StatelessWidget {
+class SupplierOrderDetailPage extends StatefulWidget {
   final Order order;
   SupplierOrderDetailPage(this.order);
 
+  @override
+  _SupplierOrderDetailPageState createState() => _SupplierOrderDetailPageState();
+}
+
+class _SupplierOrderDetailPageState extends State<SupplierOrderDetailPage> {
   @override
   Widget build(BuildContext context) {
     return LocalizedView(
       builder: (context,lang) =>
       ScrollableView.sliver(
-        bottom: SupplierOrderActionButton(order: order,),
+        bottom: SupplierOrderActionButton(order: widget.order,),
           showBackground: true,
           padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
           appBar: HaweyatiAppBar(actions: [
@@ -55,22 +61,37 @@ class SupplierOrderDetailPage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 40),
               sliver: SliverToBoxAdapter(child: Center(child: SizedBox(
                 width: 360,
-                child: OrderDetailHeader(order.status.index))
+                child: OrderDetailHeader(widget.order.status.index))
               )),
             ),
 
-            SliverToBoxAdapter(child: OrderMeta(order)),
+            SliverToBoxAdapter(child: OrderMeta(widget.order)),
 
             SliverPadding(
-              padding: const EdgeInsets.only(bottom: 15, top: 25),
-              sliver: SliverToBoxAdapter(child: LocationPicker(initialValue: order.location,edit: false,)),
+              padding: const EdgeInsets.only(bottom: 15, top: 10),
+              sliver: SliverToBoxAdapter(child: LocationPicker(
+                initialValue: widget.order.location,
+                onChanged: (null),
+                edit: false,)),
             ),
 
-          SupplierUtils.canAcceptAllOrder(order) ? SliverList(delegate: SliverChildBuilderDelegate(
+            // if(widget.order.type == OrderType.finishingMaterial)  SliverPadding(
+            //   padding: const EdgeInsets.only(bottom: 0, top: 0),
+            //   sliver: SliverToBoxAdapter(child: CheckboxListTile(
+            //     onChanged: (bool value){
+            //       setState(() {widget.order.items.every((element) => (element.item as FinishingMaterialOrderItem).selected = value);});
+            //     },
+            //     title: Text("Accept All Items",style: TextStyle(color: Theme.of(context).primaryColor),),
+            //     value: widget.order.items.every((e) => (e.item as FinishingMaterialOrderItem).selected),
+            //   )),
+            // ),
+
+          SliverList(delegate: SliverChildBuilderDelegate(
                     (context, index) => OrderItemWidget(
-                        order.items[index],SupplierUtils.cannotAcceptFinishingItems(order)),
-                childCount: order.items.length,
-            )) : SliverToBoxAdapter(),
+                        widget.order.items[index],
+                        SupplierUtils.hasAcceptedFinishingItems(widget.order)),
+                childCount: widget.order.items.length,
+            )),
 
             SliverToBoxAdapter(
               child: Table(
@@ -83,7 +104,7 @@ class SupplierOrderDetailPage extends StatelessWidget {
                       color: Colors.grey.shade600,
                     )),
 
-                    RichPriceText(price: order.total - order.deliveryFee, fontSize: 13)
+                    RichPriceText(price: widget.order.total - widget.order.deliveryFee, fontSize: 13)
                   ]),
                   // TableRow(children: [
                   //   Text(lang.deliveryFee, style: TextStyle(
@@ -110,10 +131,10 @@ class SupplierOrderDetailPage extends StatelessWidget {
                         color: Colors.grey.shade600,
                       )),
 
-                      RichPriceText(price: order.total, fontWeight: FontWeight.bold, fontSize: 18)
+                      RichPriceText(price: widget.order.total, fontWeight: FontWeight.bold, fontSize: 18)
                     ])
                   ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
-                 if(order.payment !=null) Table(children: [
+                 if(widget.order.payment !=null) Table(children: [
                     TableRow(children: [
                       Text(lang.paymentType, style: TextStyle(
                         height: 2,
@@ -122,11 +143,11 @@ class SupplierOrderDetailPage extends StatelessWidget {
                         color: Colors.grey.shade600,
                       )),
 
-                      Text(order.payment, textAlign: TextAlign.right, style: TextStyle(
+                      Text(widget.order.payment, textAlign: TextAlign.right, style: TextStyle(
                           fontSize: 13
                       ))
                     ]),
-                  if(order.deliveryFee != null) TableRow(children: [
+                  if(widget.order.deliveryFee != null) TableRow(children: [
                      Text(lang.deliveryFee, style: TextStyle(
                        height: 2,
                        fontSize: 13,
@@ -134,13 +155,13 @@ class SupplierOrderDetailPage extends StatelessWidget {
                        color: Colors.grey.shade600,
                      )),
 
-                     RichPriceText(price: order.deliveryFee)
+                     RichPriceText(price: widget.order.deliveryFee)
                    ])
                   ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
                 ],
               ),
             ),
-          if(order.driver !=null)  SliverToBoxAdapter(
+          if(widget.order.driver !=null)  SliverToBoxAdapter(
               child: DarkContainer(
                 margin: const EdgeInsets.only(bottom: 15,top: 15),
                 padding: const EdgeInsets.only(left: 15,right: 15,top: 10),
@@ -167,18 +188,18 @@ class SupplierOrderDetailPage extends StatelessWidget {
                           ],
                           image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: order.driver.profile.image !=null? NetworkImage(HaweyatiService.resolveImage(order.driver.profile.image.name)) 
+                              image: widget.order.driver.profile.image !=null? NetworkImage(HaweyatiService.resolveImage(widget.order.driver.profile.image.name))
                                   : AssetImage("assets/icons/avatar.png")
                           )
                       ),
                     ),
-                    title: Text(order.driver.profile.name, style: TextStyle(fontWeight: FontWeight.bold)),
-                    subtitle: Text(order.driver.profile.contact, style: TextStyle(fontWeight: FontWeight.bold)),
+                    title: Text(widget.order.driver.profile.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: Text(widget.order.driver.profile.contact, style: TextStyle(fontWeight: FontWeight.bold)),
                   )
                 ],),
               ),
             ),
-            if(order.customer !=null)  SliverToBoxAdapter(
+            if(widget.order.customer !=null)  SliverToBoxAdapter(
               child: DarkContainer(
                 padding: const EdgeInsets.only(left: 15,right: 15,top: 10),
                 child: Column(
@@ -204,13 +225,13 @@ class SupplierOrderDetailPage extends StatelessWidget {
                           ],
                           image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: order.customer.profile.image !=null? NetworkImage(HaweyatiService.resolveImage(order.customer.profile.image.name))
+                              image: widget.order.customer.profile.image !=null? NetworkImage(HaweyatiService.resolveImage(widget.order.customer.profile.image.name))
                                   : AssetImage("assets/icons/avatar.png")
                           )
                       ),
                     ),
-                    title: Text(order.customer.profile.name, style: TextStyle()),
-                    subtitle: Text(order.customer.profile.contact, style: TextStyle()),
+                    title: Text(widget.order.customer.profile.name, style: TextStyle()),
+                    subtitle: Text(widget.order.customer.profile.contact, style: TextStyle()),
                   )
                 ],),
               ),
