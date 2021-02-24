@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:haweyati_client_data_models/widgets/variants-tablerow.dart';
 import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/building-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/delivery-vehicle/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/dumpster/order-item_model.dart';
@@ -22,12 +23,12 @@ class OrderItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final qty = _qty(holder);
-
-    return LocalizedView(
+    final bool showItem = !(AppData.isDriver && holder.item is FinishingMaterialOrderItem && (holder.item as FinishingMaterialOrderItem).selected);
+    return !showItem ? SizedBox(): LocalizedView(
       builder: (context,lang) =>
           DarkContainer(
-            margin: const EdgeInsets.only(bottom: 15),
-            padding: const EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 35),
+            margin: const EdgeInsets.only(bottom: 5),
+            padding: const EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 15),
             child: Column(children: [
               OrderItemTile(holder,cannotAcceptFinishingItems),
               if (holder.item is SingleScaffoldingOrderable)
@@ -203,7 +204,7 @@ class _OrderItemTileState extends State<OrderItemTile> {
             )
         ),
       ),
-      trailing: isFinishingMaterial  ? Checkbox(
+      trailing: isFinishingMaterial && AppData.isSupplier  ? Checkbox(
         value: (widget.item.item as FinishingMaterialOrderItem).selected,
         onChanged: widget.cannotAcceptFinishingItems ? null: (bool val){
           setState(() {

@@ -6,9 +6,12 @@ import 'package:haweyati_supplier_driver_app/src/driver/orders/driver-completed.
 import 'package:haweyati_supplier_driver_app/src/driver/orders/driver-accepted.dart';
 import 'package:haweyati_supplier_driver_app/src/driver/orders/driver-dispatched.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
+import 'package:haweyati_supplier_driver_app/src/services/hyper-track_service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-future-builder.dart';
 import 'package:haweyati_supplier_driver_app/utils/exit-application-dialog.dart';
 import 'package:haweyati_supplier_driver_app/utils/notification-service.dart';
+import 'package:haweyati_supplier_driver_app/widgits/confirmation-dialog.dart';
 import 'package:haweyati_supplier_driver_app/widgits/notification-dialog.dart';
 import 'orders/driver-pending.dart';
 import 'profile/driver-drawer.dart';
@@ -38,6 +41,7 @@ class _DriverHomePageState extends State<DriverHomePage> {
     super.initState();
     FirebaseMessaging().subscribeToTopic('drivers');
     firebaseCloudMessaging_Listeners();
+   if(!HyperTrackService.isInitialised) HyperTrackService.initializeSdk();
   }
 
   void firebaseCloudMessaging_Listeners() {
@@ -81,23 +85,24 @@ class _DriverHomePageState extends State<DriverHomePage> {
               Text(AppData.driver.profile?.name ?? ''):
               Image.asset("assets/images/icon.png", width: 40, height: 40),
             actions: [
-              // SimpleFutureBuilder.simpler(
-              //   context: context,
-              //   future: HyperTrackService.sdk.isRunning(),
-              //   builder:(bool val) => IconButton(
-              //       onPressed: () async {
-              //        bool confirmed = await showDialog(context: context,builder: (ctx) {
-              //           return ConfirmationDialog(
-              //             title: Text("Are you sure you want to ${val? 'disable' : 'enable'} live tracking?"),
-              //           );
-              //         });
-              //        if(confirmed ?? false)
-              //        val ?  await HyperTrackService.sdk.stop() :await HyperTrackService.sdk.start();
-              //      setState(() {});
-              //       },
-              //       icon: Icon(val ? Icons.check_circle : Icons.remove_circle,color : val ? Colors.green : Colors.red,)
-              //   ),
-              // ),
+             if(HyperTrackService.sdk !=null) SimpleFutureBuilder.simpler(
+                context: context,
+                future: HyperTrackService.sdk?.isRunning(),
+                builder:(bool val) => IconButton(
+                    onPressed: () async {
+                      await HyperTrackService.sdk.syncDeviceSettings();
+                     bool confirmed = await showDialog(context: context,builder: (ctx) {
+                        return ConfirmationDialog(
+                          title: Text("Are you sure you want to ${val? 'disable' : 'enable'} live tracking?"),
+                        );
+                      });
+                     if(confirmed ?? false)
+                     val ?  await HyperTrackService.sdk.stop() : await HyperTrackService.sdk.start();
+                        setState(() {});
+                    },
+                    icon: Icon(val ? Icons.check_circle : Icons.remove_circle,color : val ? Colors.green : Colors.red,)
+                ),
+              ),
               IconButton(
                 onPressed: () => Navigator.of(context).pushNamed('/helpline'),
                 icon: Image.asset("assets/images/customer-care.png", width: 20, height: 20)

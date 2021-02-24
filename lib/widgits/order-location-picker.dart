@@ -1,12 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
+import 'package:haweyati_client_data_models/models/others/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/edit-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/locations-map_page.dart';
 import 'package:haweyati_supplier_driver_app/utils/const.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'emptyContainer.dart';
 import 'locations-map_page.dart';
@@ -108,6 +110,92 @@ class _OrderLocationPickerState extends State<OrderLocationPicker> {
 }
 
 
+class DropOffLocation extends StatelessWidget {
+  final OrderLocation location;
+  DropOffLocation(this.location);
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        LocationPicker(onChanged: null,initialValue: location,edit: false,),
+      if(location.dropOffTime != null)  DarkContainer(
+        child: Column(
+            children: [
+              Row(children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 11),
+                    child: _Title('Drop-off Date'),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 17),
+                    child: _Title('Drop-off Time'),
+                  ),
+                ),
+              ]),
+              Row(children: [
+                Expanded(
+                  child: DarkContainer(
+                    padding: const EdgeInsets.all(10),
+                    child: GestureDetector(
+                      child: Row(children: [
+                        Expanded(
+                          child: Text(
+                            DateFormat(DateFormat.YEAR_MONTH_DAY).format(location.dropOffDate),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade800,
+                            ),
+                          ),
+                        ),
+                        Image.asset(CalendarIcon, width: 25),
+                      ]),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 15),
+                Expanded(
+                  child: DarkContainer(
+                    padding: const EdgeInsets.all(10),
+                    child: GestureDetector(
+                      child: Row(children: [
+                        Expanded(
+                          child: Text(
+                            location.dropOffTime.from.format(context) + '  -  ' + location.dropOffTime.to.format(context),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey.shade800,
+                            ),
+                          ),
+                        ),
+                        Image.asset(ClockIcon, width: 25),
+                      ]),
+                    ),
+                  ),
+                ),
+              ]),
+            ],
+          ),
+      )
+
+      ],
+    );
+  }
+}
+
+class _Title extends Text {
+  _Title(String title)
+      : super(
+    title,
+    style: TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: 13,
+    ),
+  );
+}
+
 class LocationPicker extends StatefulWidget {
   final Location initialValue;
   final Function(Location location) onChanged;
@@ -129,7 +217,6 @@ class _LocationPickerState extends State<LocationPicker> {
   @override
   void initState() {
     super.initState();
-
     _address = widget.initialValue;
   }
 

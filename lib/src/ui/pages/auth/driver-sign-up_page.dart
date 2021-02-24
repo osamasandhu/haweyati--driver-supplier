@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_client_data_models/models/order/vehicle-type.dart';
+import 'package:haweyati_client_data_models/models/others/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';

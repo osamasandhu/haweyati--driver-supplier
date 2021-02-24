@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:haweyati_client_data_models/models/others/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/common/map-utils/map-utils.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';

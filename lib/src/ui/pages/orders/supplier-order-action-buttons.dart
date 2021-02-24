@@ -34,11 +34,17 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
 
 
   static Widget generateActionBtn(BuildContext context){
-    print(noDriver);
     bool hasSelectedItemsBefore = order.type == OrderType.finishingMaterial ? order.items.any((e) => (e.item as FinishingMaterialOrderItem).selected == true) : false;
     switch(order.status){
       case OrderStatus.pending:
-        return acceptOrder(context);
+        return (noDriver && order.type == OrderType.finishingMaterial && !hasSelectedItemsBefore)  ? Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            acceptItems(context),
+            cancelOrder(context),
+          ],
+        ) :
+        acceptOrder(context);
         break;
       case OrderStatus.preparing:
         return Column(
@@ -56,7 +62,6 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
           mainAxisSize: MainAxisSize.min,
           children: [
             if(noDriver && order.type == OrderType.dumpster)  assignDriver(context),
-            if(noDriver && order.type == OrderType.finishingMaterial && !hasSelectedItemsBefore)  acceptItems(context),
             if(noDriver && order.type == OrderType.dumpster) cancelOrder(context),
             if(noDriver && NoSelectedPayment) cancelOrder(context),
             if(NoSelectedPayment && hasDriver) Padding(
@@ -142,7 +147,7 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
     icon: Icon(CupertinoIcons.clear_circled_solid),
     onPressed: () async {
       String reason = await showDialog(context: context,builder: (context){
-        return CancelOrderSupplier();
+        return ReasonDialog();
       });
       if(reason==null){return;}
       openLoadingDialog(context, "Cancelling Order");
@@ -214,9 +219,17 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
     } else {
       Map<String,dynamic> data = {
         '_id' : order.id,
-        'selected' : items
+        'selected' : items,
       };
-      print(data);
+      if(items.length != order.items.length){
+      String reason =  await showDialog(context: context,
+            builder: (ctx) =>
+                ReasonDialog(purpose: 'Reason for not accepting all items',));
+      if(reason!=null)
+        data['reason'] = reason;
+      else
+        return;
+      }
      await performLazyTask(context, ()async {
         await HaweyatiService.patch('orders/select-items', data);
       });

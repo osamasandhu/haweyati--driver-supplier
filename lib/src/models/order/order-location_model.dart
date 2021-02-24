@@ -1,4 +1,4 @@
-import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
+import 'package:haweyati_client_data_models/models/others/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/time-slot_model.dart';
 
 class OrderLocation extends Location {
@@ -7,7 +7,6 @@ class OrderLocation extends Location {
   String address;
   double latitude;
   double longitude;
-
 
   OrderLocation({
     this.address,
@@ -35,7 +34,7 @@ class OrderLocation extends Location {
   }
 
   @override
-  Map<String, dynamic> serialize() => super.serialize()..addAll({
+  Map<String, dynamic> serialize() => super.toJson()..addAll({
     'dropoffAddress': address,
     'dropoffTime': dropOffTime?.serialize(),
     'dropoffDate': dropOffDate?.millisecondsSinceEpoch,

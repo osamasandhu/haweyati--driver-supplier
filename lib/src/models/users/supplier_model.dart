@@ -1,3 +1,4 @@
+import 'package:haweyati_client_data_models/models/others/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
 import 'package:hive/hive.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
@@ -51,7 +52,7 @@ class SupplierModel extends HiveObject {
     if(this.shopParentId !=null){
       data['parent'] = this.shopParentId;
     }
-    data['location'] = this.location.serialize();
+    data['location'] = this.location.toJson();
     data['message'] = this.message;
     return data;
   }

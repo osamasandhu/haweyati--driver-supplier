@@ -3,33 +3,25 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
+import 'package:haweyati_client_data_models/models/hypertrack/trip_model.dart';
+import 'package:haweyati_client_data_models/services/hyerptrack_service.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
-import 'package:haweyati_supplier_driver_app/src/driver-supplier-map.dart';
-import 'package:haweyati_supplier_driver_app/src/models/order/building-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/delivery-vehicle/order-item_model.dart';
-import 'package:haweyati_supplier_driver_app/src/models/order/dumpster/order-item_model.dart';
-import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material/order-item_model.dart';
-import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
-import 'package:haweyati_supplier_driver_app/src/models/order/scaffoldings/single-scaffolding/single-scaffolding_orderable.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
-import 'package:haweyati_supplier_driver_app/src/services/order-service.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/my-orders_page.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/order-mutual-widgets.dart';
+import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/order-mutual-detail.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/flat-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/message-dialog.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/widgets/raised-action-button.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/widgets/rich-price-text.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/scroll_view.dart';
 import 'package:haweyati_supplier_driver_app/widgits/confirmation-dialog.dart';
 import 'package:haweyati_supplier_driver_app/widgits/mark-order-complete.dart';
-import 'package:haweyati_supplier_driver_app/widgits/order-location-picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../driver-supplier-map.dart';
+import '../LiveTrackingView.dart';
 
 
 class DriverOrderDetailPage extends StatelessWidget {
@@ -41,150 +33,65 @@ class DriverOrderDetailPage extends StatelessWidget {
     return LocalizedView(
       builder: (context,lang) =>
        ScrollableView.sliver(
-        fab: FloatingActionButton(
+         fab: (order.shareUrl != null && order.type == OrderType.deliveryVehicle && order.status != OrderStatus.delivered) ? FloatingActionButton.extended(
+           label: Text("View Journey",style: TextStyle(color: Colors.white),),
+           onPressed: ()  {
+             CustomNavigator.navigateTo(context,
+                 LiveTrackingView(order.shareUrl,order.tripId,order));
+           },
+         ) :
+         FloatingActionButton(
           child: Icon(Icons.map,color: Colors.white,),
           onPressed: (){
-
-            List<LatLng> wayPoints = [
-              // BZ Universityersity
-              LatLng(30.276798, 71.512020),
-              //Chowk Kumhara
-              LatLng(30.210255, 71.515635),
-              //Women University
-              LatLng(30.204883, 71.461753),
-              //BZ University
-              // LatLng(30.276798, 71.512020),
-            ];
+            //For testing
+            // List<LatLng> wayPoints = [
+            //   // BZ Universityersity
+            //   LatLng(30.276798, 71.512020),
+            //   //Chowk Kumhara
+            //   LatLng(30.210255, 71.515635),
+            //   //Women University
+            //   LatLng(30.204883, 71.461753),
+            //   //BZ University
+            //   LatLng(30.276798, 71.512020),
+            // ];
             //
             // //Cant
-            LatLng destination = LatLng(30.165381, 71.386373);
+            // LatLng destination = LatLng(30.165381, 71.386373);
 
-            // List<LatLng> wayPoints = [];
-            // wayPoints.add(LatLng(order.supplier.location.latitude, order.supplier.location.longitude));
-            // wayPoints.add(LatLng(order.customer.location.latitude, order.customer.location.longitude));
+            List<LatLng> wayPoints = [];
+            if(order.supplier!=null)  wayPoints.add(LatLng(order.supplier.location.latitude, order.supplier.location.longitude));
+            // wayPoints.add(LatLng(order.location.latitude, order.location.longitude));
 
             CustomNavigator.navigateTo(context, DriverRouteMapPage(
               wayPoints: wayPoints,
-              destination: destination ?? LatLng(order.location.latitude,order.location.longitude),
+              destination: LatLng(order.location.latitude,order.location.longitude),
             ));
           },
-        ),
-        bottom: DriverBottomWidget(order: order,),
+        )
+           ,bottom: DriverOrderActionButton(order: order,),
           showBackground: true,
-           padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+           padding: const EdgeInsets.fromLTRB(15, 0, 15, 70),
           appBar: HaweyatiAppBar(actions: [],),
-          children: [
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 40),
-              sliver: SliverToBoxAdapter(child: Center(child: SizedBox(
-                  width: 360,
-                  child: OrderDetailHeader(order.status.index))
-              )),
-            ),
-            SliverToBoxAdapter(child: OrderMeta(order)),
-
-            SliverPadding(
-              padding: const EdgeInsets.only(bottom: 15, top: 25),
-              sliver: SliverToBoxAdapter(child: LocationPicker(
-                initialValue: order.location,edit: false,)),
-            ),
-           if(order.type == OrderType.deliveryVehicle) SliverPadding(
-              padding: const EdgeInsets.only(bottom: 15, top: 0),
-              sliver: SliverToBoxAdapter(child: LocationPicker(
-                title: 'Pick Up Location',
-                initialValue: (order.items.first.item as dynamic).pickUp,
-                edit: false,)),
-            ),
-
-            SliverList(delegate: SliverChildBuilderDelegate(
-                    (context, index) =>OrderItemWidget(
-                        order.items[index]
-                    ),
-                childCount: order.items.length
-            )),
-
-            SliverToBoxAdapter(
-              child: Table(
-                defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
-                children: [
-                  // TableRow(children: [
-                  //   Text(lang.subtotal, style: TextStyle(
-                  //     height: 2, fontSize: 13,
-                  //     fontFamily: 'Lato',
-                  //     color: Colors.grey.shade600,
-                  //   )),
-                  //
-                  //   RichPriceText(price: order.total - order.deliveryFee, fontSize: 13)
-                  // ]),
-                  if(order.payment == 'COD')
-                  TableRow(children: [
-                    Text(lang.deliveryFee, style: TextStyle(
-                      height: 2, fontSize: 13,
-                      fontFamily: 'Lato',
-                      color: Colors.grey.shade600,
-                    )),
-
-                    RichPriceText(price: order.deliveryFee, fontSize: 13)
-                  ])
-                ],
-              ),
-            ),
-            SliverToBoxAdapter(child: Divider()),
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  Table(children: [
-                    if(order.payment == 'COD') TableRow(children: [
-                      Text(lang.total, style: TextStyle(
-                        height: 2,
-                        fontSize: 13,
-                        fontFamily: 'Lato',
-                        color: Colors.grey.shade600,
-                      )),
-
-                      RichPriceText(price: order.total, fontWeight: FontWeight.bold, fontSize: 18)
-                    ])
-                  ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
-
-               if(order.payment !=null) Table(children: [
-                    TableRow(children: [
-                      Text(lang.paymentType, style: TextStyle(
-                        height: 2,
-                        fontSize: 13,
-                        fontFamily: 'Lato',
-                        color: Colors.grey.shade600,
-                      )),
-
-                      Text(order.payment, textAlign: TextAlign.right, style: TextStyle(
-                          fontSize: 13
-                      ))])
-                  ], defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
-                  SizedBox(height: 50,)
-                ],
-              ),
-            ),
-
-          ]
+          children: orderViewBuilder(order, lang),
       ),
     );
   }
 }
 
 
-class DriverBottomWidget extends StatefulWidget {
+class DriverOrderActionButton extends StatefulWidget {
   final Order order;
-  DriverBottomWidget({this.order});
+  DriverOrderActionButton({this.order});
   @override
-  _DriverBottomWidgetState createState() => _DriverBottomWidgetState();
+  _DriverOrderActionButtonState createState() => _DriverOrderActionButtonState();
 }
 
-class _DriverBottomWidgetState extends State<DriverBottomWidget> {
+class _DriverOrderActionButtonState extends State<DriverOrderActionButton> {
   static Order order;
   bool completed = false;
   bool accepted = false;
 
   static Widget generateActionBtn(BuildContext context){
-    print(order.status);
     switch(order.status){
       case OrderStatus.pending:
         return acceptOrder(context);
@@ -232,6 +139,25 @@ class _DriverBottomWidgetState extends State<DriverBottomWidget> {
             '_id' : order.id,
             'flag' : true
           });
+
+          if(order.type == OrderType.deliveryVehicle){
+            SharedPreferences _prefs = await SharedPreferences.getInstance();
+
+            Trip trip =  await TripService().createTrip(
+                order.id,
+                LatLng( (order.items.first.item as DeliveryVehicleOrderItem).pickUp.latitude,
+                    (order.items.first.item as DeliveryVehicleOrderItem).pickUp.longitude),
+                LatLng(order.location.latitude, order.location.longitude),
+                _prefs.getString('deviceId')
+            );
+
+            await HaweyatiService.patch('orders/trip', {
+              '_id' : order.id,
+              'tripId' : trip.tripId,
+              'shareUrl' : trip.views.shareUrl,
+            });
+          }
+
         } catch (e){
           print(e);
           openMessageDialog(context, e.message);

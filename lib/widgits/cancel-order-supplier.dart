@@ -5,13 +5,14 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/haweyati-text-field.
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-form.dart';
 import 'package:haweyati_supplier_driver_app/utils/validators.dart';
 
-class CancelOrderSupplier extends StatefulWidget {
-
+class ReasonDialog extends StatefulWidget {
+  final String purpose;
+  ReasonDialog({this.purpose='Cancel Order'});
   @override
-  _CancelOrderSupplierState createState() => _CancelOrderSupplierState();
+  _ReasonDialogState createState() => _ReasonDialogState();
 }
 
-class _CancelOrderSupplierState extends State<CancelOrderSupplier> {
+class _ReasonDialogState extends State<ReasonDialog> {
 
   var reason = TextEditingController();
   var _key = GlobalKey<SimpleFormState>();
@@ -21,7 +22,7 @@ class _CancelOrderSupplierState extends State<CancelOrderSupplier> {
     return LocalizedView(
       builder: (context,lang) =>
       AlertDialog(
-          title: Text("Cancel Order",style: TextStyle(
+          title: Text(widget.purpose,style: TextStyle(
             fontWeight: FontWeight.bold
           ),),
           content: SimpleForm(
@@ -30,9 +31,10 @@ class _CancelOrderSupplierState extends State<CancelOrderSupplier> {
             },
             key: _key,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("Please input reason for cancellation of this order."),
+                Text("Please input reason."),
                 SizedBox(height: 10,),
                 HaweyatiTextField(
                   icon: Icons.error,
@@ -44,14 +46,11 @@ class _CancelOrderSupplierState extends State<CancelOrderSupplier> {
               ],
             ),
           ),
-
           insetPadding: const EdgeInsets.all(15),
           titlePadding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
           actionsPadding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
           contentPadding: const EdgeInsets.all(15),
-
           actions: [
-
             TextButton(
                 // style: widget.confirmButtonStyle,
                 child: Text("Submit"),

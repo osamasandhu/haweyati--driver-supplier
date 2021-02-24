@@ -50,6 +50,8 @@ class Order extends HiveObject implements JsonSerializable {
   DateTime updatedAt;
   Driver driver;
   Supplier supplier;
+  String shareUrl;
+  String tripId;
 
   Order(this.type, {
     this.id,
@@ -57,6 +59,8 @@ class Order extends HiveObject implements JsonSerializable {
     this.note,
     this.total,
     this.items,
+    this.shareUrl,
+    this.tripId,
     this.number,
     this.images = const [],
     this.status,
@@ -120,6 +124,8 @@ class Order extends HiveObject implements JsonSerializable {
       note: json['note'],
       city: json['city'],
       number: json['orderNo'],
+      tripId: json['tripId'],
+      shareUrl: json['shareUrl'],
       total: json['total']?.toDouble(),
       deliveryFee: json['deliveryFee']?.toDouble() ?? 0.0,
       createdAt: DateTime.parse(json['createdAt']),

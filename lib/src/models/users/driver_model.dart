@@ -1,3 +1,4 @@
+import 'package:haweyati_client_data_models/models/others/location_model.dart';
 import 'package:hive/hive.dart';
 import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
@@ -62,7 +63,7 @@ class Driver extends HiveObject {
 
     data['license'] = this.license;
     if (this.location != null) {
-      data['location'] = this.location.serialize();
+      data['location'] = this.location.toJson();
     }
     data['city'] = this.city;
     data['message'] = this.message;
