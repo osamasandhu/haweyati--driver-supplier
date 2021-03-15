@@ -8,7 +8,7 @@ part of 'single-scaffolding_model.dart';
 
 SingleScaffolding _$SingleScaffoldingFromJson(Map<String, dynamic> json) {
   return SingleScaffolding(
-    type: json['type'] as String,
+    name: json['name'] as String,
     description: json['description'] as String,
     pricing: (json['pricing'] as List)
         ?.map((e) => e == null ? null : SingleScaffoldingPricing.fromJson(e))
@@ -25,7 +25,7 @@ Map<String, dynamic> _$SingleScaffoldingToJson(SingleScaffolding instance) {
     }
   }
 
-  writeNotNull('type', instance.type);
+  writeNotNull('name', instance.name);
   writeNotNull('description', instance.description);
   writeNotNull('pricing', instance.pricing);
   return val;

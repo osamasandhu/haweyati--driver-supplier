@@ -5,9 +5,9 @@ import 'package:haweyati_client_data_models/models/others/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/services/vehicle-type-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/haweyati-text-field.dart';
+import 'package:haweyati_supplier_driver_app/utils/lazy_task.dart';
 import 'package:haweyati_supplier_driver_app/utils/validators.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/driver_model.dart';
-import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/supplier/auth-pages/waiting-approval_page.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
@@ -19,7 +19,6 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-form.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-future-builder.dart';
 import 'package:haweyati_supplier_driver_app/utils/simple-snackbar.dart';
-import 'package:image_picker/image_picker.dart';
 
 class EditDriverProfile extends StatefulWidget {
   @override
@@ -28,14 +27,10 @@ class EditDriverProfile extends StatefulWidget {
 
 class _EditDriverProfileState extends State<EditDriverProfile> {
 
-  PickedFile _image;
   Location _userLocation;
   bool isVehicleInfoChanged = false;
-
   Future<List<VehicleType>> vehicleTypes;
-
   VehicleType selectedType = AppData.driver.vehicle.type;
-
   String imagePath;
   Location location = AppData.driver.location;
   var name = TextEditingController.fromValue(TextEditingValue(text: AppData.driver.profile.name));
@@ -44,7 +39,6 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
   final form = GlobalKey<FormState>();
   bool autoValidate=false;
   var simpleFormKey = GlobalKey<SimpleFormState>();
-
   final _license = new TextEditingController.fromValue(TextEditingValue(text: AppData.driver.license));
   final _model = new TextEditingController.fromValue(TextEditingValue(text: AppData.driver.vehicle.model));
   final _vehicleName = new TextEditingController.fromValue(TextEditingValue(text: AppData.driver.vehicle.name));
@@ -78,6 +72,7 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
 
   @override
   Widget build(BuildContext context) {
+    print("image : ${imagePath}");
     return LocalizedView(
       builder: (context, lang) =>  Scaffold(
         key: key,
@@ -93,59 +88,56 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                     context: context,
                     barrierDismissible: false,
                     builder: (context) => openConfirmVehicleInfoChangeDialog(context));
-                        print(proceed);
-                if(proceed==null || !proceed){
-                  print("returned");
+                if(!proceed ?? true){
                   return;
                 }
-                print("working");
               }
                 FocusScope.of(context).requestFocus(FocusNode());
                 FocusScope.of(context).requestFocus(FocusNode());
-                openLoadingDialog(context, lang.updatingProfile);
 
-                FormData profile = FormData.fromMap({
-                  "_id" : AppData.driver.sId,
-                  'profile' : AppData.driver.profile.id,
-                  "name": name.text,
-                  "email" : _email.text,
-                  "license" : _license.text,
-                  "latitude" : _userLocation.latitude,
-                  "longitude" : _userLocation.longitude,
-                  "vehicleName" : _vehicleName.text,
-                  "model" : _model.text,
-                  "type" : selectedType.id,
-                  "identificationNo" : _identification.text,
-                  // "city" : _userLocation.city,
-                  "address" : _userLocation.address,
-                  'isVehicleInfoChanged' : isVehicleInfoChanged
-                });
+                await performLazyTask(context, () async {
 
-                if(imagePath!=null){
-                  profile.files.add(
-                    MapEntry(
-                      'image', await MultipartFile.fromFile(imagePath)
-                    )
-                  );
-                }
+                  FormData profile = FormData.fromMap({
+                    "_id" : AppData.driver.sId,
+                    'profile' : AppData.driver.profile.id,
+                    "name": name.text,
+                    "email" : _email.text,
+                    "license" : _license.text,
+                    "latitude" : _userLocation.latitude,
+                    "longitude" : _userLocation.longitude,
+                    "vehicleName" : _vehicleName.text,
+                    "model" : _model.text,
+                    "type" : selectedType.id,
+                    "identificationNo" : _identification.text,
+                    "address" : _userLocation.address,
+                    'isVehicleInfoChanged' : isVehicleInfoChanged
+                  });
 
-                var res = await HaweyatiService.patch('drivers', profile);
-                Navigator.pop(context);
-                print(res.data);
-                try{
-                  await AppData.signIn(Driver.fromJson(res.data));
-                  if(isVehicleInfoChanged){
-                    CustomNavigator.pushReplacement(context, WaitingApproval());
-                  }else{
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                  if(imagePath!=null){
+                    profile.files.add(
+                        MapEntry(
+                            'image', await MultipartFile.fromFile(imagePath)
+                        )
+                    );
                   }
-                  print(res.data);
-                } catch (e){
+
+                  var res = await HaweyatiService.patch('drivers', profile);
                   Navigator.pop(context);
-                  key.currentState.hideCurrentSnackBar();
-                  showSimpleSnackbar(key, res.toString(),true);
-                }
+                  try{
+                    await AppData.signIn(Driver.fromJson(res.data));
+                    if(isVehicleInfoChanged){
+                      CustomNavigator.pushReplacement(context, WaitingApproval());
+                    }else{
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    }
+                  } catch (e){
+                    Navigator.pop(context);
+                    key.currentState.hideCurrentSnackBar();
+                    showSimpleSnackbar(key, res.toString(),true);
+                  }
+                },message: lang.updatingProfile);
+
             },
             child: Column(children: <Widget>[
               ProfileImagePicker(
@@ -167,22 +159,10 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                 label: "Email",
                 controller: _email,
                 icon: Icons.mail,
-                // validator: (value) {
-                //   return value.isEmpty ? "Please Enter Email" : null;
-                // },
               ),
-              // HaweyatiTextField(
-              //   keyboardType: TextInputType.emailAddress,
-              //   label: "Email",
-              //   controller: _email,
-              //   icon: Icons.mail,
-              //   validator: (value) {
-              //     return value.isEmpty ? "Please Enter Email" : null;
-              //   },
-              // ),\
               SizedBox(height: 15),
               HaweyatiTextField(
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.text,
                 label: lang.licenseNo,
                 controller: _license,
                 icon: Icons.calendar_today,
@@ -190,7 +170,6 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                   return value.isEmpty ? lang.validateLicenseNo : null;
                 },
               ),
-
               LocationPickerWidget(
                 location: AppData.driver.location,
                 onChanged: (location){
@@ -199,8 +178,6 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                   }
                 },
               ),
-
-
               Padding(
                 padding: const EdgeInsets.only(top: 30, bottom: 20),
                 child: Text(lang.vehicleDetails, style: TextStyle(
@@ -221,25 +198,22 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                         padding: EdgeInsets.only(bottom: 30),
                         itemBuilder: (context, index) {
                           VehicleType _type = snapshot[index];
-                          print(_type.id);
-                          return ListTile(
-                            leading: CircleAvatar(
+                          return RadioListTile(
+                            value: _type.id,
+                              groupValue: selectedType.id,
+                              title: Text(_type.name),
+                            onChanged: (String val) {
+                              setState(() {
+                                selectedType = snapshot.firstWhere((element) => element.id == val);
+                              });
+                            },
+                            subtitle: Text("Volumetric Weight: " + _type.volumetricWeight.toString()),
+                            secondary: CircleAvatar(
                               backgroundColor: Colors.transparent,
                               backgroundImage: _type?.image !=null ? NetworkImage(
                                   HaweyatiService.resolveImage(_type?.image?.name)
                               ) : AssetImage("assets/images/icon.png"),
                             ),
-                            title: Text(_type.name),
-                            subtitle: Text("Volumetric Weight: " + _type.volumetricWeight.toString()),
-                            trailing: Radio(
-                                value: _type.id,
-                                groupValue: selectedType.id,
-                                onChanged: (val) {
-                                  setState(() {
-                                    selectedType = snapshot.where((element) => element.id == val).first;
-                                  });
-                                  // print(selectedType);
-                                }),
                           );
                         });
                   }),
@@ -288,55 +262,6 @@ class _EditDriverProfileState extends State<EditDriverProfile> {
                   ),
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(vertical: 20.0),
-              //   child: RaisedButton(
-              //     child: Text("Submit"),
-              //     onTap: () async {
-              //     print(isVehicleInfoModified());
-              //     return;
-              //     if(form.currentState.validate()){
-              //
-              //
-              //       FocusScope.of(context).requestFocus(FocusNode());
-              //       FocusScope.of(context).requestFocus(FocusNode());
-              //       openLoadingDialog(context, 'Updating profile');
-              //
-              //
-              //       final profile = Map<String, dynamic>.from({
-              //         "name": name.text,
-              //         "license" : _license.text,
-              //         "latitude" : _userLocation.position.latitude,
-              //         "longitude" : _userLocation.position.longitude,
-              //         "vehicleName" : _vehicleName.text,
-              //         "model" : _model.text,
-              //         "type" : selectedType,
-              //         "identificationNo" : _identification.text,
-              //         "city" : _userLocation.city,
-              //         "address" : _userLocation.address
-              //       });
-              //
-              //       var res = await HaweyatiService.patch('drivers', profile);
-              //       Navigator.pop(context);
-              //       print(res.data);
-              //       return;
-              //       try{
-              //         // await AppData.signIn(DriverModel.fromJson(res.data));
-              //         Navigator.pop(context);
-              //         Navigator.pop(context);
-              //         print(res.data);
-              //       } catch (e){
-              //         Navigator.pop(context);
-              //         key.currentState.hideCurrentSnackBar();
-              //         showSimpleSnackbar(key, res.toString(),true);
-              //       }
-              //     } else {
-              //       setState(() {
-              //         autoValidate=true;
-              //       });
-              //     }
-              //   },),
-              // )
             ],),
           ),),),
     );

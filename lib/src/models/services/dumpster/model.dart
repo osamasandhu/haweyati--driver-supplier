@@ -7,7 +7,7 @@ part 'model.g.dart';
 @HiveType(typeId: 20)
 class Dumpster extends Orderable {
   @HiveField(0) String id;
-  @HiveField(1) String size;
+  @HiveField(1) String name;
   @HiveField(2) ImageModel image;
   @HiveField(3) List<Rent> pricing;
   @HiveField(4) String description;
@@ -16,7 +16,7 @@ class Dumpster extends Orderable {
 
   Dumpster({
     this.id,
-    this.size,
+    this.name,
     this.image,
     this.pricing,
     this.suppliers,
@@ -29,7 +29,7 @@ class Dumpster extends Orderable {
 
   Dumpster.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
-    size = json['size'];
+    name = json['name'];
     // suppliers = json['suppliers'].cast<String>();
     description = json['description'];
     image = ImageModel.fromJson(json['image']);
@@ -48,7 +48,7 @@ class Dumpster extends Orderable {
 
   Map<String, dynamic> toJson() => {
     '_id': id,
-    'size': size,
+    'name': name,
     'suppliers': suppliers,
     'description': description,
     'image': image.toJson(),

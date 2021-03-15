@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:haweyati_client_data_models/models/hypertrack/trip_model.dart';
-import 'package:haweyati_client_data_models/services/hyerptrack_service.dart';
 import 'package:haweyati_client_data_models/utils/toast_utils.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/delivery-vehicle/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
+import 'package:haweyati_supplier_driver_app/src/services/hyerptrack_service.dart';
 import 'package:haweyati_supplier_driver_app/utils/lazy_task.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -51,6 +51,7 @@ class LiveTrackingViewState extends State<LiveTrackingView> {
                    _prefs.getString('deviceId'),
                    false
                );
+
                await HaweyatiService.patch('orders/trip', {
                  '_id' : widget.order.id,
                  'tripId' : trip.tripId,

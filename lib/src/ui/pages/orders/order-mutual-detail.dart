@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
-import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material/order-item_model.dart';
+import 'package:haweyati_supplier_driver_app/src/models/order/delivery-vehicle/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart';
@@ -29,8 +29,20 @@ List<Widget> orderViewBuilder(Order order,AppLocalizations lang,[Widget finishin
             title: 'Pick Up Location',
             initialValue: order.supplier.location,
             onChanged: (null),
-            edit: false,)),
+            edit: false,)
+          ),
         ),
+    if (order.type == OrderType.deliveryVehicle)
+      SliverPadding(
+        padding: const EdgeInsets.only(bottom: 15, top: 10),
+        sliver: SliverToBoxAdapter(
+          child: LocationPicker(
+            title: 'Pick Up Location',
+            initialValue: (order.items.first.item as DeliveryVehicleOrderItem).pickUp,
+            onChanged: (null),
+            edit: false,),
+        ),
+      ),
       SliverPadding(
         padding: const EdgeInsets.only(bottom: 15, top: 5),
         sliver: SliverToBoxAdapter(child: DropOffLocation(order.location)),
@@ -43,45 +55,67 @@ List<Widget> orderViewBuilder(Order order,AppLocalizations lang,[Widget finishin
             SupplierUtils.hasAcceptedFinishingItems(order)),
         childCount: order.items.length,
       )),
-      SliverToBoxAdapter(
-        child: Table(
-          defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
+    SliverToBoxAdapter(
+      child: Table(
+        textBaseline: TextBaseline.alphabetic,
+        defaultVerticalAlignment: TableCellVerticalAlignment.baseline,
+        children: [
+          priceRow("Subtotal", order.itemsSubtotal),
+          priceRow("VAT (15%) ( + )", order.vat),
+          if (order.deliveryFee != null)  priceRow("Delivery Fee ( + )", order.deliveryFee),
+          if (order.rewardPointsValue != null)  priceRow("Reward Value Used ( - )", order.rewardPointsValue),
+          if (order.couponValue != null)  priceRow("Discount ( ${order.coupon} ( - ) ) ", order.couponValue),
+        ],
+      ),
+    ),
+      SliverToBoxAdapter(child: Divider()),
+    SliverToBoxAdapter(
+      child: Table(
           children: [
             TableRow(children: [
-              Text('VAT (15%) ', style: TextStyle(
-                height: 2, fontSize: 13,
-                fontFamily: 'Lato',
-                color: Colors.grey.shade600,
-              )),
-
-              RichPriceText(price: (order.total - order.deliveryFee) * .15, fontSize: 13)
-            ]),
-            TableRow(children: [
-              Text(lang.subtotal, style: TextStyle(
-                height: 2, fontSize: 13,
-                fontFamily: 'Lato',
-                color: Colors.grey.shade600,
-              )),
-
-              RichPriceText(price: order.total - order.deliveryFee, fontSize: 13)
-            ]),
-            if(order.deliveryFee!=null) TableRow(children: [
-              Text(lang.deliveryFee, style: TextStyle(
-                height: 2, fontSize: 13,
-                fontFamily: 'Lato',
-                color: Colors.grey.shade600,
-              )),
-
-              RichPriceText(price: order.deliveryFee, fontSize: 13)
+              Text(
+                'Total',
+                style: TextStyle(
+                  height: 2,
+                  fontSize: 13,
+                  fontFamily: 'Lato',
+                  color: Colors.grey.shade600,
+                ),
+              ),
+              RichPriceText(
+                price: order.kTotal,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              )
             ])
           ],
-        ),
-      ),
-      SliverToBoxAdapter(child: Divider()),
+          textBaseline: TextBaseline.alphabetic,
+          defaultVerticalAlignment: TableCellVerticalAlignment.baseline),
+    ),
+    SliverToBoxAdapter(child: Padding(padding: EdgeInsets.symmetric(vertical: 10),)),
     if(order.customer!=null) personBuilder(type: 'Customer',image: order.customer?.profile?.image?.name,name: order.customer.profile.name,contact: order.customer.profile.contact),
     if(order.supplier!=null && !AppData.isSupplier) personBuilder(type: 'Supplier',image: order.supplier?.person?.image?.name,name: order.supplier.person.name,contact: order.supplier.person.contact),
     if(order.driver!=null && !AppData.isDriver) personBuilder(type: 'Driver',image: order.driver?.profile?.image?.name,name: order.driver.profile.name,contact: order.driver.profile.contact),
-    ];
+    SliverToBoxAdapter(child: Padding(padding: EdgeInsets.symmetric(vertical: 30),)),
+  ];
+}
+
+TableRow priceRow(String title,double value){
+  return  TableRow(children: [
+    Text(
+      title,
+      style: TextStyle(
+        height: 2,
+        fontSize: 13,
+        fontFamily: 'Lato',
+        color: Colors.grey.shade600,
+      ),
+    ),
+    RichPriceText(
+      price: value,
+      fontSize: 13,
+    )
+  ]);
 }
 
 Widget personBuilder({String type,String image,String name,String contact}){

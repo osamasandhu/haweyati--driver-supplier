@@ -1,7 +1,6 @@
 import 'package:haweyati_client_data_models/models/others/location_model.dart';
 import 'package:hive/hive.dart';
 import 'package:haweyati_supplier_driver_app/src/models/profile_model.dart';
-import 'package:haweyati_supplier_driver_app/src/models/location_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/users/vehicle_model.dart';
 part 'driver_model.g.dart';
 
@@ -15,7 +14,7 @@ class Driver extends HiveObject {
   @HiveField(5) Location location;
   @HiveField(6) Profile profile;
   @HiveField(7) String message;
-  @HiveField(8) String liveLocation;
+  @HiveField(9) double rating;
 
   Driver({
     this.sId,
@@ -26,14 +25,13 @@ class Driver extends HiveObject {
     this.vehicle,
     this.profile,
     this.location,
-    this.liveLocation,
+    this.rating,
   });
 
   Driver.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     status = json['status'];
     vehicle = json['vehicle'] != null ? new Vehicle.fromJson(json['vehicle']) : null;
-
     if (json['profile'] != null) {
       if (json['profile'] is String) {
         profile = Profile()..id = json['profile'];
@@ -47,11 +45,11 @@ class Driver extends HiveObject {
         : null;
     city = json['city'];
     message = json['message'];
-    liveLocation = json['liveLocation'];
+    rating = json['rating'];
   }
 
   Map<String, dynamic> serialize() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.vehicle != null) {
       data['vehicle'] = this.vehicle.serialize();
     }
@@ -60,15 +58,13 @@ class Driver extends HiveObject {
     }
     data['status'] = this.status;
     data['_id'] = this.sId;
-
     data['license'] = this.license;
     if (this.location != null) {
       data['location'] = this.location.toJson();
     }
     data['city'] = this.city;
     data['message'] = this.message;
-    data['liveLocation'] = this.liveLocation;
-
+    data['rating'] = this.rating;
     return data;
   }
 }

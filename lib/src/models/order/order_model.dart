@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:haweyati_client_data_models/data.dart';
 import 'package:haweyati_client_data_models/models/user/supplier_model.dart';
 import 'package:haweyati_supplier_driver_app/model/json_serializable.dart';
@@ -52,6 +54,10 @@ class Order extends HiveObject implements JsonSerializable {
   Supplier supplier;
   String shareUrl;
   String tripId;
+  String coupon;
+  double vat;
+  double rewardPointsValue;
+  double couponValue;
 
   Order(this.type, {
     this.id,
@@ -70,9 +76,22 @@ class Order extends HiveObject implements JsonSerializable {
     this.customer,
     this.createdAt,
     this.updatedAt,
-    this.deliveryFee = 50,
-    this.driver
+    this.deliveryFee,
+    this.driver,
+    this.vat,
+    this.couponValue,
+    this.coupon,
+    this.rewardPointsValue
   });
+
+
+  /// Value Added Tax (15%);
+  static const vatVal = .15;
+
+  double get itemsSubtotal => items.fold(0, (previousValue, element) => previousValue + element.subtotal);
+
+  double get kTotal => max(0, itemsSubtotal + (itemsSubtotal * vatVal) - (rewardPointsValue ?? 0) -
+      (couponValue ?? 0));
 
   factory Order.fromJson(Map<String, dynamic> json) {
     OrderItem Function(Map<String, dynamic>) _parser;
@@ -126,8 +145,12 @@ class Order extends HiveObject implements JsonSerializable {
       number: json['orderNo'],
       tripId: json['tripId'],
       shareUrl: json['shareUrl'],
+      coupon: json['coupon'],
+      vat: double.tryParse(json['vat'].toString()) ?? 0.0,
+      couponValue: double.tryParse(json['couponValue'].toString()),
+      rewardPointsValue: double.tryParse(json['rewardPointsValue'].toString()),
       total: json['total']?.toDouble(),
-      deliveryFee: json['deliveryFee']?.toDouble() ?? 0.0,
+      deliveryFee: json['deliveryFee']?.toDouble() ,
       createdAt: DateTime.parse(json['createdAt']),
       payment: json['paymentType'],
       customer: Customer.fromJson(json['customer']),

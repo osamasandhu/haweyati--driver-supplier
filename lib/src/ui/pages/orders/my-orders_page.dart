@@ -214,7 +214,7 @@ class OrderItemTile extends StatelessWidget {
     dynamic product = item.item.product;
 
     if (item.item is DumpsterOrderItem) {
-      title = '${int.parse(product.size)} Yards';
+      title = '${int.parse(product.name)} Yards';
       imageUrl = product.image.name;
     } else if (item.item is BuildingMaterialOrderItem) {
       qty = (item.item as BuildingMaterialOrderItem).qty;

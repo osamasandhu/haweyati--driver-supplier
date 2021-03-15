@@ -37,10 +37,6 @@ class _EditSupplierProfileState extends State<EditSupplierProfile> {
   var _service2 = AppData.supplier.services.contains('Scaffolding');
   var _service3 = AppData.supplier.services.contains('Building Material');
   var _service4 = AppData.supplier.services.contains('Finishing Material');
-  var _service5 = AppData.supplier.services.contains('Delivery Vehicle');
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +68,6 @@ class _EditSupplierProfileState extends State<EditSupplierProfile> {
                 location: AppData.supplier.location,
                 onChanged: (Location loc){
                   pickerData = loc;
-                  // print(pickerData.address);
-                  // print(pickerData.longitude);
                 },
               ),
               SizedBox(height: 15,),
@@ -122,15 +116,6 @@ class _EditSupplierProfileState extends State<EditSupplierProfile> {
                 ),
               ),
 
-              ListTile(
-                dense: true,
-                leading: Text(lang.deliveryVehicles),
-                trailing: Switch(
-                    value: _service5,
-                    onChanged: (val) => setState(() => _service5 = val)
-                ),
-              ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: ImagePickerWidget(
@@ -157,8 +142,7 @@ class _EditSupplierProfileState extends State<EditSupplierProfile> {
                     services.add('Finishing Material');
                   }
                   if(form.currentState.validate()){
-                    print("my id");
-                    print(AppData.supplier.id);
+
                     FocusScope.of(context).requestFocus(FocusNode());
                     FocusScope.of(context).requestFocus(FocusNode());
                     openLoadingDialog(context, lang.updatingProfile);
@@ -175,7 +159,6 @@ class _EditSupplierProfileState extends State<EditSupplierProfile> {
                     });
 
                     var res = await HaweyatiService.patch('suppliers', profile);
-                    // print(res.data);
 
                     try{
                       await AppData.signIn(SupplierModel.fromJson(res.data));
@@ -184,8 +167,7 @@ class _EditSupplierProfileState extends State<EditSupplierProfile> {
                       print(res.data);
                       // print("received from up");
                     } catch (e){
-                      // throw e;
-                      // print("exception arahi hai ${e.toString()}");
+
                       Navigator.pop(context);
                       key.currentState.hideCurrentSnackBar();
                       showSimpleSnackbar(key, res.toString(),true);

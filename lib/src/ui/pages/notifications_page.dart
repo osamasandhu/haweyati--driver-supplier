@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/model/models/notifications_model.dart';
@@ -17,8 +18,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   Widget build(BuildContext context) {
     return LocalizedView(
-      builder: (context,lang) =>
-      Scaffold(
+      builder: (context,lang) => Scaffold(
         appBar: HaweyatiAppBar(),
         body: LiveScrollableView<NotificationModel>(
           key: _key,
@@ -33,11 +33,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 leading: Icon(CupertinoIcons.news),
                 title: Text(data.title),
                 subtitle: Text(data.body),
+                trailing: Text(DateFormat(DateFormat.YEAR_MONTH_DAY).format(DateTime.parse(data.createdAt))),
               )
             );
           },
         )
-
       ),
     );
   }

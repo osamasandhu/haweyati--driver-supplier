@@ -32,7 +32,6 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
   static bool hasSelectedPayment = order.payment!=null;
   static bool NoSelectedPayment = order.payment==null;
 
-
   static Widget generateActionBtn(BuildContext context){
     bool hasSelectedItemsBefore = order.type == OrderType.finishingMaterial ? order.items.any((e) => (e.item as FinishingMaterialOrderItem).selected == true) : false;
     switch(order.status){
@@ -63,7 +62,8 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
           children: [
             if(noDriver && order.type == OrderType.dumpster)  assignDriver(context),
             if(noDriver && order.type == OrderType.dumpster) cancelOrder(context),
-            if(noDriver && NoSelectedPayment) cancelOrder(context),
+            if(NoSelectedPayment) cancelOrder(context),
+            // if(noDriver && NoSelectedPayment) cancelOrder(context),
             if(NoSelectedPayment && hasDriver) Padding(
               padding: const EdgeInsets.only(bottom: 40.0),
               child: Text("Order is awaiting payment confirmation from customer.",style: TextStyle(
@@ -227,8 +227,7 @@ class _SupplierOrderActionButtonState extends State<SupplierOrderActionButton> {
                 ReasonDialog(purpose: 'Reason for not accepting all items',));
       if(reason!=null)
         data['reason'] = reason;
-      else
-        return;
+      else return;
       }
      await performLazyTask(context, ()async {
         await HaweyatiService.patch('orders/select-items', data);

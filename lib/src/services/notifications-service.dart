@@ -1,4 +1,5 @@
 import 'package:haweyati_supplier_driver_app/model/models/notifications_model.dart';
+import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'haweyati-service.dart';
 
 class NotificationsService extends HaweyatiService<NotificationModel> {
@@ -6,7 +7,7 @@ class NotificationsService extends HaweyatiService<NotificationModel> {
   NotificationModel parse(Map<String, dynamic> item) => NotificationModel.fromJson(item);
 
   Future<List<NotificationModel>> allNotifications() async {
-    return this.getAll('fcm/get-history');
+    return this.getAll('fcm/get-unseen/${AppData.isSupplier ? AppData.supplier.person.id : AppData.driver.profile.id}');
   }
 
 }

@@ -14,6 +14,7 @@ class SupplierModel extends HiveObject {
   @HiveField(5) String shopParentId;
   @HiveField(6) List<String> services;
   @HiveField(7) String message;
+  @HiveField(8) double rating;
 
   SupplierModel({
     this.services,
@@ -24,6 +25,7 @@ class SupplierModel extends HiveObject {
     this.shopParentId,
     this.message,
     this.status,
+    this.rating,
   });
 
   SupplierModel.fromJson(Map<String, dynamic> json) {
@@ -34,6 +36,7 @@ class SupplierModel extends HiveObject {
     person = json['person'] != null ? Profile.fromJson(json['person']) : null;
     status = json['status'];
     city = json['city'];
+    rating = double.tryParse(json['rating'].toString());
     message = json['message'];
     location = json['location'] != null ? Location.fromJson(json['location']) : null;
     shopParentId = json['parent'];
@@ -45,6 +48,7 @@ class SupplierModel extends HiveObject {
     data['services'] = this.services;
     data['_id'] = this.id;
     data['status'] = this.status;
+    data['rating'] = this.rating;
     data['city'] = this.city;
     if(this.person!=null){
       data['person'] = this.person.serialize();

@@ -8,18 +8,21 @@ part 'order-item_model.g.dart';
 class DumpsterOrderItem extends OrderItem {
   @HiveField(1) int extraDays;
   @HiveField(2) double extraDaysPrice;
+  int qty;
 
   DumpsterOrderItem({
     Dumpster product,
     this.extraDays = 0,
-    this.extraDaysPrice = 0
+    this.extraDaysPrice = 0,
+    this.qty= 0
   }): super(product);
 
   static DumpsterOrderItem fromJson(Map<String, dynamic> json) {
     return DumpsterOrderItem(
       product: Dumpster.fromJson(json['product']),
       extraDays: json['extraDays'],
-      extraDaysPrice: json['extraDaysPrice']?.toDouble()
+      extraDaysPrice: json['extraDaysPrice']?.toDouble(),
+      qty: json['qty']?.toInt()
     );
   }
 

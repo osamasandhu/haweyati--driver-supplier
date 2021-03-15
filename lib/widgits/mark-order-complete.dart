@@ -3,12 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/widgets/custom-navigator.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/flat-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/image-picker-widget.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/message-dialog.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/widgets/raised-action-button.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/scroll_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/simple-form.dart';
 import 'package:haweyati_supplier_driver_app/utils/lazy_task.dart';
@@ -22,12 +19,9 @@ class MarkOrderCompleted extends StatefulWidget {
 }
 
 class _MarkOrderCompletedState extends State<MarkOrderCompleted> {
-  var _autoValidate = false;
 
   final _key = GlobalKey<SimpleFormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _name = TextEditingController();
-  final _values = TextEditingController();
 
   PickedFile image;
 

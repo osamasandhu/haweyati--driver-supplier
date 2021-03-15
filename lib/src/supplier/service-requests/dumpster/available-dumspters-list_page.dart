@@ -28,10 +28,10 @@ class _AvailableDumpstersListPageState extends State<AvailableDumpstersListPage>
           subtitle: '',
           loader: ()=> _service.getDumpster(),
           builder: (context,data){
-            print(data.size);
+            print(data.name);
             return ServiceListItem(
               onTap: (){},
-              name: data.size,
+              name: data.name,
               image: data.image.name,
             );
           },

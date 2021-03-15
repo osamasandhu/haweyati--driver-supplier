@@ -1,19 +1,16 @@
 import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:haweyati_supplier_driver_app/src/services/order-service.dart';
+import 'package:haweyati_supplier_driver_app/src/services/supplier-Services.dart';
 import 'package:haweyati_supplier_driver_app/src/supplier/orders/listings/supplier-assigned-orders.dart';
 import 'package:haweyati_supplier_driver_app/src/supplier/orders/listings/supplier-dispatched.dart';
-import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/orders-listing.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/utils/exit-application-dialog.dart';
 import 'package:haweyati_supplier_driver_app/utils/fcm-token.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/utils/notification-service.dart';
 import 'package:haweyati_supplier_driver_app/widgits/notification-dialog.dart';
-
 import 'orders/listings/supplier-completed-orders-listing.dart';
 import 'orders/listings/supplier-pending-orders-listing.dart';
 import 'orders/listings/supplier-selected-orders-listing.dart';
@@ -40,26 +37,19 @@ class _SupplierHomePageState extends State<SupplierHomePage> {
     SupplierCompletedOrdersListing(),
   ];
 
-  // List<Widget> _children = [
-  //   OrdersListing(future: OrdersService().supplierAllOrders(),),
-  //   OrdersListing(future: OrdersService().supplierSelectedOrders(),),
-  //   OrdersListing(future: OrdersService().supplierCompletedOrders(),),
-  // ];
-
   @override
   void initState() {
     super.initState();
-    print(AppData.supplier.city);
     FirebaseMessaging().subscribeToTopic('suppliers');
     FCMService().updateProfileFcmToken();
     firebaseCloudMessaging_Listeners();
+    SupplierServices().refreshSupplier();
   }
 
   void firebaseCloudMessaging_Listeners() {
     if (Platform.isIOS) NotificationService.iOS_Permission();
 
     _firebaseMessaging.configure(
-//      onBackgroundMessage: myBackgroundMessageHandler,
       onMessage: (Map<String, dynamic> message) async {
         print('on message $message');
         openNotificationDialog(context, NotificationService.transformNotificationMessage(message));
@@ -72,7 +62,6 @@ class _SupplierHomePageState extends State<SupplierHomePage> {
         print('on launch $message');
         openNotificationDialog(context, NotificationService.transformNotificationMessage(message));
       },
-//
     );
   }
 

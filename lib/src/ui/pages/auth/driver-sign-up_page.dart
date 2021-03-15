@@ -77,7 +77,6 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return LocalizedView(
       builder: (context, lang) => ScrollableView(
         key: scaffoldKey,
@@ -145,7 +144,6 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
               showSimpleSnackbar(scaffoldKey, res.toString(),true);
               return;
             }
-            print(res);
 
             var user = await HaweyatiService.post('auth/sign-in', {"username" : widget.phoneNumber , "password" : widget?.person?.password ?? _password.text});
              var token = user.data['access_token'];
@@ -264,8 +262,15 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
                       padding: EdgeInsets.only(bottom: 30),
                       itemBuilder: (context, index) {
                         VehicleType _type = snapshot[index];
-                        return ListTile(
-                          leading: CircleAvatar(
+                        return RadioListTile(
+                          value: _type,
+                          groupValue: selectedType,
+                          onChanged: (val) {
+                            setState(() {
+                              selectedType = val;
+                            });
+                          },
+                          secondary: CircleAvatar(
                             backgroundColor: Colors.transparent,
                             backgroundImage: _type?.image !=null ? NetworkImage(
                                 HaweyatiService.resolveImage(_type?.image?.name)
@@ -273,16 +278,6 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
                           ),
                           title: Text(_type.name),
                           subtitle: Text("Volumetric Weight: " + _type.volumetricWeight.toString()),
-                          trailing: Radio(
-                              value: _type,
-                              groupValue: selectedType,
-                              onChanged: (val) {
-                                print("Changed");
-                                setState(() {
-                                  selectedType = val;
-                                });
-                                // print(selectedType);
-                              }),
                         );
                       });
                 }),
@@ -350,7 +345,6 @@ class _DriverSignUpPageState extends State<DriverSignUpPage> {
                                   setState(() {
                                     shopParentId = val;
                                   });
-                                  print(shopParentId);
                                 }),
                           );
                         });

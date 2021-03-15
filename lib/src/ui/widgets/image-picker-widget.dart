@@ -107,7 +107,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
             child: SizedBox(
               width: 35,
               height: 35,
-              child: FlatButton(
+              child: _image == null ? SizedBox(): FlatButton(
                   color: Colors.red,
                   padding: EdgeInsets.zero,
                   child: Icon(Icons.delete, color: Colors.white),

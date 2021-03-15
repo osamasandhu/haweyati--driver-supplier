@@ -48,8 +48,15 @@ class _SelectDriverPageState extends State<SelectDriverPage> {
                     padding: EdgeInsets.only(bottom: 30),
                     itemBuilder: (context, index) {
                       var _driver = snapshot[index];
-                      return ListTile(
-                        leading: CircleAvatar(
+                      return RadioListTile(
+                        value: _driver,
+                        groupValue: selectedDriver,
+                        onChanged: (val) {
+                          setState(() {
+                            selectedDriver = val;
+                          });
+                        },
+                        secondary: CircleAvatar(
                           backgroundColor: Colors.transparent,
                           backgroundImage: _driver.profile?.image !=null ? NetworkImage(
                               HaweyatiService.resolveImage(_driver.profile?.image?.name)
@@ -64,14 +71,6 @@ class _SelectDriverPageState extends State<SelectDriverPage> {
                                 'Address not specified'),
                           ],
                         ),
-                        trailing: Radio(
-                            value: _driver,
-                            groupValue: selectedDriver,
-                            onChanged: (val) {
-                              setState(() {
-                                selectedDriver = val;
-                              });
-                            }),
                       );
                     });
               }),

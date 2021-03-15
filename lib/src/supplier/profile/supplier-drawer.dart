@@ -39,14 +39,12 @@ class SupplierDrawer extends StatelessWidget {
           StarRating(
             padding: EdgeInsets.symmetric(vertical: 5),
             color: Colors.yellow,
-            rating: 0,
+            rating: AppData.supplier.rating ?? 0,
             size: 20,
-            // onRatingChanged: (rating) => setState(() => this.rating = rating),
           ),
           SizedBox(height: 10),
 
           Expanded(child: SingleChildScrollView(child: Column(children: <Widget>[
-            // DrawerItem(icon: CupertinoIcons.home, text: 'Home', onTap: () => Navigator.of(context).pop()),
             DrawerItem(icon: CupertinoIcons.person, text: lang.settings, onTap: () {
               CustomNavigator.navigateTo(context, SupplierProfile());
             }),
@@ -63,7 +61,6 @@ class SupplierDrawer extends StatelessWidget {
             ),
 
             DrawerItem(icon: Icons.star, text: lang.rateApp, onTap: () => Navigator.of(context).pop()),
-
             // DrawerItem(icon: CupertinoIcons.news, text: 'Reports', onTap: () => Navigator.of(context).pop()),
             // DrawerItem(icon: CupertinoIcons.car, text: 'Driver', onTap: () => Navigator.of(context).pop()),
             DrawerItem(

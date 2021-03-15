@@ -25,7 +25,7 @@ class DriverAdapter extends TypeAdapter<Driver> {
       vehicle: fields[4] as Vehicle,
       profile: fields[6] as Profile,
       location: fields[5] as Location,
-      liveLocation: fields[8] as String,
+      rating: fields[9] as double,
     );
   }
 
@@ -49,8 +49,8 @@ class DriverAdapter extends TypeAdapter<Driver> {
       ..write(obj.profile)
       ..writeByte(7)
       ..write(obj.message)
-      ..writeByte(8)
-      ..write(obj.liveLocation);;
+      ..writeByte(9)
+      ..write(obj.rating);;
   }
 
   @override

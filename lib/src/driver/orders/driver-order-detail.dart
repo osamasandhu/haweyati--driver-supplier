@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:haweyati_client_data_models/models/hypertrack/trip_model.dart';
-import 'package:haweyati_client_data_models/services/hyerptrack_service.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/delivery-vehicle/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order_model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
+import 'package:haweyati_supplier_driver_app/src/services/hyerptrack_service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/pages/orders/order-mutual-detail.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/app-bar.dart';
@@ -17,12 +17,13 @@ import 'package:haweyati_supplier_driver_app/src/ui/widgets/flat-action-button.d
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/loading-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/message-dialog.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/scroll_view.dart';
+import 'package:haweyati_supplier_driver_app/utils/lazy_task.dart';
+import 'package:haweyati_supplier_driver_app/utils/toast_utils.dart';
 import 'package:haweyati_supplier_driver_app/widgits/confirmation-dialog.dart';
 import 'package:haweyati_supplier_driver_app/widgits/mark-order-complete.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../driver-supplier-map.dart';
 import '../LiveTrackingView.dart';
-
 
 class DriverOrderDetailPage extends StatelessWidget {
   final Order order;
@@ -70,7 +71,7 @@ class DriverOrderDetailPage extends StatelessWidget {
         )
            ,bottom: DriverOrderActionButton(order: order,),
           showBackground: true,
-           padding: const EdgeInsets.fromLTRB(15, 0, 15, 70),
+           padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
           appBar: HaweyatiAppBar(actions: [],),
           children: orderViewBuilder(order, lang),
       ),
@@ -88,8 +89,6 @@ class DriverOrderActionButton extends StatefulWidget {
 
 class _DriverOrderActionButtonState extends State<DriverOrderActionButton> {
   static Order order;
-  bool completed = false;
-  bool accepted = false;
 
   static Widget generateActionBtn(BuildContext context){
     switch(order.status){
@@ -142,12 +141,12 @@ class _DriverOrderActionButtonState extends State<DriverOrderActionButton> {
 
           if(order.type == OrderType.deliveryVehicle){
             SharedPreferences _prefs = await SharedPreferences.getInstance();
+            LatLng pickUp = LatLng( (order.items.first.item as DeliveryVehicleOrderItem).pickUp.latitude,
+                (order.items.first.item as DeliveryVehicleOrderItem).pickUp.longitude);
+            LatLng dropOff = LatLng(order.location.latitude, order.location.longitude);
 
             Trip trip =  await TripService().createTrip(
-                order.id,
-                LatLng( (order.items.first.item as DeliveryVehicleOrderItem).pickUp.latitude,
-                    (order.items.first.item as DeliveryVehicleOrderItem).pickUp.longitude),
-                LatLng(order.location.latitude, order.location.longitude),
+                order.id, pickUp, dropOff,
                 _prefs.getString('deviceId')
             );
 
@@ -158,10 +157,12 @@ class _DriverOrderActionButtonState extends State<DriverOrderActionButton> {
             });
           }
 
+          showSuccessToast("Order accepted successfully");
+
         } catch (e){
           print(e);
           openMessageDialog(context, e.message);
-         return;
+          return;
         }
 
         Navigator.pop(context);
@@ -173,9 +174,7 @@ class _DriverOrderActionButtonState extends State<DriverOrderActionButton> {
   static Widget completeOrder(BuildContext context) => FlatActionButton(
     label: "Complete Order",
     icon: Icon(CupertinoIcons.checkmark_circle),
-    onPressed: () {
-      CustomNavigator.navigateTo(context, MarkOrderCompleted(orderId: order.id,));
-    },
+    onPressed: () => CustomNavigator.navigateTo(context, MarkOrderCompleted(orderId: order.id,))
   );
 
 
@@ -183,12 +182,13 @@ class _DriverOrderActionButtonState extends State<DriverOrderActionButton> {
     label: "Dispatch Order",
     icon: Icon(CupertinoIcons.checkmark_circle),
     onPressed: () async {
-        openLoadingDialog(context, "Dispatching order");
-        var res = await HaweyatiService.patch('orders/update-order-status', {
-          '_id' : order.id,
-          'status' : OrderStatus.dispatched.index
-        });
-        Navigator.pop(context);
+       await performLazyTask(context, () async {
+         var res = await HaweyatiService.patch('orders/update-order-status', {
+           '_id' : order.id,
+           'status' : OrderStatus.dispatched.index
+         });
+       },message: 'Dispatching order');
+        showSuccessToast("Order dispatched successfully");
         Navigator.pop(context);
     },
   );

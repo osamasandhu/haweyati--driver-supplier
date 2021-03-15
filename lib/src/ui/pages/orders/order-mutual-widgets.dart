@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:haweyati_client_data_models/data.dart' as da;
+import 'package:haweyati_client_data_models/widgets/details-table.dart';
+import 'package:haweyati_client_data_models/widgets/table-rows.dart';
 import 'package:haweyati_client_data_models/widgets/variants-tablerow.dart';
 import 'package:haweyati_supplier_driver_app/l10n/app_localizations.dart';
 import 'package:haweyati_supplier_driver_app/src/data.dart';
@@ -8,12 +11,12 @@ import 'package:haweyati_supplier_driver_app/src/models/order/dumpster/order-ite
 import 'package:haweyati_supplier_driver_app/src/models/order/finishing-material/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/order-item_model.dart';
 import 'package:haweyati_supplier_driver_app/src/models/order/scaffoldings/single-scaffolding/single-scaffolding_orderable.dart';
+import 'package:haweyati_supplier_driver_app/src/models/services/dumpster/model.dart';
 import 'package:haweyati_supplier_driver_app/src/services/haweyati-service.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/views/localized_view.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/dark-container.dart';
 import 'package:haweyati_supplier_driver_app/src/ui/widgets/rich-price-text.dart';
 import 'package:haweyati_supplier_driver_app/utils/const.dart';
-
 
 class OrderItemWidget extends StatelessWidget {
   final OrderItemHolder holder;
@@ -31,6 +34,15 @@ class OrderItemWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15,right: 15,bottom: 15,top: 15),
             child: Column(children: [
               OrderItemTile(holder,cannotAcceptFinishingItems),
+              if (holder.item is DumpsterOrderItem)
+                DetailsTable([
+                  DetailRow('Days', ( (holder.item as DumpsterOrderItem).product as Dumpster).days.toString(), false),
+                  DetailRow('Rent per Day', ( (holder.item as DumpsterOrderItem).product as Dumpster).rent.toString(), false),
+                  DetailRow('Extra Days',
+                      (holder.item as DumpsterOrderItem).extraDays.toString(), false),
+                  PriceRow('Extra Days Price',
+                      (holder.item as DumpsterOrderItem).extraDaysPrice),
+                ]),
               if (holder.item is SingleScaffoldingOrderable)
                 Table(children: [
                   TableRow(children: [
@@ -140,6 +152,8 @@ class OrderItemWidget extends StatelessWidget {
   static int _qty(OrderItemHolder holder) {
     if (holder.item is BuildingMaterialOrderItem) {
       return (holder.item as BuildingMaterialOrderItem).qty;
+    } else if (holder.item is DumpsterOrderItem) {
+      return (holder.item as DumpsterOrderItem).qty;
     }
 
     return 1;
@@ -165,7 +179,7 @@ class _OrderItemTileState extends State<OrderItemTile> {
     dynamic product = widget.item.item.product;
 
     if (widget.item.item is DumpsterOrderItem) {
-      title = '${product.size} Yards';
+      title = '${product.name} Yards';
       imageUrl = product.image.name;
     } else if (widget.item.item is BuildingMaterialOrderItem) {
       title = product.name + " (${(widget.item.item as dynamic).price.unit})";
@@ -175,7 +189,7 @@ class _OrderItemTileState extends State<OrderItemTile> {
       imageUrl = product.images.name;
     }
     else if (widget.item.item is SingleScaffoldingOrderable) {
-      title = product.type;
+      title = product.name;
       imagePath = "assets/images/singleScaffolding.png";
     }
     else if (widget.item.item is DeliveryVehicleOrderItem) {

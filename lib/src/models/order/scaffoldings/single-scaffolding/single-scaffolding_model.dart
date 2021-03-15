@@ -8,12 +8,12 @@ part 'single-scaffolding_model.g.dart';
 @JsonSerializable(includeIfNull: false)
 class SingleScaffolding extends Orderable {
   @HiveField(1)
-  String type;
+  String name;
   @HiveField(2)
   String description;
   @HiveField(3)
   List<SingleScaffoldingPricing> pricing;
-  SingleScaffolding({this.type,this.description,this.pricing});
+  SingleScaffolding({this.name,this.description,this.pricing});
 
   int get days => pricing.first.days;
   double get rent => pricing.first.rent;

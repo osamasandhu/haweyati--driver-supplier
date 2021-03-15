@@ -57,6 +57,7 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
                       setState(() {
                         _image = image;
                       });
+                      widget.onImagePicked(image.path);
                     }
                   },
                   child: Container(

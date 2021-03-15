@@ -22,7 +22,6 @@ class HaweyatiBusinessApp extends Theme {
       textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.resolveWith((states) {
-                print(states);
                 return Color(0xFFFF974D);
               }),
               overlayColor: MaterialStateProperty.all(Color(0x33FFFFFF)),
