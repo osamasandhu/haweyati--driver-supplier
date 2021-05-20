@@ -1,0 +1,616 @@
+{
+  "@@locale": "ur",
+
+  "ourServices": "ہماری خدمات",
+  "@ourServices": {},
+  "ourServicesDescription": "مختلف سائز کے تعمیراتی ڈمپسٹرز اور مختلف قسم کے سہاروں کو کرایہ پر لینا۔ صرف آسان اقدامات کے ذریعہ ، اسے آپ کی سائٹ پر پہنچا دیا جائے گا۔",
+  "@ourServicesDescription": {},
+
+    "ourProducts": "ہماری مصنوعات",
+  "@ourProducts": {},
+  "ourProductsDescription": "آپ کسی بھی شخص سے رابطہ کیے بغیر اپنے مقام اور وقت کے مطابق کسی بھی عمارت اور ختم کا سامان خرید سکتے ہیں۔",
+  "@ourProductsDescription": {},
+
+  "ourTrucks": "ہمارے ٹرک",
+  "@ourTrucks": {},
+  "ourTrucksDescription": "اپنے سامان کی منتقلی کی ضرورت ہے؟ صحیح قیمت کے ساتھ اپنے مواد کے حجم کے مطابق صحیح ٹرک پر کرایہ لیں",
+  "@ourTrucksDescription": {},
+
+  "paymentAndSecurity": "ادائیگی اور سیکیورٹی",
+  "@paymentAndSecurity": {},
+  "paymentAndSecurityDescription": "مڈا ، ویزا / میٹر کارڈ اور ایپل کے ساتھ ادائیگی کریں ، محفوظ اور آزادانہ سودے کیلئے ادائیگی کریں ، یا کیش آن ڈلیوری کے آپشن کا انتخاب کریں۔",
+  "@paymentAndSecurityDescription": {},
+
+  "skip": "چھوڑ دو",
+  "@skip": {},
+
+  "getStarted": "آو شروع کریں",
+  "@getStarted": {},
+
+
+  "location": "مقام",
+  "@location": {},
+  "locationDescription": "براہ کرم اپنی سائٹ کا مقام منتخب کریں۔ یہ مقام خدمات کو ظاہر کرنے اور آپ کے سامان کی فراہمی کے لئے استعمال ہوگا۔ آپ کسی بھی وقت اس مقام میں ترمیم کرسکتے ہیں۔",
+  "@locationDescription": {},
+
+  "setYourLocation": "اپنی جگہ مقرر کریں",
+  "@setYourLocation": {},
+
+
+  "useLocation": "مقام استعمال کریں؟",
+  "@useLocation": {},
+  "useLocationMessage1": "یہ ایپ آپ کے آلے کی ترتیبات کو تبدیل کرنا چاہتی ہے۔",
+  "@useLocationMessage1": {},
+  "useLocationMessage2": "مقام کیلئے وائی فائی اور موبائل نیٹ ورک استعمال کریں",
+  "@useLocationMessage2": {},
+
+
+  "learnMore": "اورجانیے",
+  "@learnMore": {},
+
+
+  "fetchingCurrentCoordinates": "موجودہ رابطہ کاروں کی بازیافت",
+  "@fetchingCurrentCoordinates": {},
+  "fetchingLocationData": "مقام کا ڈیٹا بازیافت کرنا",
+  "@fetchingLocationData": {},
+  "changingLanguage": "زبان بدل رہی ہے",
+  "@changingLanguage": {},
+
+
+  "yes": "جی ہاں",
+  "@yes": {},
+  "no": "نہیں",
+  "@no": {},
+
+
+  "hello": "ہیلو",
+  "@hello": {},
+
+  "explore": "ہماری مصنوعات اور خدمات کو دریافت کریں",
+  "@explore": {},
+
+  "myOrders": "میرا حکم",
+  "@myOrders": {},
+  "settings": "ترتیبات",
+  "@settings": {},
+  "inviteFriends": "دوستوں کو مدعو کریں",
+  "@inviteFriends": {},
+  "rewards": "انعامات",
+  "@rewards": {},
+  "termsAndConditions": "شرائط و ضوابط",
+  "@termsAndConditions": {},
+  "rateApp": "شرح ایپ",
+  "@rateApp": {},
+  "logout": "باہر جائیں",
+  "@logout": {},
+
+
+  "signIn": "سائن ان",
+  "@signIn": {},
+  "enterCredentials": "اپنا فون نمبر اور پاس ورڈ درج کریں",
+  "@enterCredentials": {},
+  "signingIn": "سائن ان",
+  "@signingIn": {},
+  "signingOut": "سائن آؤٹ",
+  "@signingOut": {},
+
+  "show": "دکھائیں",
+  "@show": {},
+  "hide": "چھپائیں",
+  "@hide": {},
+  "yourPhone": "آپ کا فون",
+  "@yourPhone": {},
+  "yourPassword": "آپ کا پاس ورڈ",
+  "@yourPassword": {},
+  "forgotPassword": "پاسورڈ بھول گے؟",
+  "@forgotPassword": {},
+
+
+  "scaffoldings": "سہاروں",
+  "@scaffoldings": {},
+
+  "deliveryVehicles": "ڈلیوری گاڑیاں",
+  "@deliveryVehicles": {},
+
+  "buildingMaterials": "تعمیراتی مواد",
+  "@buildingMaterials": {},
+  "finishingMaterials": "فنشنگ میٹریلز",
+  "@finishingMaterials": {},
+  "constructionDumpsters": "تعمیراتی ڈمپسٹرز",
+  "@constructionDumpsters": {},
+  "vehicles": "گاڑیاں",
+  "@vehicles": {},
+
+
+  "price": "{value} ریال",
+  "@price": {
+    "placeholders": {
+      "value": {
+      }
+    }
+  },
+  "nProducts": "{count,plural, =1{1 پروڈکٹ} other{{count} مصنوعات}}",
+  "@nProducts": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+
+  "signInAsDriver": "بطور ڈرائیور سائن ان کریں",
+  "@signInAsDriver": {},
+
+  "signInAsSupplier": "بطور سپلائر سائن ان کریں",
+  "@signInAsSupplier": {},
+
+  "signUpAsDriver": "بطور ڈرائیور سائن اپ کریں",
+  "@signUpAsDriver": {},
+
+  "signUpAsSupplier": "بطور سپلائر سائن اپ کریں",
+  "@signUpAsSupplier": {},
+
+  "registerNow": "ابھی رجسٹر کریں",
+  "@registerNow": {},
+
+  "exitApp" : "کیا آپ واقعی اس ایپلی کیشن سے باہر نکلنا چاہتے ہیں؟",
+  "@exitApp" : {},
+
+  "incorrectCredentials" : "آپ نے غلط صارف نام یا پاس ورڈ درج کیا ہے",
+  "@incorrectCredentials" : {},
+
+  "validatePassword" : "براہ کرم پاس ورڈ مہیا کریں",
+  "@validatePassword" : {},
+
+  "validatePhoneNo" : "برائے مہربانی فون نمبر فراہم کریں",
+  "@validatePhoneNo" : {},
+
+  "notASupplier" : "آپ اس اکاؤنٹ پر سپلائر کی حیثیت سے رجسٹرڈ نہیں ہیں",
+  "@notASupplier": {},
+
+  "notADriver" : "آپ اس اکاؤنٹ پر بطور ڈرائیور رجسٹرڈ نہیں ہیں",
+  "@notADriver": {},
+
+  "underReview" : "آپ کے اکاؤنٹ کا جائزہ لیا جارہا ہے!",
+  "@underReview": {},
+
+  "accountRejected" : "آپ کا اکاؤنٹ مسترد کردیا گیا ہے!",
+  "@accountRejected": {},
+
+  "accountApproved" : "آپ کے اکاؤنٹ کی منظوری دے دی گئی ہے!",
+  "@accountApproved": {},
+
+  "refreshingStatus" : "تازگی کی کیفیت",
+  "@refreshingStatus": {},
+
+  "selectService" : "آپ کو کم از کم ایک خدمت کا انتخاب کرنا چاہئے",
+  "@selectService": {},
+
+  "selectBranch" : "براہ کرم برانچ منتخب کریں",
+  "@selectBranch": {},
+
+  "signingUp" : "سائن اپ",
+  "@signingUp": {},
+
+  "enterReqInfo" : "مطلوبہ معلومات درج کریں",
+  "@enterReqInfo": {},
+
+  "selectServices" : "خدمات منتخب کریں",
+  "@selectServices": {},
+
+  "isSubBranch" : "یہ ایک سب برانچ ہے",
+  "@isSubBranch": {},
+
+  "address" : "پتہ",
+  "@address": {},
+
+  "validateAddress" : "براہ کرم ایڈریس درج کریں",
+  "@validateAddress": {},
+
+  "name" : "نام",
+  "@name": {},
+
+  "validateName" : "برائے کرم نام درج کریں",
+  "@validateName": {},
+
+  "name" : "نام",
+  "@name": {},
+
+  "licenseNo" : "لائسنس نمبر",
+  "@licenseNo": {},
+
+  "validateLicenseNo" : "برائے کرم لائسنس نمبر درج کریں",
+  "@validateLicenseNo": {},
+
+  "vehicleDetails" : "گاڑی کی تفصیلات",
+  "@vehicleDetails": {},
+
+  "vehicleType" : "گاڑی کی قسم",
+  "@vehicleType": {},
+
+  "vehicleName" : "گاڑی کا نام",
+  "@vehicleName": {},
+
+  "vehicleModel" : "گاڑی کا ماڈل",
+  "@vehicleModel": {},
+
+  "selectSupplier" : "سپلائر منتخب کریں",
+  "@selectSupplier": {},
+
+  "validateVehicle" : "برائے مہربانی گاڑی کا نام درج کریں",
+  "@validateVehicle": {},
+
+  "validateModel" : "برائے مہربانی گاڑیوں کا ماڈل درج کریں",
+  "@validateModel": {},
+
+  "identification" : "شناخت",
+  "@identification": {},
+
+  "validateIdentification" : "براہ کرم شناخت درج کریں",
+  "@validateIdentification": {},
+
+  "camera" : "کیمرہ",
+  "@camera": {},
+
+  "gallery" : "گیلری",
+  "@gallery": {},
+
+    "noImageSelected" : "کوئی تصویر منتخب نہیں کی گئی ہے",
+  "@noImageSelected": {},
+
+  "welcome" : "خوش آمدید",
+  "@welcome": {},
+
+  "newOrders" : "نئے آرڈر",
+  "@newOrders": {},
+
+  "acceptedOrders" : "قبول کر لیا",
+  "@acceptedOrders": {},
+
+  "dispatchedOrders" : "روانہ",
+  "@dispatchedOrders": {},
+
+  "completedOrders" : "مکمل",
+  "@completedOrders": {},
+
+  "updatingProfile" : "پروفائل کو اپ ڈیٹ کرنا",
+  "@updatingProfile": {},
+
+  "submit" : "جمع کرائیں",
+  "@submit": {},
+
+  "serviceRequests" : "خدمت کی درخواستیں",
+  "@serviceRequests": {},
+
+  "myProfile" : "میری پروفائل",
+  "@myProfile": {},
+
+  "changePassword" : "پاس ورڈ تبدیل کریں",
+  "@changePassword": {},
+
+  "verification" : "تصدیق",
+  "@verification": {},
+
+  "typeCode" : "براہ کرم موصولہ توثیقی کوڈ ٹائپ کریں",
+  "@typeCode": {},
+
+  "didntReceiveCode" : "کوڈ نہیں ملا؟",
+  "@didntReceiveCode": {},
+
+  "resendCode" : "کوڈ پھر سے بھیجو؟",
+  "@resendCode": {},
+
+  "waitFor" : "کا انتظار",
+  "@waitFor": {},
+
+  "verifyingOTP" : "او ٹی پی کی تصدیق کرنا",
+  "@verifyingOTP": {},
+
+  "resetPassword" : "پاس ورڈ ری سیٹ",
+  "@resetPassword": {},
+
+  "enterPhoneIntFormat" : "اپنا فون نمبر بین الاقوامی شکل میں درج کریں ",
+  "@enterPhoneIntFormat": {},
+
+  "processing" : "پروسیسنگ",
+  "@processing": {},
+
+  "alreadyExistsDriver" : "اس فون نمبر والا ڈرائیور پہلے سے موجود ہے",
+  "@alreadyExistsDriver": {},
+
+  "alreadyExistsSupplier" : "اس فون نمبر والا سپلائر پہلے سے موجود ہے",
+  "@alreadyExistsSupplier": {},
+
+  "alreadyExistsProfile" : "پروفائل پہلے ہی اس فون نمبر کے ساتھ موجود ہے۔ کیا آپ واقعی ان اکاؤنٹس کو مطابقت پذیر بنانا چاہتے ہیں؟",
+  "@alreadyExistsProfile": {},
+
+  "sureAcceptOrder" : "کیا آپ واقعی اس آرڈر کو قبول کرنا چاہتے ہیں؟",
+  "@sureAcceptOrder": {},
+
+  "acceptOrder" : "آرڈر قبول کریں",
+  "@acceptOrder": {},
+
+
+    "acceptingOrder" : "آرڈر کو قبول کرنا",
+  "@acceptingOrder": {},
+
+  "markCompleted" : "مکمل ہونے پر نشان زد کریں",
+  "@markCompleted": {},
+
+  "subtotal" : "کل",
+  "@subtotal": {},
+
+  "deliveryFee" : "ترسیل کی فیس",
+  "@deliveryFee": {},
+
+  "total" : "کل",
+  "@total": {},
+
+  "quantity" : "مقدار",
+  "@quantity": {},
+
+  "price" : "قیمت",
+  "@price": {},
+
+  "inputValidPhone" : "براہ کرم ایک درست فون نمبر ان پٹ کریں۔",
+  "@inputValidPhone": {},
+
+  "notifications" : "اطلاعات",
+  "@notifications": {},
+
+  "loadingNotifications" : "نوٹیفیکیشن لوڈ ہو رہا ہے",
+  "@loadingNotifications": {},
+
+  "noNotifications" : "کوئی اطلاع نہیں ہے",
+  "@noNotifications": {},
+
+  "loadingAcceptedOrders" : "قبول شدہ احکامات کو لوڈ کیا جارہا ہے",
+  "@loadingAcceptedOrders": {},
+
+  "dropOffAddress" : "ڈراپ آف ایڈریس",
+  "@dropOffAddress": {},
+
+  "yearsAgo" : "کئی برس قبل",
+  "@yearsAgo": {},
+
+  "oneYearAgo" : "ایک سال پہلے",
+  "@oneYearAgo": {},
+
+  "lastYear" : "پچھلے سال",
+  "@lastYear": {},
+
+  "monthsAgo" : "مہینوں پہلے",
+  "@monthsAgo": {},
+
+  "oneMonthAgo" : "1 ماہ پہلے",
+  "@oneMonthAgo": {},
+
+  "lastMonth" : "پچھلے مہینے",
+  "@lastMonth": {},
+
+  "weeksAgo" : "ہفتوں پہلے",
+  "@weeksAgo": {},
+
+  "oneWeekAgo" : "1 ہفتہ پہلے",
+  "@oneWeekAgo": {},
+
+  "lastWeek" : "پچھلا ہفتہ",
+  "@lastWeek": {},
+
+  "daysAgo" : "دنوں پہلے",
+  "@daysAgo": {},
+
+  "oneDayAgo" : "1 دن قبل",
+  "@oneDayAgo": {},
+
+  "yesterday" : "کل",
+  "@yesterday": {},
+
+  "hoursAgo" : "گھنٹوں پہلے",
+  "@hoursAgo": {},
+
+  "oneHourAgo" : "1 گھنٹہ پہلے",
+  "@oneHourAgo": {},
+
+  "anHourAgo" : "ایک گھنٹے پہلے",
+  "@anHourAgo": {},
+
+  "minutesAgo" : "کچھ لمحے قبل",
+  "@minutesAgo": {},
+
+  "aMinuteAgo" : "ایک منٹ پہلے",
+  "@aMinuteAgo": {},
+
+  "oneHourAgo" : "1 گھنٹہ پہلے",
+  "@oneHourAgo": {},
+
+  "anHourAgo" : "ایک گھنٹے پہلے",
+  "@anHourAgo": {},
+
+  "minutesAgo" : "کچھ لمحے قبل",
+  "@minutesAgo": {},
+
+  "oneMinuteAgo" : "1 منٹ پہلے",
+  "@oneMinuteAgo": {},
+
+  "aMinuteAgo" : "ایک منٹ پہلے",
+  "@aMinuteAgo": {},
+
+    "secondsAgo" : "سیکنڈ پہلے",
+  "@secondsAgo": {},
+
+  "justNow" : "ابھی ابھی",
+  "@justNow": {},
+
+  "needHelp" : "مدد چاہیے؟",
+  "@needHelp": {},
+
+  "availableForCall" : "کال کے لئے دستیاب ہے",
+  "@availableForCall": {},
+
+  "getHelp" : "مدد حاصل کرو",
+  "@getHelp": {},
+
+  "not" : "نہیں",
+  "@not": {},
+
+  "availableServices" : "دستیاب خدمات",
+  "@availableServices": {},
+
+  "availableDumpsters" : "دستیاب ڈمپسٹر",
+  "@availableDumpsters": {},
+
+  "scaffoldingRequest" : "سہاروں کی درخواست",
+  "@scaffoldingRequest": {},
+
+  "pricing" : "قیمتوں کا تعین",
+  "@pricing": {},
+
+  "days" : "دن",
+  "@days": {},
+
+  "rent" : "کرایہ",
+  "@rent": {},
+
+  "extraDayRent" : "اضافی دن کا کرایہ",
+  "@extraDayRent": {},
+
+  "note" : "نوٹ",
+  "@note": {},
+
+  "description" : "تفصیل",
+  "@description": {},
+
+    "noLocationPicked" : "کوئی مقام نہیں اٹھایا",
+  "@noLocationPicked": {},
+
+  "submittingRequest" : "درخواست جمع کروانا",
+  "@submittingRequest": {},
+
+  "requestSubmitted" : "درخواست کامیابی کے ساتھ جمع کرائی گئی! درخواست نمبر :",
+  "@requestSubmitted": {},
+
+  "addDumpster" : "ڈمپسٹر شامل کریں",
+  "@addDumpster": {},
+
+  "size" : "سائز",
+  "@size": {},
+
+  "helperPrice" : "مددگار قیمت",
+  "@helperPrice": {},
+
+  "availableBMCats" : "دستیاب بلڈنگ میٹریل کیٹیگریز",
+  "@availableBMCats": {},
+
+  "availableFMCats" : "دستیاب فنیشنگ میٹری کیٹیگریز",
+  "@availableFMCats": {},
+
+  "available" : "دستیاب",
+  "@available": {},
+
+  "products" : "مصنوعات",
+  "@products": {},
+
+  "addBuildingMaterial" : "عمارت کا مواد شامل کریں",
+  "@addBuildingMaterial": {},
+
+  "twelveYardPrice" : "12 یارڈ قیمت",
+  "@twelveYardPrice": {},
+
+  "twentyFourYardPrice" : "24 یارڈ قیمت",
+  "@twentyFourYardPrice": {},
+
+  "addFinishingMaterial" : "فنشنگ میٹریل شامل کریں",
+  "@addFinishingMaterial": {},
+
+  "multipleVariantCheck" : "اس کی مصنوعات میں متعدد قسمیں ہیں",
+  "@multipleVariantCheck": {},
+
+  "options" : "اختیارات",
+  "@options": {},
+
+  "addOptions" : "اختیارات شامل کریں",
+  "@addOptions": {},
+
+  "account" : "کھاتہ",
+  "@account": {},
+
+  "editProfile" : "پروفائل میں ترمیم کریں",
+  "@editProfile": {},
+
+  "changePassword" : "پاس ورڈ تبدیل کریں",
+  "@changePassword": {},
+
+  "email" : "ای میل",
+  "@email": {},
+
+  "oldPassword" : "پرانا پاسورڈ",
+  "@oldPassword": {},
+
+  "newPassword" : "نیا پاس ورڈ",
+  "@newPassword": {},
+
+  "confirmPassword" : "پاس ورڈ کی تصدیق کریں",
+  "@confirmPassword": {},
+
+  "passwordUpdated" : "آپ کا پاس ورڈ کامیابی کے ساتھ اپ ڈیٹ ہو گیا ہے! ",
+  "@passwordUpdated": {},
+
+  "enterOldPassword" : "براہ کرم پرانا پاس ورڈ درج کریں",
+  "@enterOldPassword": {},
+
+  "atLeastEight" : "پاس ورڈ کم از کم 8 حروف کا ہونا ضروری ہے",
+  "@atLeastEight": {},
+
+  "enterNewPassword" : "براہ کرم نیا پاس ورڈ درج کریں",
+  "@enterNewPassword": {},
+
+  "confirmNewPassword" : "براہ کرم نئے پاس ورڈ کی توثیق کریں",
+  "@confirmNewPassword": {},
+
+  "passwordNotMatched" : "نئے اور تصدیق شدہ پاس ورڈز کا مماثل نہیں ہے",
+  "@passwordNotMatched": {},
+
+  "changingPassword" : "پاس ورڈ تبدیل کرنا",
+  "@changingPassword": {},
+
+  "loadingAcceptedOrders" : "قبول شدہ احکامات کو لوڈ کیا جارہا ہے",
+  "@loadingAcceptedOrders": {},
+
+  "noAcceptedOrders" : "کوئی قبول شدہ احکامات نہیں",
+  "@noAcceptedOrders": {},
+
+  "loadingCompletedOrders" : "مکمل احکامات لوڈ ہو رہا ہے",
+  "@loadingCompletedOrders": {},
+
+  "noCompletedOrders" : "کوئی مکمل احکامات نہیں",
+  "@noCompletedOrders": {},
+
+  "loadingDispatchedOrders" : "بھیجے گئے احکامات لوڈ ہو رہے ہیں",
+  "@loadingDispatchedOrders": {},
+
+  "noDispatchedOrders" : "بھیجے گئے احکامات نہیں",
+  "@noDispatchedOrders": {},
+
+  "loadingAvailableOrders" : "دستیاب آرڈر لوڈ ہو رہا ہے",
+  "@loadingAvailableOrders": {},
+
+  "noAvailableOrders" : "دستیاب احکامات نہیں",
+  "@noAvailableOrders": {},
+
+  "paymentType" : "ادائیگی کی قسم",
+  "@paymentType": {},
+
+  "changedVehicleInfo" : "آپ نے گاڑی کی معلومات کو تبدیل کردیا ہے۔ تصدیق کا عمل مکمل ہونے تک آپ کا کھاتہ ہولڈ رہے گا!",
+  "@changedVehicleInfo" : {},
+
+  "proceed" : "آگے بڑھو",
+  "@proceed": {},
+
+  "cancel" : "منسوخ کریں",
+  "@cancel": {},
+
+  "warning" : "انتباہ",
+  "@warning": {}
+}

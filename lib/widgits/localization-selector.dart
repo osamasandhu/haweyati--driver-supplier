@@ -34,6 +34,13 @@ class LocalizationSelector extends StatelessWidget {
               padding: const EdgeInsets.only(right: 5),
               child: Text('العربية', style: TextStyle(color: Colors.white, fontSize: 13)),
             ),
+          ),
+          DropdownMenuItem(
+            value: Locale('ur'),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Text('اردو', style: TextStyle(color: Colors.white, fontSize: 13)),
+            ),
           )
         ],
 
